@@ -34,9 +34,22 @@ struct item {
         RED,
         GREEN_BOLD,
         GREEN,
+        YELLOW_BOLD,
+        YELLOW,
         BLUE_BOLD,
         BLUE,
+        MAGENTA_BOLD,
+        MAGENTA,
+        CYAN_BOLD,
+        CYAN,
+        GRAY_BOLD,
+        GRAY,
+        WHITE_BOLD,
+        WHITE,
+        BLACK,
+        BLACK_BOLD,
     };
+    ColorType color;
 };
 
 class Window : public QWidget
