@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/mx-linux">
+        <file>mx-linux-bashrc</file>
+        <file>mx.png</file>
+        <file>go-up.png</file>
+        <file>go-down.png</file>
+    </qresource>
+</RCC>
