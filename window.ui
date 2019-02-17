@@ -216,7 +216,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="tab">
              <attribute name="title">
@@ -464,102 +464,6 @@
  </resources>
  <connections>
   <connection>
-   <sender>checkBox_Default</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>checkBox_ForceColor</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>181</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>245</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_Default</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>checkBox_NoColor</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>181</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>213</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_ForceColor</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>checkBox_Default</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>245</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_ForceColor</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>checkBox_NoColor</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>245</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>213</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_NoColor</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>checkBox_Default</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>213</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_NoColor</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>checkBox_ForceColor</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>213</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>245</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButton_Close</sender>
    <signal>clicked()</signal>
    <receiver>Window</receiver>
@@ -572,6 +476,102 @@
     <hint type="destinationlabel">
      <x>239</x>
      <y>329</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Default</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_ForceColor</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Default</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_NoColor</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_ForceColor</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_Default</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>245</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_ForceColor</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_NoColor</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>245</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_NoColor</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_Default</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_NoColor</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_ForceColor</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>245</y>
     </hint>
    </hints>
   </connection>

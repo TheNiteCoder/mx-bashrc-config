@@ -14,20 +14,25 @@
 Window::Window(QWidget *parent) :
     QWidget(parent), ui(new Ui::Window)
 {
+    DEBUG_MSG << "+++ Window::Window +++";
     ui->setupUi(this);
     setWindowTitle(APP_NAME);
 
     connectAll();
     otherSetup();
+    DEBUG_MSG << "--- Window::Window ---";
 }
 
 Window::~Window()
 {
+    DEBUG_MSG << "+++ Window::~Window +++";
     delete ui;
+    DEBUG_MSG << "--- Window::~Window ---";
 }
 
 Window::Aliases Window::getAliases()
 {
+    DEBUG_MSG << "+++ Window::getAliases +++";
     Aliases rtn;
     QFile file(BASHRC);
     if(!file.open(QFile::Text | QFile::ReadOnly))
@@ -57,10 +62,12 @@ Window::Aliases Window::getAliases()
         rtn << alias;
     }
     return rtn;
+    DEBUG_MSG << "--- Window::getAliases ---";
 }
 
 Window::Aliases Window::getAliasesFromTable()
 {
+    DEBUG_MSG << "+++ Window::getAliasesFromTable +++";
     Aliases rtn;
     for(int i = 0; i < ui->tableWidget->rowCount(); i++)
     {
@@ -73,11 +80,12 @@ Window::Aliases Window::getAliasesFromTable()
         rtn << alias;
     }
     return rtn;
+    DEBUG_MSG << "--- Window::getAliases ---";
 }
 
 void Window::setupConfig()
 {
-    DEBUG_MSG << "Setting up config input widgets";
+    DEBUG_MSG << "+++ Window::setupConfig +++";
     QFile file(BASHRC);
     if(!file.open(QFile::ReadOnly | QFile::Text))
         return;
@@ -87,7 +95,7 @@ void Window::setupConfig()
     size_t end = content.toStdString().find("#MXBASHRC_END", begin+QString("#MXBASHRC_BEGIN").length());
     if(begin == std::string::npos || end == std::string::npos)
     {
-        DEBUG_MSG << "Failed to Read File";
+        DEBUG_MSG << "+++ Window::setupConfig: Failed to parse file +++";
         return;
     }
     content = QString::fromStdString(content.toStdString().substr(begin, end+QString("MXBASHRC_END").length()));
@@ -109,12 +117,12 @@ void Window::setupConfig()
     if(content.toStdString().find("HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignorespace") != std::string::npos)
         ui->checkBox_ignorespace->setChecked(true);
 
-
+    DEBUG_MSG << "--- Window::setupConfig ---";
 }
 
 void Window::connectAll()
 {
-    DEBUG_MSG << "Connecting Reformat, Apply, Minus, and Add Btns\n";
+    DEBUG_MSG << "+++ Window::connectAll +++";
     connect(ui->pushButton_Reformat, &QPushButton::clicked, this, &Window::reformat);
     connect(ui->pushButton, &QPushButton::clicked, this, qOverload<>(&Window::apply));
     connect(ui->pushButton_minus, &QPushButton::clicked, this, &Window::onAliasButtonRemove);
@@ -122,6 +130,7 @@ void Window::connectAll()
     connect(ui->pushButton_Restore, &QPushButton::clicked, this, &Window::restore);
     connect(ui->pushButton_About, &QPushButton::clicked, this, &Window::about);
     connect(ui->pushButton_Help, &QPushButton::clicked, this, &Window::help);
+    DEBUG_MSG << "--- Window::connectAll ---";
 }
 
 void Window::setupPromptTokens()
@@ -131,11 +140,9 @@ void Window::setupPromptTokens()
 
 void Window::otherSetup()
 {
-    DEBUG_MSG << "Setting up Alias Table Widget\n";
+    DEBUG_MSG << "+++ Window::otherSetup +++";
     ui->tableWidget->setSelectionBehavior(QTableWidget::SelectRows); //Makes it so the user can only select rows
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true); //stretch the command column to the end
-
-    DEBUG_MSG << "Inserting Aliases into Aliases Table Widget\n";
     //Code to add current aliases to the tableWidget
     Aliases list = getAliases();
     ui->tableWidget->clearContents(); ui->tableWidget->setColumnCount(2);
@@ -154,10 +161,12 @@ void Window::otherSetup()
     setupConfig();
     QSettings settings("MX-Linux", "mx-bashrc");
     restoreGeometry(settings.value("geometery").toByteArray());
+    DEBUG_MSG << "--- Window::otherSetup ---";
 }
 
 QList<int> Window::getAliasLines()
 {
+    DEBUG_MSG << "+++ Window::getAliasLines +++";
     QList<int> rtn;
     QFile file(BASHRC);
     if(!file.open(QFile::Text | QFile::ReadOnly)) return rtn;
@@ -175,32 +184,34 @@ QList<int> Window::getAliasLines()
         rtn << loop;
     }
     return rtn;
+    DEBUG_MSG << "--- Window::getAliasLines ---";
 }
 
 void Window::closeEvent(QCloseEvent *)
 {
+    DEBUG_MSG << "+++ Window::closeEvent +++";
     QSettings settings("MX-Linux", "mx-bashrc");
     settings.setValue("geometery", saveGeometry());
+    DEBUG_MSG << "--- Window::closeEvent ---";
 }
 
 void Window::help()
 {
-    QDialog d;
-    QHBoxLayout* l = new QHBoxLayout;
-    QLabel* label = new QLabel("If you need information about different settings, hover over the option and a tool tip will appear");
-    l->addWidget(label);
-    d.setLayout(l);
-    d.setParent(this);
-    d.show();
+    DEBUG_MSG << "+++ Window::help +++";
+    QMessageBox::about(this, APP_NAME+ "-"+VERSION, "Information About Options: Hover over it and a tool tip will appear\nThe Reformat button makes it possible to apply changes, and Restore restores the bashrc to the MX Linux default");
+    DEBUG_MSG << "--- Window::help ---";
 }
 
 void Window::about()
 {
+    DEBUG_MSG << "+++ Window::about +++";
     QMessageBox::about(this, APP_NAME+" - "+VERSION, "A program designed to edit your ~/.bashrc easily");
+    DEBUG_MSG << "--- Window::about ---";
 }
 
 void Window::reformat()
 {
+    DEBUG_MSG << "+++ Window::reformat +++";
     int user = QMessageBox::warning(this, "Warning - " + APP_NAME, "This option will reformat ~/.bashrc, it may erase some of your configuration, and so ~/.bashrc is being backed up to ~/.bashrc.bkup",
                                     QMessageBox::Ok | QMessageBox::Cancel);
     if(user == QMessageBox::Cancel) return;
@@ -230,10 +241,12 @@ void Window::reformat()
     fileObj.close();
 
     apply();
+    DEBUG_MSG << "--- Window::reformat ---";
 }
 
 void Window::apply()
 {
+    DEBUG_MSG << "+++ Window::apply +++";
     QFile bashrc(BASHRC);
     if(!bashrc.open(QFile::ReadWrite | QFile::Text))
     {
@@ -255,15 +268,11 @@ void Window::apply()
             if(lines.at(j) == i+1) add = false;
         }
         if(add) content.append(list.at(i) + "\n");
-        else DEBUG_MSG << "Deleted Line";
     }
 
     //Find the comments for the beginning and end, and remove it
     size_t begin = content.toStdString().find("#MXBASHRC_BEGIN");
     size_t end = content.toStdString().find("#MXBASHRC_END");
-    DEBUG_MSG << "Content: " << content.toStdString().c_str() << '\n';
-    DEBUG_MSG << "Begin: " << begin << '\n';
-    DEBUG_MSG << "End: " << end << '\n';
     while(end <= begin)
     {
         end = content.toStdString().find("#MXBASHRC_END", begin);
@@ -361,16 +370,19 @@ void Window::apply()
     bashrc.resize(0);
 
     stream << content;
-
+    DEBUG_MSG << "--- Window::apply ---";
 }
 
 void Window::onAliasButtonAdd()
 {
+    DEBUG_MSG << "+++ Window::onAliasButtonAdd +++";
     ui->tableWidget->setRowCount(ui->tableWidget->rowCount()+1);
+    DEBUG_MSG << "--- Window::onAliasButtonAdd ---";
 }
 
 void Window::onAliasButtonRemove()
 {
+    DEBUG_MSG << "+++ Window::onAliasButtonRemove +++";
     for(int i = ui->tableWidget->rowCount()-1; i > -1; i--)
     {
         if(ui->tableWidget->item(i,0) != nullptr &&  ui->tableWidget->item(i,0)->isSelected())
@@ -378,6 +390,7 @@ void Window::onAliasButtonRemove()
             ui->tableWidget->removeRow(i);
         }
     }
+    DEBUG_MSG << "--- Window::onAliasButtonRemove ---";
 }
 
 void Window::onPromptButtonAdd()
@@ -392,6 +405,7 @@ void Window::onPromptButtonRemove()
 
 void Window::restore()
 {
+    DEBUG_MSG << "+++ Window::restore +++";
     //Get the default MX Bashrc as your own, in case the program messes  it up
     QFile file(":/mx-linux/mx-linux-bashrc");
     if(!file.open(QFile::ReadOnly | QFile::Text))
@@ -405,4 +419,5 @@ void Window::restore()
     QTextStream bashrcStream(&bashrc);
     bashrcStream << content;
     bashrc.close();
+    DEBUG_MSG << "--- Window::restore ---";
 }
