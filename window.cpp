@@ -3,7 +3,9 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QHBoxLayout>
 #include <QFile>
+#include <QDialog>
 #include <QTextStream>
 #include "window.h"
 #include "ui_window.h"
@@ -119,6 +121,7 @@ void Window::connectAll()
     connect(ui->pushButton_plus, &QPushButton::clicked, this, &Window::onAliasButtonAdd);
     connect(ui->pushButton_Restore, &QPushButton::clicked, this, &Window::restore);
     connect(ui->pushButton_About, &QPushButton::clicked, this, &Window::about);
+    connect(ui->pushButton_Help, &QPushButton::clicked, this, &Window::help);
 }
 
 void Window::setupPromptTokens()
@@ -182,7 +185,13 @@ void Window::closeEvent(QCloseEvent *)
 
 void Window::help()
 {
-
+    QDialog d;
+    QHBoxLayout* l = new QHBoxLayout;
+    QLabel* label = new QLabel("If you need information about different settings, hover over the option and a tool tip will appear");
+    l->addWidget(label);
+    d.setLayout(l);
+    d.setParent(this);
+    d.show();
 }
 
 void Window::about()
