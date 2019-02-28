@@ -3,12 +3,12 @@
 
 #include <QWidget>
 #include "config.h"
+#include <QFile>
 
 namespace Ui {
 class Window;
 }
-
-struct item {
+struct PromptToken {
     enum TokenType {
         HOSTNAME_LONG,
         HOSTNAME_SHORT,
@@ -52,6 +52,16 @@ struct item {
     ColorType color;
 };
 
+class PromptParser {
+public:
+    PromptParser(QString i) : content(i) {}
+    ~PromptParser() {}
+    QList<PromptToken> parse();
+protected:
+    QString content;
+};
+
+
 class Window : public QWidget
 {
     Q_OBJECT
@@ -75,7 +85,10 @@ public:
     Aliases getAliasesFromTable();
     QList<int> getAliasLines();
     QPair<QString,bool> getTokenInfo(QString token);
-
+    QList<PromptToken> getPromptTokens();
+    QStringList getBashrcList(int *sucess = nullptr);
+    QString getBashrc(int* success = nullptr);
+    void writeTo(QString data, QString file = BASHRC);
     //Helpers(mostly for readability)
     void setupConfig(); //sets up the settings so they are the same as the ones in the bashrc
     void connectAll();

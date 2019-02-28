@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <QSettings>
 #include <QMessageBox>
 #include <QFileInfo>
@@ -10,17 +10,14 @@
 #include "window.h"
 #include "ui_window.h"
 
-
-
 Window::Window(QWidget *parent) :
     QWidget(parent), ui(new Ui::Window)
 {
     DEBUG_MSG << "+++ Window::Window +++";
-    ui->setupUi(this);
-    setWindowTitle(APP_NAME);
-
-    connectAll();
-    otherSetup();
+    ui->setupUi(this); //setting up UI
+    setWindowTitle(APP_NAME+VERSION); //MACROS found in config.h
+    connectAll(); //connects slots to signals
+    otherSetup(); //setups widgets
     DEBUG_MSG << "--- Window::Window ---";
 }
 
@@ -62,8 +59,8 @@ Window::Aliases Window::getAliases()
         alias.second = command;
         rtn << alias;
     }
-    return rtn;
     DEBUG_MSG << "--- Window::getAliases ---";
+    return rtn;
 }
 
 Window::Aliases Window::getAliasesFromTable()
@@ -80,18 +77,14 @@ Window::Aliases Window::getAliasesFromTable()
         alias.second = ui->tableWidget->item(i, 1)->text();
         rtn << alias;
     }
-    return rtn;
     DEBUG_MSG << "--- Window::getAliases ---";
+    return rtn;
 }
 
 void Window::setupConfig()
 {
     DEBUG_MSG << "+++ Window::setupConfig +++";
-    QFile file(BASHRC);
-    if(!file.open(QFile::ReadOnly | QFile::Text))
-        return;
-    QTextStream stream(&file);
-    QString content = stream.readAll();
+    QString content = getBashrc();
     size_t begin = content.toStdString().find("#MXBASHRC_BEGIN");
     size_t end = content.toStdString().find("#MXBASHRC_END", begin+QString("#MXBASHRC_BEGIN").length());
     if(begin == std::string::npos || end == std::string::npos)
@@ -124,7 +117,6 @@ void Window::setupConfig()
 void Window::connectAll()
 {
     DEBUG_MSG << "+++ Window::connectAll +++";
-    connect(ui->pushButton_Reformat, &QPushButton::clicked, this, &Window::reformat);
     connect(ui->pushButton, &QPushButton::clicked, this, qOverload<>(&Window::apply));
     connect(ui->pushButton_minus, &QPushButton::clicked, this, &Window::onAliasButtonRemove);
     connect(ui->pushButton_plus, &QPushButton::clicked, this, &Window::onAliasButtonAdd);
@@ -188,6 +180,68 @@ QList<int> Window::getAliasLines()
     DEBUG_MSG << "--- Window::getAliasLines ---";
 }
 
+QList<PromptToken> Window::getPromptTokens()
+{
+    DEBUG_MSG << "+++ Window::getPromptTokens +++";
+    DEBUG_MSG << "--- Window::getPromptTokens ---";
+}
+
+QStringList Window::getBashrcList(int* sucess)
+{
+    DEBUG_MSG << "+++ QStringList Window::getBashrc +++";
+    QFile file(BASHRC);
+    QStringList rtn;
+    if(!file.open(QFile::Text | QFile::ReadWrite))
+    {
+        if(sucess != nullptr)
+            *sucess = 1;
+        return rtn;
+    }
+    else
+    {
+        if(sucess != nullptr)
+            *sucess = 0;
+    }
+    QTextStream stream(&file);
+    QString tmp;
+    while(stream.readLineInto(&tmp)) rtn += tmp;
+    file.close();
+    DEBUG_MSG << "--- QStringList Window::getBashrc ---";
+    return rtn;
+}
+QString Window::getBashrc(int* sucess)
+{
+    DEBUG_MSG << "+++ QString Window::getBashrc +++";
+    int rv;
+    QStringList data = getBashrcList(&rv);
+    if(sucess != nullptr)
+    {
+        *sucess = rv;
+    }
+    QString rtn;
+    foreach(QString i, data)
+    {
+        rtn += i + "\n";
+    }
+    DEBUG_MSG << "--- QString Window::getBashrc ---";
+    return rtn;
+}
+
+QString Window::getBashrcBetweenStartAndEnd(int *sucess)
+{
+    DEBUG_MSG << "+++ QString Window::getBashrcBetweenStartAndEnd +++";
+    if(sucess != nullptr) *sucess = 0;
+    QString bashrc = getBashrc();
+    size_t start = bashrc.toStdString().find("#MXBASHRC_BEGIN");
+    size_t end = bashrc.toStdString().find("#MXBASHRC_END");
+    if(end <= start) end = bashrc.toStdString().find("#MXBASHRC_BEGIN", end+1);
+    if(start == std::string::npos || end == std::string::npos) if(sucess != nullptr) *sucess = -1;
+    end += QString("#MXBASHRC_END").length();
+    QString rtn = QString(bashrc.toStdString().substr(start, end-start).c_str());
+    DEBUG_MSG << "--- QString Window::getBashrcBetweenStartAndEnd ---";
+    return rtn;
+}
+
 void Window::closeEvent(QCloseEvent *)
 {
     DEBUG_MSG << "+++ Window::closeEvent +++";
@@ -216,15 +270,7 @@ void Window::reformat()
     int user = QMessageBox::warning(this, "Warning - " + APP_NAME, "This option will reformat ~/.bashrc, it may erase some of your configuration, and so ~/.bashrc is being backed up to ~/.bashrc.bkup",
                                     QMessageBox::Ok | QMessageBox::Cancel);
     if(user == QMessageBox::Cancel) return;
-
-    QFile fileObj(BASHRC);
-    if(!fileObj.open(QFile::ReadWrite | QFile::Text))
-    {
-        QMessageBox::warning(this, "Warning - " + APP_NAME, "Operation failed to open ~/.bashrc. Aborted", QMessageBox::Ok);
-        return;
-    }
-    QTextStream fileStream(&fileObj);
-    QString orgBashrc = fileStream.readAll();
+    QString orgBashrc = getBashrc();
     QFile bkupFile(QDir::homePath() + "/.bashrc.bkup");
     if(!bkupFile.open(QFile::WriteOnly | QFile::Text))
     {
@@ -242,25 +288,19 @@ void Window::reformat()
     fileObj.close();
 
     apply();
+
     DEBUG_MSG << "--- Window::reformat ---";
 }
 
 void Window::apply()
 {
     DEBUG_MSG << "+++ Window::apply +++";
-    QFile bashrc(BASHRC);
-    if(!bashrc.open(QFile::ReadWrite | QFile::Text))
-    {
-        return;
-    }
-    QTextStream stream(&bashrc);
     QString tmp;
     QString content;
-    QStringList list;
+    QStringList list = getBashrc();
 
     //get rid of alias lines
     QList<int> lines = getAliasLines();
-    while(stream.readLineInto(&tmp)) list<<tmp;
     for(int i = 0; i < list.size();i++)
     {
         bool add = true;
@@ -282,7 +322,9 @@ void Window::apply()
     end += QString("#MXBASHRC_END").length();
     if(begin == std::string::npos || end == std::string::npos)
     {
-        QMessageBox::warning(this, "Warning - " + BASHRC, "Was unable to parse file", QMessageBox::Ok);
+        int u = QMessageBox::warning(this, "Warning - " + BASHRC, "Was unable to parse file, do you wish to reformat the bashrc so", QMessageBox::Ok | QMessageBox::No);
+        if(u == QMessageBox::Ok) reformat();
+        //reformat applies at the end so returning stops it from repeating
         return;
     }
     content.remove(begin, end-begin);
@@ -305,23 +347,24 @@ void Window::apply()
 
     LINE("shopt -s histappend");
     LINE("shopt -s checkwinsize");
-    LINE("red='\\[\\e[0;31m\\]'\n");
-    LINE("RED='\\[\\e[1;31m\\]'\n");
-    LINE("blue='\\[\\e[0;34m\\]'\n");
-    LINE("BLUE='\\[\\e[1;34m\\]'\n");
-    LINE("cyan='\\[\\e[0;36m\\]'\n");
-    LINE("CYAN='\\[\\e[1;36m\\]'\n");
-    LINE("green='\\[\\e[0;32m\\]'\n");
-    LINE("GREEN='\\[\\e[1;32m\\]'\n");
-    LINE("yellow='\\[\\e[0;33m\\]'\n");
-    LINE("YELLOW='\\[\\e[1;33m\\]'\n");
-    LINE("purple='\\[\\e[0;35m\\]'\n");
-    LINE("PURPLE='\\[\\e[1;35m\\]'\n");
-    LINE("nocolor='\\[\\e[00m\\]'\n");
+    LINE("red='\\[\\e[0;31m\\]'");
+    LINE("RED='\\[\\e[1;31m\\]'");
+    LINE("blue='\\[\\e[0;34m\\]'");
+    LINE("BLUE='\\[\\e[1;34m\\]'");
+    LINE("cyan='\\[\\e[0;36m\\]'");
+    LINE("CYAN='\\[\\e[1;36m\\]'");
+    LINE("green='\\[\\e[0;32m\\]'");
+    LINE("GREEN='\\[\\e[1;32m\\]'");
+    LINE("yellow='\\[\\e[0;33m\\]'");
+    LINE("YELLOW='\\[\\e[1;33m\\]'");
+    LINE("purple='\\[\\e[0;35m\\]'");
+    LINE("PURPLE='\\[\\e[1;35m\\]'");
+    LINE("nocolor='\\[\\e[00m\\]'");
 
     LINE("case \"$TERM\" in");
     LINE("  xterm-color) color_prompt=yes;;");
     LINE("  xterm-256color) color_prompt=yes;;");
+    LINE("  xterm) color_prompt=yes;;");
     LINE("esac");
     if(ui->checkBox_ForceColor->isChecked())
         LINE("color_prompt=yes");
@@ -342,14 +385,14 @@ void Window::apply()
     prompt.append("\\$ \"");
     LINE(prompt);
     LINE("fi");
-    LINE("if [ \"$UID\" = 0 ] && [ \"$color_prompt\" = yes ]; then");
+    /*LINE("if [ \"$UID\" = 0 ] && [ \"$color_prompt\" = yes ]; then");
     prompt = "";
     prompt.append("    PS1=\"$nocolor$PURPLE\\u$nocolor@$CYAN\\h$nocolor: $GREEN\\w$nocolor ");
     if(ui->checkBox_Newline->isChecked())
         prompt.append("\\n");
     prompt.append("\\$ \"");
     LINE(prompt);
-    LINE("fi");
+    LINE("fi");*/
     if(ui->checkBox_DebianChroot->isChecked())
     {
         LINE("if [ -z debian_chroot ] && [ -r /etc/debian_chroot ]; then");
@@ -421,4 +464,14 @@ void Window::restore()
     bashrcStream << content;
     bashrc.close();
     DEBUG_MSG << "--- Window::restore ---";
+}
+
+QList<PromptToken> PromptParser::parse()
+{
+    QList<PromptToken> rtn;
+    QStringList parts = content.split("$MXBASHRC_PROMPT_PART");
+    foreach (QString str, parts) {
+
+
+    }
 }
