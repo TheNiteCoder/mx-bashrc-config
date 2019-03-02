@@ -15,7 +15,7 @@ Window::Window(QWidget *parent) :
 {
     DEBUG_MSG << "+++ Window::Window +++";
     ui->setupUi(this); //setting up UI
-    setWindowTitle(APP_NAME+VERSION); //MACROS found in config.h
+    setWindowTitle(APP_NAME+" "+VERSION); //MACROS found in config.h
     connectAll(); //connects slots to signals
     otherSetup(); //setups widgets
     DEBUG_MSG << "--- Window::Window ---";
@@ -81,34 +81,66 @@ Window::Aliases Window::getAliasesFromTable()
     return rtn;
 }
 
+QList<int> Window::getAliasLines()
+{
+    DEBUG_MSG << "+++ Window::getAliasLines +++";
+    QList<int> rtn;
+    QFile file(BASHRC);
+    if(!file.open(QFile::Text | QFile::ReadOnly)) return rtn;
+    QTextStream stream(&file);
+    QString tmp;
+    int loop = 0;
+    while(stream.readLineInto(&tmp))
+    {
+        loop++;
+        std::string scan = tmp.toStdString();
+        if(scan.find('#') != std::string::npos)
+            scan = scan.substr(0, scan.find("#"));
+        size_t aliasKeywordBegin = scan.find("alias");
+        if(aliasKeywordBegin == std::string::npos) continue;
+        rtn << loop;
+    }
+    DEBUG_MSG << "--- Window::getAliasLines ---";
+    return rtn;
+
+}
+
 void Window::setupConfig()
 {
     DEBUG_MSG << "+++ Window::setupConfig +++";
-    QString content = getBashrc();
-    size_t begin = content.toStdString().find("#MXBASHRC_BEGIN");
-    size_t end = content.toStdString().find("#MXBASHRC_END", begin+QString("#MXBASHRC_BEGIN").length());
+    QFile bashrc(BASHRC);
+    if(!bashrc.open(QFile::ReadOnly))
+    {
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Unable to open " + BASHRC + " for reading", QMessageBox::Ok);
+        return;
+    }
+    QTextStream bashrcStream(&bashrc);
+    QString bashrcContent = bashrcStream.readAll();
+    bashrc.close();
+    size_t begin = bashrcContent.toStdString().find("#MXBASHRC_BEGIN");
+    size_t end = bashrcContent.toStdString().find("#MXBASHRC_END", begin+QString("#MXBASHRC_BEGIN").length());
     if(begin == std::string::npos || end == std::string::npos)
     {
         DEBUG_MSG << "+++ Window::setupConfig: Failed to parse file +++";
         return;
     }
-    content = QString::fromStdString(content.toStdString().substr(begin, end+QString("MXBASHRC_END").length()));
-    if(content.toStdString().find("color_prompt=no") != std::string::npos)
+    bashrcContent = QString::fromStdString(bashrcContent.toStdString().substr(begin, end+QString("MXBASHRC_END").length()));
+    if(bashrcContent.toStdString().find("color_prompt=no") != std::string::npos)
         ui->checkBox_NoColor->setChecked(true);
     //Check to see if the phrase 'color_prompt=yes' occurs three times
-    else if(content.toStdString().find("color_prompt=yes",
-                                       content.toStdString().find("color_prompt=yes",
-                                       content.toStdString().find("color_prompt=yes")+1)+1) != std::string::npos &&
-            content.toStdString().find("color_prompt=yes", content.toStdString().find("color_prompt=yes")+1) != std::string::npos &&
-            content.toStdString().find("color_prompt=yes")+1 != std::string::npos+1)
+    else if(bashrcContent.toStdString().find("color_prompt=yes",
+                                       bashrcContent.toStdString().find("color_prompt=yes",
+                                       bashrcContent.toStdString().find("color_prompt=yes")+1)+1) != std::string::npos &&
+            bashrcContent.toStdString().find("color_prompt=yes", bashrcContent.toStdString().find("color_prompt=yes")+1) != std::string::npos &&
+            bashrcContent.toStdString().find("color_prompt=yes")+1 != std::string::npos+1)
         ui->checkBox_ForceColor->setChecked(true);
     else
         ui->checkBox_Default->setChecked(true);
-    if(content.toStdString().find("PS1=\"$nocolor\\u@\\h: \\w \\n\\$") != std::string::npos)
+    if(bashrcContent.toStdString().find("PS1=\"$nocolor\\u@\\h: \\w \\n\\$") != std::string::npos)
         ui->checkBox_Newline->setChecked(true);
-    if(content.toStdString().find("debian_chroot") != std::string::npos)
+    if(bashrcContent.toStdString().find("debian_chroot") != std::string::npos)
         ui->checkBox_DebianChroot->setChecked(true);
-    if(content.toStdString().find("HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignorespace") != std::string::npos)
+    if(bashrcContent.toStdString().find("HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignorespace") != std::string::npos)
         ui->checkBox_ignorespace->setChecked(true);
 
     DEBUG_MSG << "--- Window::setupConfig ---";
@@ -157,90 +189,6 @@ void Window::otherSetup()
     DEBUG_MSG << "--- Window::otherSetup ---";
 }
 
-QList<int> Window::getAliasLines()
-{
-    DEBUG_MSG << "+++ Window::getAliasLines +++";
-    QList<int> rtn;
-    QFile file(BASHRC);
-    if(!file.open(QFile::Text | QFile::ReadOnly)) return rtn;
-    QTextStream stream(&file);
-    QString tmp;
-    int loop = 0;
-    while(stream.readLineInto(&tmp))
-    {
-        loop++;
-        std::string scan = tmp.toStdString();
-        if(scan.find('#') != std::string::npos)
-            scan = scan.substr(0, scan.find("#"));
-        size_t aliasKeywordBegin = scan.find("alias");
-        if(aliasKeywordBegin == std::string::npos) continue;
-        rtn << loop;
-    }
-    return rtn;
-    DEBUG_MSG << "--- Window::getAliasLines ---";
-}
-
-QList<PromptToken> Window::getPromptTokens()
-{
-    DEBUG_MSG << "+++ Window::getPromptTokens +++";
-    DEBUG_MSG << "--- Window::getPromptTokens ---";
-}
-
-QStringList Window::getBashrcList(int* sucess)
-{
-    DEBUG_MSG << "+++ QStringList Window::getBashrc +++";
-    QFile file(BASHRC);
-    QStringList rtn;
-    if(!file.open(QFile::Text | QFile::ReadWrite))
-    {
-        if(sucess != nullptr)
-            *sucess = 1;
-        return rtn;
-    }
-    else
-    {
-        if(sucess != nullptr)
-            *sucess = 0;
-    }
-    QTextStream stream(&file);
-    QString tmp;
-    while(stream.readLineInto(&tmp)) rtn += tmp;
-    file.close();
-    DEBUG_MSG << "--- QStringList Window::getBashrc ---";
-    return rtn;
-}
-QString Window::getBashrc(int* sucess)
-{
-    DEBUG_MSG << "+++ QString Window::getBashrc +++";
-    int rv;
-    QStringList data = getBashrcList(&rv);
-    if(sucess != nullptr)
-    {
-        *sucess = rv;
-    }
-    QString rtn;
-    foreach(QString i, data)
-    {
-        rtn += i + "\n";
-    }
-    DEBUG_MSG << "--- QString Window::getBashrc ---";
-    return rtn;
-}
-
-QString Window::getBashrcBetweenStartAndEnd(int *sucess)
-{
-    DEBUG_MSG << "+++ QString Window::getBashrcBetweenStartAndEnd +++";
-    if(sucess != nullptr) *sucess = 0;
-    QString bashrc = getBashrc();
-    size_t start = bashrc.toStdString().find("#MXBASHRC_BEGIN");
-    size_t end = bashrc.toStdString().find("#MXBASHRC_END");
-    if(end <= start) end = bashrc.toStdString().find("#MXBASHRC_BEGIN", end+1);
-    if(start == std::string::npos || end == std::string::npos) if(sucess != nullptr) *sucess = -1;
-    end += QString("#MXBASHRC_END").length();
-    QString rtn = QString(bashrc.toStdString().substr(start, end-start).c_str());
-    DEBUG_MSG << "--- QString Window::getBashrcBetweenStartAndEnd ---";
-    return rtn;
-}
 
 void Window::closeEvent(QCloseEvent *)
 {
@@ -253,7 +201,7 @@ void Window::closeEvent(QCloseEvent *)
 void Window::help()
 {
     DEBUG_MSG << "+++ Window::help +++";
-    QMessageBox::about(this, APP_NAME+ "-"+VERSION, "Information About Options: Hover over it and a tool tip will appear\nThe Reformat button makes it possible to apply changes, and Restore restores the bashrc to the MX Linux default");
+    QMessageBox::about(this, APP_NAME+ "-"+VERSION, "Tip: Hover over it and a tool tip will appear\nThe Reformat button makes it possible to apply changes, and Restore restores the bashrc to the MX Linux default");
     DEBUG_MSG << "--- Window::help ---";
 }
 
@@ -270,22 +218,29 @@ void Window::reformat()
     int user = QMessageBox::warning(this, "Warning - " + APP_NAME, "This option will reformat ~/.bashrc, it may erase some of your configuration, and so ~/.bashrc is being backed up to ~/.bashrc.bkup",
                                     QMessageBox::Ok | QMessageBox::Cancel);
     if(user == QMessageBox::Cancel) return;
-    QString orgBashrc = getBashrc();
-    QFile bkupFile(QDir::homePath() + "/.bashrc.bkup");
-    if(!bkupFile.open(QFile::WriteOnly | QFile::Text))
+    QFile bashrc(BASHRC);
+    if(!bashrc.open(QFile::ReadOnly | QFile::Text))
     {
-        QMessageBox::warning(this, "Warning - " + APP_NAME, "Operation failed to open ~/.bashrc.bkup for copying. Aborted.", QMessageBox::Ok);
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Failed to open ~/.bashrc for reading", QMessageBox::Ok);
         return;
     }
-    QTextStream bkupStream(&bkupFile);
-    bkupStream << orgBashrc;
-    bkupFile.close();
+    QTextStream bashrcStream(&bashrc);
+    QString bashrcContent = bashrcStream.readAll();
+    QFile bkup(QDir::homePath() + "/.bashrc.bkup");
+    if(!bkup.open(QFile::WriteOnly | QFile::Text))
+    {
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Operation failed to open ~/.bashrc.bkup for writing", QMessageBox::Ok);
+        return;
+    }
+    QTextStream bkupStream(&bkup);
+    bkupStream << bashrcContent;
+    bkup.close();
 
-    fileObj.resize(0);
+    bashrc.resize(0);
 
-    fileStream << "#MXBASHRC_BEGIN\n#MXBASHRC_END\n";
+    bashrcStream << "#MXBASHRC_BEGIN\n#MXBASHRC_END\n";
 
-    fileObj.close();
+    bashrc.close();
 
     apply();
 
@@ -296,38 +251,44 @@ void Window::apply()
 {
     DEBUG_MSG << "+++ Window::apply +++";
     QString tmp;
-    QString content;
-    QStringList list = getBashrc();
-
+    QString bashrcContent;
+    QFile bashrc(BASHRC);
+    if(!bashrc.open(QFile::ReadWrite))
+    {
+        QMessageBox::warning(this, "Warning" + APP_NAME, "Enable to open file for reading and writing");
+        return;
+    }
+    QTextStream bashrcStream(&bashrc);
+    QStringList bashrcContentList;
+    while(bashrcStream.readLineInto(&tmp)) bashrcContentList << tmp;
     //get rid of alias lines
     QList<int> lines = getAliasLines();
-    for(int i = 0; i < list.size();i++)
+    for(int i = 0; i < bashrcContentList.size();i++)
     {
         bool add = true;
         for(int j = 0; j < lines.size(); j++)
         {
             if(lines.at(j) == i+1) add = false;
         }
-        if(add) content.append(list.at(i) + "\n");
+        if(add) bashrcContent.append(bashrcContentList.at(i) + "\n");
     }
 
     //Find the comments for the beginning and end, and remove it
-    size_t begin = content.toStdString().find("#MXBASHRC_BEGIN");
-    size_t end = content.toStdString().find("#MXBASHRC_END");
+    size_t begin = bashrcContent.toStdString().find("#MXBASHRC_BEGIN");
+    size_t end = bashrcContent.toStdString().find("#MXBASHRC_END");
     while(end <= begin)
     {
-        end = content.toStdString().find("#MXBASHRC_END", begin);
+        end = bashrcContent.toStdString().find("#MXBASHRC_END", begin);
         if(end == std::string::npos) break;
     }
     end += QString("#MXBASHRC_END").length();
     if(begin == std::string::npos || end == std::string::npos)
     {
-        int u = QMessageBox::warning(this, "Warning - " + BASHRC, "Was unable to parse file, do you wish to reformat the bashrc so", QMessageBox::Ok | QMessageBox::No);
-        if(u == QMessageBox::Ok) reformat();
+        reformat();
         //reformat applies at the end so returning stops it from repeating
         return;
     }
-    content.remove(begin, end-begin);
+    bashrcContent.remove(begin, end-begin);
     QStringList newCode;
 #define LINE(msg) newCode << QString(msg)
     Aliases aliases;
@@ -409,11 +370,12 @@ void Window::apply()
     {
         newCodeCompat += i + "\n";
     }
-    content.insert(begin, newCodeCompat);
+    bashrcContent.insert(begin, newCodeCompat);
 
     bashrc.resize(0);
 
-    stream << content;
+    bashrcStream << bashrcContent;
+    bashrc.close();
     DEBUG_MSG << "--- Window::apply ---";
 }
 
@@ -455,23 +417,13 @@ void Window::restore()
     if(!file.open(QFile::ReadOnly | QFile::Text))
         return;
     QTextStream stream(&file);
-    QString content = stream.readAll();
+    QString bashrcContent = stream.readAll();
     file.close();
     QFile bashrc(BASHRC);
     if(!bashrc.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
         return;
     QTextStream bashrcStream(&bashrc);
-    bashrcStream << content;
+    bashrcStream << bashrcContent;
     bashrc.close();
     DEBUG_MSG << "--- Window::restore ---";
-}
-
-QList<PromptToken> PromptParser::parse()
-{
-    QList<PromptToken> rtn;
-    QStringList parts = content.split("$MXBASHRC_PROMPT_PART");
-    foreach (QString str, parts) {
-
-
-    }
 }

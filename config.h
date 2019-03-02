@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 #include <QDebug>
+#include <QDir>
 #define BASHRC QDir::homePath() + "/.bashrc"
 #define APP_NAME QString("MX Bashrc")
 #define DEBUG_ACTIVE true

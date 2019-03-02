@@ -8,59 +8,6 @@
 namespace Ui {
 class Window;
 }
-struct PromptToken {
-    enum TokenType {
-        HOSTNAME_LONG,
-        HOSTNAME_SHORT,
-        USERNAME,
-        SHELL_NAME,
-        TERMINAL,
-        DIRECTORY,
-        DIRECTORY_BASE,
-        TIME_SHORT,
-        TIME_SECONDS,
-        TIME,
-        TIME_SECONDS_12HOURS,
-        DATE,
-        EXIT_STATUS,
-        END_PROMPT_CHAR, //# or $
-        CHAR,
-    };
-    TokenType type;
-    //additional data
-    char CHAR_char;
-    enum ColorType {
-        RED_BOLD,
-        RED,
-        GREEN_BOLD,
-        GREEN,
-        YELLOW_BOLD,
-        YELLOW,
-        BLUE_BOLD,
-        BLUE,
-        MAGENTA_BOLD,
-        MAGENTA,
-        CYAN_BOLD,
-        CYAN,
-        GRAY_BOLD,
-        GRAY,
-        WHITE_BOLD,
-        WHITE,
-        BLACK,
-        BLACK_BOLD,
-    };
-    ColorType color;
-};
-
-class PromptParser {
-public:
-    PromptParser(QString i) : content(i) {}
-    ~PromptParser() {}
-    QList<PromptToken> parse();
-protected:
-    QString content;
-};
-
 
 class Window : public QWidget
 {
@@ -84,11 +31,6 @@ public:
     Aliases getAliases();
     Aliases getAliasesFromTable();
     QList<int> getAliasLines();
-    QPair<QString,bool> getTokenInfo(QString token);
-    QList<PromptToken> getPromptTokens();
-    QStringList getBashrcList(int *sucess = nullptr);
-    QString getBashrc(int* success = nullptr);
-    void writeTo(QString data, QString file = BASHRC);
     //Helpers(mostly for readability)
     void setupConfig(); //sets up the settings so they are the same as the ones in the bashrc
     void connectAll();
