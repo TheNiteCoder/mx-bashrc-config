@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
+    <width>656</width>
     <height>660</height>
    </rect>
   </property>
@@ -60,7 +60,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>530</width>
+           <width>616</width>
            <height>580</height>
           </rect>
          </property>
@@ -88,7 +88,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="tabBarAutoHide">
              <bool>false</bool>
@@ -402,7 +402,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>:/mx-linux/mx.png</pixmap>
+           <pixmap resource="resource.qrc">:/mx-linux/mx.png</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -479,7 +479,9 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_Close</sender>

@@ -194,6 +194,21 @@ void Window::setupConfig()
         file.chop(6); //removes .theme
         ui->comboBox_Themes->addItem(file);
     }
+    if(bashrcContent.toStdString().find("#THEME=") == std::string::npos)
+    {
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Was unable to find theme");
+    }
+    else
+    {
+        size_t themeBegin = bashrcContent.toStdString().find("#THEME=");
+        size_t themeEnd = bashrcContent.toStdString().find_first_of("\n", themeBegin);
+        if(themeEnd != std::string::npos)
+        {
+            themeBegin += QString("#THEME=").length();
+            QString themeName = QString::fromStdString(bashrcContent.toStdString().substr(themeBegin, themeEnd-themeBegin));
+            ui->comboBox_Themes->setCurrentText(themeName);
+        }
+    }
     DEBUG_MSG << "--- Window::setupConfig ---";
 }
 
@@ -393,7 +408,7 @@ void Window::apply()
         prompt.append(token.str+"$nocolor");
     }
     prompt.append("\"");
-
+    LINE("#THEME="+ui->comboBox_Themes->currentText());
     //if(ui->checkBox_Newline->isChecked())
         //prompt.append("\\n");
     //prompt.append("\\$ \"");
@@ -495,6 +510,6 @@ void Window::onPreviewRefresh()
     html.replace("\\T", "time(with seconds HH:MM:SS 12 hour");
     html.replace("\\d", "date(Day Month Date)");
     html.replace("\\$", "exit status");
-    html.replace("\\n", "\n");
+    html.replace("\\n", "<br>");
     ui->label_Preview->setText(html);
 }
