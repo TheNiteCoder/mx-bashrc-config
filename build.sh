@@ -1,4 +1,4 @@
 #!/bin/sh
 
-qmake -o Makefile mx-bashrc.pro
+qmake -o Makefile application/mx-bashrc.pro
 make

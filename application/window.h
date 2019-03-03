@@ -1,3 +1,4 @@
+
 #ifndef WINDOW_H
 #define WINDOW_H
 
@@ -16,6 +17,17 @@ class Window : public QWidget
 public:
     explicit Window(QWidget *parent = 0);
     ~Window();
+    //structs
+    struct rgb
+    {
+        int red, green, blue;
+    };
+    struct PromptToken
+    {
+        bool bold;
+        rgb color;
+        QString str;
+    };
 
     //Enums
     enum ColorPolicy
@@ -24,6 +36,7 @@ public:
         ForceColor,
         Default,
     };
+
     //Typedefs
     typedef QList<QPair<QString, QString>> Aliases;
 
@@ -31,25 +44,26 @@ public:
     Aliases getAliases();
     Aliases getAliasesFromTable();
     QList<int> getAliasLines();
+    QList<PromptToken> getThemeTokens();
+
     //Helpers(mostly for readability)
-    void setupConfig(); //sets up the settings so they are the same as the ones in the bashrc
+    //sets up the settings so they are the same as the ones in the bashrc
     void connectAll();
-    void setupPromptTokens();
-    void otherSetup();
+
 
     //Event Handlers
     void closeEvent(QCloseEvent *);
 private slots:
-
+    void otherSetup();
+    void setupConfig();
     void help(); //slot for displaying help
     void about(); //slot for displaying about
     void reformat(); //reformats and bkup ~/.bashrc to ~/.bashrc.bkup
     void apply(); //applies current config to ~/.bashrc
     void onAliasButtonAdd(); //slot for ui->pushButton_plus
     void onAliasButtonRemove(); //slot for ui->pushButton_minus
-    void onPromptButtonAdd();
-    void onPromptButtonRemove();
     void restore();
+    void onPreviewRefresh();
 private:
     Ui::Window *ui; //Ui pointer
 };
