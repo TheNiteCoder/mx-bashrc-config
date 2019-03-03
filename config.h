@@ -8,4 +8,5 @@
 #define DEBUG if(DEBUG_ACTIVE) //put code in {} and change to false if you want debug off
 #define DEBUG_MSG if(DEBUG_ACTIVE) qDebug()
 #define VERSION "0.1"
+#define THEME_DIR QDir::homePath() + "/.config/bashrc/themes/"
 #endif // CONFIG_H

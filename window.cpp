@@ -16,6 +16,7 @@ Window::Window(QWidget *parent) :
     DEBUG_MSG << "+++ Window::Window +++";
     ui->setupUi(this); //setting up UI
     setWindowTitle(APP_NAME+" "+VERSION); //MACROS found in config.h
+    setWindowIcon(QIcon(":/mx-linux/mx.png"));
     connectAll(); //connects slots to signals
     otherSetup(); //setups widgets
     DEBUG_MSG << "--- Window::Window ---";
@@ -105,6 +106,53 @@ QList<int> Window::getAliasLines()
 
 }
 
+QList<Window::PromptToken> Window::getThemeTokens()
+{
+    DEBUG_MSG << "+++ Window::getThemeTokens +++";
+    QString themeName = ui->comboBox_Themes->currentText();
+    themeName += ".theme";
+    QFile theme(THEME_DIR+themeName);
+    if(!theme.open(QFile::ReadOnly))
+    {
+        QMessageBox::warning(this, "Warning " + APP_NAME, "Unable to open file: " + themeName + " for reading");
+        return QList<PromptToken>();
+    }
+    QTextStream themeStream(&theme);
+    QString tmp;
+    QList<PromptToken> rtn;
+    while(themeStream.readLineInto(&tmp))
+    {
+        QStringList parts = tmp.split('(');
+        parts.pop_front();
+        foreach (QString part, parts) {
+            DEBUG_MSG << part;
+        }
+        foreach (QString str, parts)
+        {
+            if(str.at(str.length()-1) == ')') str.chop(1);
+            QStringList partParts = str.split(':');
+            QString text = partParts.at(2);
+            for(int i = 3; i < partParts.size(); i++)
+            {
+                partParts[i].prepend(":");
+                text.append(partParts.at(i));
+            }
+            if(partParts.size() < 3) continue;
+            PromptToken token;
+            token.bold = (partParts.at(0) == "T") ? true : false;
+            QStringList colorParts = partParts.at(1).split(";");
+            if(colorParts.size() < 3) continue;
+            token.color.red = colorParts.at(0).toInt();
+            token.color.green = colorParts.at(1).toInt();
+            token.color.blue = colorParts.at(2).toInt();
+            token.str = text;
+            rtn << token;
+        }
+    }
+    DEBUG_MSG << "--- Window::getThemeTokens ---";
+    return rtn;
+}
+
 void Window::setupConfig()
 {
     DEBUG_MSG << "+++ Window::setupConfig +++";
@@ -136,13 +184,16 @@ void Window::setupConfig()
         ui->checkBox_ForceColor->setChecked(true);
     else
         ui->checkBox_Default->setChecked(true);
-    if(bashrcContent.toStdString().find("PS1=\"$nocolor\\u@\\h: \\w \\n\\$") != std::string::npos)
-        ui->checkBox_Newline->setChecked(true);
     if(bashrcContent.toStdString().find("debian_chroot") != std::string::npos)
         ui->checkBox_DebianChroot->setChecked(true);
     if(bashrcContent.toStdString().find("HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignorespace") != std::string::npos)
         ui->checkBox_ignorespace->setChecked(true);
-
+    QDir themeDir(THEME_DIR);
+    QStringList themeFiles = themeDir.entryList(QStringList() << "*.theme", QDir::Files);
+    foreach (QString file, themeFiles) {
+        file.chop(6); //removes .theme
+        ui->comboBox_Themes->addItem(file);
+    }
     DEBUG_MSG << "--- Window::setupConfig ---";
 }
 
@@ -155,13 +206,12 @@ void Window::connectAll()
     connect(ui->pushButton_Restore, &QPushButton::clicked, this, &Window::restore);
     connect(ui->pushButton_About, &QPushButton::clicked, this, &Window::about);
     connect(ui->pushButton_Help, &QPushButton::clicked, this, &Window::help);
+    connect(ui->pushButton_Refresh, &QPushButton::clicked, this, &Window::setupConfig);
+    connect(ui->pushButton_Refresh, &QPushButton::clicked, this, &Window::otherSetup);
+    connect(ui->comboBox_Themes, &QComboBox::currentTextChanged, this, &Window::onPreviewRefresh);
     DEBUG_MSG << "--- Window::connectAll ---";
 }
 
-void Window::setupPromptTokens()
-{
-
-}
 
 void Window::otherSetup()
 {
@@ -332,28 +382,30 @@ void Window::apply()
     else if(ui->checkBox_NoColor->isChecked())
         LINE("color_prompt=no");
     LINE("if [ \"$color_prompt\" = yes ]; then");
-    QString prompt("");
-    prompt.append("   PS1=\"$nocolor$PURPLE\\u$nocolor@$CYAN\\h$nocolor: $GREEN\\w$nocolor ");
-    if(ui->checkBox_Newline->isChecked())
-        prompt.append("\\n");
-    prompt.append("\\$ \"");
+    QString prompt("\tPS1=\"");
+    QList<PromptToken> promptParts = getThemeTokens();
+    foreach(PromptToken token, promptParts)
+    {
+        prompt.append("\\[\\033[");
+        if(token.bold) prompt.append("1;");
+        prompt.append(QString("38;2;%1;%2;%3m\\]").arg(token.color.red).arg(token.color.green).arg(token.color.blue));
+        token.str.replace("$", "\\$");
+        prompt.append(token.str+"$nocolor");
+    }
+    prompt.append("\"");
+
+    //if(ui->checkBox_Newline->isChecked())
+        //prompt.append("\\n");
+    //prompt.append("\\$ \"");
     LINE(prompt);
     LINE("else");
-    prompt = "";
-    prompt.append("   PS1=\"$nocolor\\u@\\h: \\w ");
-    if(ui->checkBox_Newline->isChecked())
-        prompt.append("\\n");
-    prompt.append("\\$ \"");
+    prompt = "\tPS1=\"";
+    foreach (PromptToken token, promptParts) {
+        prompt.append(token.str);
+    }
+    prompt.append("\"");
     LINE(prompt);
     LINE("fi");
-    /*LINE("if [ \"$UID\" = 0 ] && [ \"$color_prompt\" = yes ]; then");
-    prompt = "";
-    prompt.append("    PS1=\"$nocolor$PURPLE\\u$nocolor@$CYAN\\h$nocolor: $GREEN\\w$nocolor ");
-    if(ui->checkBox_Newline->isChecked())
-        prompt.append("\\n");
-    prompt.append("\\$ \"");
-    LINE(prompt);
-    LINE("fi");*/
     if(ui->checkBox_DebianChroot->isChecked())
     {
         LINE("if [ -z debian_chroot ] && [ -r /etc/debian_chroot ]; then");
@@ -399,16 +451,6 @@ void Window::onAliasButtonRemove()
     DEBUG_MSG << "--- Window::onAliasButtonRemove ---";
 }
 
-void Window::onPromptButtonAdd()
-{
-
-}
-
-void Window::onPromptButtonRemove()
-{
-
-}
-
 void Window::restore()
 {
     DEBUG_MSG << "+++ Window::restore +++";
@@ -426,4 +468,33 @@ void Window::restore()
     bashrcStream << bashrcContent;
     bashrc.close();
     DEBUG_MSG << "--- Window::restore ---";
+}
+
+void Window::onPreviewRefresh()
+{
+    QList<PromptToken> promptTokens = getThemeTokens();
+    QString html;
+    foreach (PromptToken token, promptTokens)
+    {
+        html.append(tr("<span style=\"color: rgb(%1,%2,%3)\">").arg(token.color.red).arg(token.color.green).arg(token.color.blue));
+        if(token.bold) html.append("<b>");
+        html.append(token.str);
+        if(token.bold) html.append("</b>");
+        html.append("</span>");
+    }
+    html.replace("\\u", "user");
+    html.replace("\\h", "host(short)");
+    html.replace("\\H", "host(long)");
+    html.replace("\\v", "shell");
+    html.replace("\\t", "terminal");
+    html.replace("\\w", "directory");
+    html.replace("\\W", "directory(base name)");
+    html.replace("\\A", "time(short HH:MM 24 hour)");
+    html.replace("\\t", "time(with seconds HH:MM:SS 24 hour)");
+    html.replace("\\@", "time(HH:MM 12 hour)");
+    html.replace("\\T", "time(with seconds HH:MM:SS 12 hour");
+    html.replace("\\d", "date(Day Month Date)");
+    html.replace("\\$", "exit status");
+    html.replace("\\n", "\n");
+    ui->label_Preview->setText(html);
 }
