@@ -4,6 +4,10 @@ A GUI tool written in Qt to modify the bashrc
 ## Bulding and Installing
 
 * run ./build.sh
-* the following step should have created a folder that has something like build-bashrc, the executable should be in there
+* the following step should have created an executable
+* move all files inside of themes/ to ~/.config/bashrc/themes
 
 ## Theme Syntax
+
+(BOLD(T or F):RRR;GGG;BBB:CHARS)
+
