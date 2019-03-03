@@ -15,7 +15,7 @@ Window::Window(QWidget *parent) :
 {
     DEBUG_MSG << "+++ Window::Window +++";
     ui->setupUi(this); //setting up UI
-    setWindowTitle(APP_NAME+" "+VERSION); //MACROS found in config.h
+    setWindowTitle(APP_NAME); //MACROS found in config.h
     setWindowIcon(QIcon(":/mx-linux/mx.png"));
     connectAll(); //connects slots to signals
     otherSetup(); //setups widgets
