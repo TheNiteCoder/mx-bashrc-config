@@ -288,13 +288,13 @@ void Window::about()
 void Window::reformat()
 {
     DEBUG_MSG << "+++ Window::reformat +++";
-    int user = QMessageBox::warning(this, "Warning - " + APP_NAME, "This option will reformat ~/.bashrc, it may erase some of your configuration, and so ~/.bashrc is being backed up to ~/.bashrc.bkup",
+    int user = QMessageBox::warning(this, "Warning - " + APP_NAME, "This option will reformat ~/.bashrc, it may erase some of your configuration, so ~/.bashrc is being backed up to ~/.bashrc.bkup",
                                     QMessageBox::Ok | QMessageBox::Cancel);
     if(user == QMessageBox::Cancel) return;
     QFile bashrc(BASHRC);
     if(!bashrc.open(QFile::ReadWrite | QFile::Text))
     {
-        QMessageBox::warning(this, "Warning - " + APP_NAME, "Failed to open ~/.bashrc for reading", QMessageBox::Ok);
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Unable to open "+BASHRC+" for reading", QMessageBox::Ok);
         return;
     }
     QTextStream bashrcStream(&bashrc);
@@ -302,7 +302,7 @@ void Window::reformat()
     QFile bkup(QDir::homePath() + "/.bashrc.bkup");
     if(!bkup.open(QFile::WriteOnly | QFile::Text))
     {
-        QMessageBox::warning(this, "Warning - " + APP_NAME, "Operation failed to open ~/.bashrc.bkup for writing", QMessageBox::Ok);
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Operation failed to open " +QDir::homePath() +"/.bashrc.bkup for writing", QMessageBox::Ok);
         return;
     }
     QTextStream bkupStream(&bkup);
@@ -328,7 +328,7 @@ void Window::apply()
     QFile bashrc(BASHRC);
     if(!bashrc.open(QFile::ReadWrite))
     {
-        QMessageBox::warning(this, "Warning" + APP_NAME, "Enable to open file for reading and writing");
+        QMessageBox::warning(this, "Warning" + APP_NAME, "Unable to open file for reading and writing");
         return;
     }
     QTextStream bashrcStream(&bashrc);

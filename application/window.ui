@@ -86,7 +86,7 @@
                 <enum>QTabWidget::Rounded</enum>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <property name="tabBarAutoHide">
                 <bool>false</bool>
@@ -105,7 +105,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Warning, themes will only work if color is allowed and supported. Also if your terminal doesn't support RGB the themes with most likely not work</string>
+                    <string>Warning, themes will only work if color is allowed and supported. Also if your terminal doesn't support RGB, the themes will most likely not work</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
