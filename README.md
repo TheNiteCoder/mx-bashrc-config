@@ -5,7 +5,7 @@ A GUI tool written in Qt to modify the bashrc
 
 * run ./build.sh
 * the following step should have created an executable
-* move all files inside of themes/ to ~/.config/bashrc/themes
+* run ./install-themes.sh to install themes
 
 ## Theme Syntax
 
