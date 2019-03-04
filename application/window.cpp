@@ -160,7 +160,6 @@ void Window::setupConfig()
     if(!bashrc.open(QFile::ReadOnly))
     {
         QMessageBox::warning(this, "Warning - " + APP_NAME, "Unable to open " + BASHRC + " for reading", QMessageBox::Ok);
-        return;
     }
     QTextStream bashrcStream(&bashrc);
     QString bashrcContent = bashrcStream.readAll();
@@ -188,27 +187,6 @@ void Window::setupConfig()
         ui->checkBox_DebianChroot->setChecked(true);
     if(bashrcContent.toStdString().find("HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignorespace") != std::string::npos)
         ui->checkBox_ignorespace->setChecked(true);
-    QDir themeDir(THEME_DIR);
-    QStringList themeFiles = themeDir.entryList(QStringList() << "*.theme", QDir::Files);
-    foreach (QString file, themeFiles) {
-        file.chop(6); //removes .theme
-        ui->comboBox_Themes->addItem(file);
-    }
-    if(bashrcContent.toStdString().find("#THEME=") == std::string::npos)
-    {
-        QMessageBox::warning(this, "Warning - " + APP_NAME, "Was unable to find theme");
-    }
-    else
-    {
-        size_t themeBegin = bashrcContent.toStdString().find("#THEME=");
-        size_t themeEnd = bashrcContent.toStdString().find_first_of("\n", themeBegin);
-        if(themeEnd != std::string::npos)
-        {
-            themeBegin += QString("#THEME=").length();
-            QString themeName = QString::fromStdString(bashrcContent.toStdString().substr(themeBegin, themeEnd-themeBegin));
-            ui->comboBox_Themes->setCurrentText(themeName);
-        }
-    }
     DEBUG_MSG << "--- Window::setupConfig ---";
 }
 
@@ -251,6 +229,35 @@ void Window::otherSetup()
     setupConfig();
     QSettings settings("MX-Linux", "mx-bashrc");
     restoreGeometry(settings.value("geometery").toByteArray());
+    QDir themeDir(THEME_DIR);
+    QStringList themeFiles = themeDir.entryList(QStringList() << "*.theme", QDir::Files);
+    foreach (QString file, themeFiles) {
+        file.chop(6); //removes .theme
+        ui->comboBox_Themes->addItem(file);
+    }
+    QFile bashrc(BASHRC);
+    if(!bashrc.open(QFile::ReadOnly))
+    {
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Unable to open file " + BASHRC + " for reading", QMessageBox::Ok);
+        return;
+    }
+    QTextStream bashrcStream(&bashrc);
+    QString bashrcContent = bashrcStream.readAll();
+    if(bashrcContent.toStdString().find("#THEME=") == std::string::npos)
+    {
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Was unable to find theme");
+    }
+    else
+    {
+        size_t themeBegin = bashrcContent.toStdString().find("#THEME=");
+        size_t themeEnd = bashrcContent.toStdString().find_first_of("\n", themeBegin);
+        if(themeEnd != std::string::npos)
+        {
+            themeBegin += QString("#THEME=").length();
+            QString themeName = QString::fromStdString(bashrcContent.toStdString().substr(themeBegin, themeEnd-themeBegin));
+            ui->comboBox_Themes->setCurrentText(themeName);
+        }
+    }
     DEBUG_MSG << "--- Window::otherSetup ---";
 }
 
@@ -284,7 +291,7 @@ void Window::reformat()
                                     QMessageBox::Ok | QMessageBox::Cancel);
     if(user == QMessageBox::Cancel) return;
     QFile bashrc(BASHRC);
-    if(!bashrc.open(QFile::ReadOnly | QFile::Text))
+    if(!bashrc.open(QFile::ReadWrite | QFile::Text))
     {
         QMessageBox::warning(this, "Warning - " + APP_NAME, "Failed to open ~/.bashrc for reading", QMessageBox::Ok);
         return;
