@@ -11,7 +11,7 @@ A GUI tool written in Qt to modify the bashrc
 
 Is changing
 
-(BOLD(T or F):RRR;GGG;BBB:CHARS)
+(BOLD(T or F):RRR,GGG,BBB:CHARS)
 
 ## Dependencies
 
