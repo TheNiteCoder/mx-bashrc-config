@@ -132,7 +132,8 @@ QList<Window::PromptToken> Window::getThemeTokens()
         }
         foreach (QString str, parts)
         {
-            if(str.at(str.length()-1) == ')') str.chop(1);
+            str = str.split(')')[0];
+            //str = str.trimmed();
             QStringList partParts = str.split(':');
             QString text = partParts.at(2);
             for(int i = 3; i < partParts.size(); i++)
@@ -143,7 +144,7 @@ QList<Window::PromptToken> Window::getThemeTokens()
             if(partParts.size() < 3) continue;
             PromptToken token;
             token.bold = (partParts.at(0) == "T") ? true : false;
-            QStringList colorParts = partParts.at(1).split(";");
+            QStringList colorParts = partParts.at(1).split(",");
             if(colorParts.size() < 3) continue;
             token.color.red = colorParts.at(0).toInt();
             token.color.green = colorParts.at(1).toInt();
