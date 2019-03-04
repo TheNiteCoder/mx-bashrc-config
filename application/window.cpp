@@ -13,12 +13,15 @@
 Window::Window(QWidget *parent) :
     QWidget(parent), ui(new Ui::Window)
 {
+    QSettings settings("MX-Linux", "mx-bashrc");
+    restoreGeometry(settings.value("geometery").toByteArray());
     DEBUG_MSG << "+++ Window::Window +++";
     ui->setupUi(this); //setting up UI
     setWindowTitle(APP_NAME); //MACROS found in config.h
     setWindowIcon(QIcon(":/mx-linux/mx.png"));
     connectAll(); //connects slots to signals
     otherSetup(); //setups widgets
+    ui->tabWidget->setCurrentIndex(0);
     DEBUG_MSG << "--- Window::Window ---";
 }
 
@@ -227,8 +230,6 @@ void Window::otherSetup()
         ui->tableWidget->setItem(i, 1, new QTableWidgetItem(list.at(i).second));
     }
     setupConfig();
-    QSettings settings("MX-Linux", "mx-bashrc");
-    restoreGeometry(settings.value("geometery").toByteArray());
     QDir themeDir(THEME_DIR);
     QStringList themeFiles = themeDir.entryList(QStringList() << "*.theme", QDir::Files);
     foreach (QString file, themeFiles) {
@@ -245,7 +246,7 @@ void Window::otherSetup()
     QString bashrcContent = bashrcStream.readAll();
     if(bashrcContent.toStdString().find("#THEME=") == std::string::npos)
     {
-        QMessageBox::warning(this, "Warning - " + APP_NAME, "Was unable to find theme");
+        //QMessageBox::warning(this, "Warning - " + APP_NAME, "Was unable to find theme");
     }
     else
     {
