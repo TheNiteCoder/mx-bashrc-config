@@ -9,6 +9,8 @@ A GUI tool written in Qt to modify the bashrc
 
 ## Theme Syntax
 
+Is changing
+
 (BOLD(T or F):RRR;GGG;BBB:CHARS)
 
 ## Dependencies
