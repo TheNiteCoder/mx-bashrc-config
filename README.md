@@ -1,4 +1,4 @@
-# bashrc
+# mx-bashrc-config
 A GUI tool written in Qt to modify the bashrc
 
 ## Bulding and Installing
