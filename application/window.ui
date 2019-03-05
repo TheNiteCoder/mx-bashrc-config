@@ -414,6 +414,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_Refresh">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="toolTip">
            <string>Reads bashrc and sets config widgets accordingly</string>
           </property>
@@ -424,6 +430,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_Restore">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="toolTip">
            <string>Restores your bashrc with the MX Linux default and compatabilty to use MX Bashrc</string>
           </property>
@@ -437,6 +449,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="toolTip">
            <string>Applys changes to ~/.bashrc</string>
           </property>

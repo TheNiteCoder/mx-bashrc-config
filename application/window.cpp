@@ -13,14 +13,14 @@
 Window::Window(QWidget *parent) :
     QWidget(parent), ui(new Ui::Window)
 {
+    DEBUG_MSG << "+++ Window::Window +++";
     QSettings settings("MX-Linux", "mx-bashrc");
     restoreGeometry(settings.value("geometery").toByteArray());
-    DEBUG_MSG << "+++ Window::Window +++";
     ui->setupUi(this); //setting up UI
     setWindowTitle(APP_NAME); //MACROS found in config.h
     setWindowIcon(QIcon(":/mx-linux/mx.png"));
     connectAll(); //connects slots to signals
-    otherSetup(); //setups widgets
+    setup(); //setups widgets
     ui->tabWidget->setCurrentIndex(0);
     DEBUG_MSG << "--- Window::Window ---";
 }
@@ -37,8 +37,9 @@ Window::Aliases Window::getAliases()
     DEBUG_MSG << "+++ Window::getAliases +++";
     Aliases rtn;
     QFile file(BASHRC);
-    if(!file.open(QFile::Text | QFile::ReadOnly))
+    if(!file.open(QFile::ReadOnly))
     {
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Unable to open file " + BASHRC + " for reading", QMessageBox::Ok);
         return rtn;
     }
     QTextStream stream(&file);
@@ -91,7 +92,11 @@ QList<int> Window::getAliasLines()
     DEBUG_MSG << "+++ Window::getAliasLines +++";
     QList<int> rtn;
     QFile file(BASHRC);
-    if(!file.open(QFile::Text | QFile::ReadOnly)) return rtn;
+    if(!file.open(QFile::ReadOnly))
+    {
+        QMessageBox::warning(this, "Warning - " + APP_NAME, "Unable to open " + BASHRC + " for reading", QMessageBox::Ok);
+        return rtn;
+    }
     QTextStream stream(&file);
     QString tmp;
     int loop = 0;
@@ -119,7 +124,7 @@ QList<Window::PromptToken> Window::getThemeTokens()
     QFile theme(THEME_DIR+themeName);
     if(!theme.open(QFile::ReadOnly))
     {
-        QMessageBox::warning(this, "Warning " + APP_NAME, "Unable to open file: " + themeName + " for reading");
+        QMessageBox::warning(this, "Warning " + APP_NAME, "Unable to open file: " + themeName + " for reading", QMessageBox::Ok);
         return QList<PromptToken>();
     }
     QTextStream themeStream(&theme);
@@ -207,13 +212,13 @@ void Window::connectAll()
     connect(ui->pushButton_About, &QPushButton::clicked, this, &Window::about);
     connect(ui->pushButton_Help, &QPushButton::clicked, this, &Window::help);
     connect(ui->pushButton_Refresh, &QPushButton::clicked, this, &Window::setupConfig);
-    connect(ui->pushButton_Refresh, &QPushButton::clicked, this, &Window::otherSetup);
+    connect(ui->pushButton_Refresh, &QPushButton::clicked, this, &Window::setup);
     connect(ui->comboBox_Themes, &QComboBox::currentTextChanged, this, &Window::onPreviewRefresh);
     DEBUG_MSG << "--- Window::connectAll ---";
 }
 
 
-void Window::otherSetup()
+void Window::setup()
 {
     DEBUG_MSG << "+++ Window::otherSetup +++";
     ui->tableWidget->setSelectionBehavior(QTableWidget::SelectRows); //Makes it so the user can only select rows

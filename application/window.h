@@ -53,8 +53,8 @@ public:
 
     //Event Handlers
     void closeEvent(QCloseEvent *);
-private slots:
-    void otherSetup();
+public slots:
+    void setup();
     void setupConfig();
     void help(); //slot for displaying help
     void about(); //slot for displaying about
