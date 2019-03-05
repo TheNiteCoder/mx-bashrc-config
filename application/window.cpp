@@ -63,6 +63,7 @@ Window::Aliases Window::getAliases()
         alias.second = command;
         rtn << alias;
     }
+    file.close();
     DEBUG_MSG << "--- Window::getAliases ---";
     return rtn;
 }
@@ -104,6 +105,7 @@ QList<int> Window::getAliasLines()
         if(aliasKeywordBegin == std::string::npos) continue;
         rtn << loop;
     }
+    file.close();
     DEBUG_MSG << "--- Window::getAliasLines ---";
     return rtn;
 
@@ -153,6 +155,7 @@ QList<Window::PromptToken> Window::getThemeTokens()
             rtn << token;
         }
     }
+    theme.close();
     DEBUG_MSG << "--- Window::getThemeTokens ---";
     return rtn;
 }
@@ -260,6 +263,7 @@ void Window::otherSetup()
             ui->comboBox_Themes->setCurrentText(themeName);
         }
     }
+    bashrc.close();
     DEBUG_MSG << "--- Window::otherSetup ---";
 }
 
@@ -282,14 +286,14 @@ void Window::help()
 void Window::about()
 {
     DEBUG_MSG << "+++ Window::about +++";
-    QMessageBox::about(this, APP_NAME+" - "+VERSION, "A program designed to edit your ~/.bashrc easily");
+    QMessageBox::about(this, APP_NAME+" - "+VERSION, "A program designed to edit your "+BASHRC+" easily");
     DEBUG_MSG << "--- Window::about ---";
 }
 
 void Window::reformat()
 {
     DEBUG_MSG << "+++ Window::reformat +++";
-    int user = QMessageBox::warning(this, "Warning - " + APP_NAME, "This option will reformat ~/.bashrc, it may erase some of your configuration, so ~/.bashrc is being backed up to ~/.bashrc.bkup",
+    int user = QMessageBox::warning(this, "Warning - " + APP_NAME, "This option will reformat "+BASHRC+", it may erase some of your configuration, so ~/.bashrc is being backed up to ~/.bashrc.bkup",
                                     QMessageBox::Ok | QMessageBox::Cancel);
     if(user == QMessageBox::Cancel) return;
     QFile bashrc(BASHRC);
