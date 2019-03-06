@@ -63,6 +63,7 @@ Window::Aliases Window::getAliases()
         alias.second = command;
         rtn << alias;
     }
+    file.close();
     DEBUG_MSG << "--- Window::getAliases ---";
     return rtn;
 }
@@ -104,6 +105,7 @@ QList<int> Window::getAliasLines()
         if(aliasKeywordBegin == std::string::npos) continue;
         rtn << loop;
     }
+    file.close();
     DEBUG_MSG << "--- Window::getAliasLines ---";
     return rtn;
 
@@ -127,9 +129,6 @@ QList<Window::PromptToken> Window::getThemeTokens()
     {
         QStringList parts = tmp.split('(');
         parts.pop_front();
-        foreach (QString part, parts) {
-            DEBUG_MSG << part;
-        }
         foreach (QString str, parts)
         {
             str = str.split(')')[0];
