@@ -4,12 +4,12 @@
 #include <QDir>
 #include <QTextStream>
 #include <QMessageBox>
-Parser::Parser(Window *parent) : win(parent)
+Parser::Parser()
 {
     QFile bashrc(QDir::homePath() + "/.bashrc");
     if(!bashrc.open(QFile::ReadOnly))
     {
-        QMessageBox::warning(&win, tr("Warning - ") + tr(APPNAME), tr("Unable to open bashrc for reading"), QMessageBox::Ok);
+
     }
     QTextStream bashrcStream(&bashrc);
     this->bashrc = bashrcStream.readAll();
@@ -28,6 +28,7 @@ QStringList Parser::removeComments(QStringList list)
     {
         str.remove(QRegExp("#[\\s\\d\\w]{0,}"));
     }
+    return list;
 }
 
 QList<Alias> Parser::getAliases()
@@ -35,16 +36,34 @@ QList<Alias> Parser::getAliases()
     QList<Alias> rtn;
     foreach(QString str, toList(bashrc))
     {
-        QRegExp aliasRegex("[\\s]{0,}alias[\\s]+[\\w]+=\"[\\d\\D\\w\\W\\S\\s]{0,}\"[\\s]{0,}");
-        if(str.contains(aliasRegex))
+        while(true)
         {
-            Alias alias;
-            int start = str.indexOf(aliasRegex);
-            start + 6; //get rid of alias_
-            alias.alias = str.section('=', 0);
-            alias.alias.remove(QRegExp("[\\s]+"));
+            QRegExp aliasRegex("[\\s]{0,}alias[\\s]+[\\w]+=\"[\\d\\D\\w\\W\\S\\s]{0,}\"[\\s]{0,}");
+            if(str.contains(aliasRegex))
+            {
+                Alias alias;
+                int start = str.indexOf(aliasRegex);
+                start += 6; //get rid of alias_
+                alias.alias = str.section('=', 0);
+                alias.alias.remove(QRegExp("[\\s]+"));
+                alias.command = str.section("=\"", 1);
+                while(true)
+                {
+                    if(alias.command.endsWith('\"'))
+                    {
+                        alias.command.chop(1);
+                        break;
+                    }
+                    else
+                    {
+                        alias.command.chop(1);
+                    }
+                }
+                rtn << alias;
+            }else break;
         }
     }
+    return rtn;
 }
 
 QStringList Parser::toList(QString str)

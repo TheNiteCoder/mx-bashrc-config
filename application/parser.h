@@ -6,14 +6,12 @@
 struct Alias
 {
     QString alias, command;
-    int pos;
 };
-class Window;
 class Parser : public QObject
 {
     Q_OBJECT
 public:
-    explicit Parser(Window* window);
+    explicit Parser();
 
     QString removeComments(QString str);
     QStringList removeComments(QStringList list);
@@ -21,11 +19,10 @@ public:
     QStringList toList(QString str);
     QString toStr(QStringList list);
 signals:
-
+    void showWarning(QString);
 public slots:
 private:
     QString bashrc;
-    Window* win;
 };
 
 #endif // PARSER_H
