@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "buffer.h"
+#include "event.h"
 #include <algorithm>
 
 class Parser : public QObject
