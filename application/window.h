@@ -2,7 +2,7 @@
 #define WINDOW_H
 
 #include <QWidget>
-#include "parser.h"
+#include "bashrcparser.h"
 
 namespace Ui {
 class Window;
@@ -18,7 +18,7 @@ public:
     void setupAliasTable();
 private:
     Ui::Window *ui;
-    Parser* parser;
+    BashrcParser* parser;
 };
 
 #endif // WINDOW_H

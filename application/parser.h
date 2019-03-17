@@ -1,42 +1,24 @@
-﻿#ifndef PARSER_H
+#ifndef PARSER_H
 #define PARSER_H
 
 #include <QObject>
+#include "buffer.h"
+#include <algorithm>
 
-
-
-struct Alias
-{
-    Alias(QString a, QString c, int p = -1)
-    {
-        alias = a;
-        command = c;
-        pos = p;
-    }
-    Alias(){}
-    QString alias, command;
-    int pos;
-};
 class Parser : public QObject
 {
-    Q_OBJECT
+       Q_OBJECT
 public:
-    explicit Parser(QWidget *win = nullptr);
-
-    QString removeComments(QString str);
-    QStringList removeComments(QStringList list);
-    QList<Alias> getAliases();
-    int setAlias(Alias a);
-    int setAliases(QList<Alias> la);
-    Alias getAlias(QString str, bool command = false);
-    QStringList toList(QString str);
-    QString toStr(QStringList list);
+    Parser(QString source, QObject *parent = 0);
+    void doSetEvent(SetEvent* e);
+    void doSetEvents(QList<SetEvent*> le);
+    void* doGetEvent(GetEvent* e);
+    QString source(){return __source;}
+protected:
+    QString __source;
 signals:
-    void showWarning(QString);
+
 public slots:
-private:
-    QString bashrc;
-    QWidget* window;
 };
 
 #endif // PARSER_H

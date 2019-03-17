@@ -4,7 +4,7 @@
 Window::Window(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Window),
-    parser(new Parser(this))
+    parser(new BashrcParser(this))
 {
     ui->setupUi(this);
     setupAliasTable();

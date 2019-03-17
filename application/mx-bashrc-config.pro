@@ -24,11 +24,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        window.cpp\
-    parser.cpp
+        window.cpp \
+    buffer.cpp \
+    parser.cpp \
+    removecommentsetevent.cpp
+
 
 HEADERS  += window.h \
+    config.h \
+    buffer.h \
     parser.h \
-    config.h
+    event.h \
+    removecommentsetevent.h
 
 FORMS    += window.ui
