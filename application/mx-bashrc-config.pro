@@ -27,7 +27,8 @@ SOURCES += main.cpp\
         window.cpp \
     buffer.cpp \
     parser.cpp \
-    removecommentsetevent.cpp
+    removecommentsetevent.cpp \
+    plugin.cpp
 
 
 HEADERS  += window.h \
@@ -35,6 +36,7 @@ HEADERS  += window.h \
     buffer.h \
     parser.h \
     event.h \
-    removecommentsetevent.h
+    removecommentsetevent.h \
+    plugin.h
 
 FORMS    += window.ui
