@@ -2,7 +2,7 @@
 #define WINDOW_H
 
 #include <QWidget>
-#include "bashrcparser.h"
+#include "fancypromptplugin.h"
 
 namespace Ui {
 class Window;
@@ -15,10 +15,39 @@ class Window : public QWidget
 public:
     explicit Window(QWidget *parent = 0);
     ~Window();
-    void setupAliasTable();
+    class PluginManager
+    {
+    public:
+        PluginManager(){}
+        ~PluginManager()
+        {
+            foreach(Plugin* p, __plugins)
+            {
+                if(p != nullptr) delete p;
+            }
+        }
+
+        void addPlugin(Plugin* plugin){__plugins.push_back(plugin);}
+        QString execPlugins(const QString source)
+        {
+            QString copy = source;
+            foreach(Plugin* p, __plugins)
+            {
+                copy = p->exec(copy);
+            }
+            return copy;
+        }
+        QVector<Plugin*> plugins(){return __plugins;}
+    protected:
+        QVector<Plugin*> __plugins;
+        QWidget __window;
+    };
+public slots:
+    void apply();
 private:
     Ui::Window *ui;
-    BashrcParser* parser;
+    PluginManager pluginManager;
+
 };
 
 #endif // WINDOW_H

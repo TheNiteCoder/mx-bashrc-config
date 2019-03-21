@@ -1,13 +1,24 @@
 #include "window.h"
 #include "ui_window.h"
+#include "config.h"
+#include <QFile>
+#include <QTextStream>
 
 Window::Window(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Window),
-    parser(new BashrcParser(this))
+    ui(new Ui::Window)
 {
+    //ui setup
     ui->setupUi(this);
-    setupAliasTable();
+    setWindowTitle(tr(APPNAME)+tr(" ")+tr(VERSION));
+    //add all plugins wanted
+    pluginManager.addPlugin(new FancyPromptPlugin);
+    //add guis to tab widget
+    foreach(Plugin* p, pluginManager.plugins())
+    {
+        ui->tabWidget->addTab(p->widget(), QIcon(), (p->name().isEmpty() || p->name().isNull()) ? tr("Unnamed") : p->name());
+    }
+    connect(ui->pushButton_Apply, &QPushButton::clicked, this, &Window::apply);
 }
 
 Window::~Window()
@@ -15,17 +26,19 @@ Window::~Window()
     delete ui;
 }
 
-void Window::setupAliasTable()
+void Window::apply()
 {
-    ui->tableWidget_Aliases->setSelectionBehavior(QTableWidget::SelectRows);
-    ui->tableWidget_Aliases->horizontalHeader()->stretchLastSection();
-    ui->tableWidget_Aliases->setHorizontalHeaderLabels(QStringList() << "Alias" << "Command");
-    QList<Alias> la = parser->getAliases();
-    foreach (Alias a, la)
+    QFile bashrc(BASHRC);
+    if(!bashrc.open(QFile::ReadWrite))
     {
-        ui->tableWidget_Aliases->setRowCount(ui->tableWidget_Aliases->rowCount()+1);
-        ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 0, new QTableWidgetItem(a.alias));
-        ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 1, new QTableWidgetItem(a.command));
+        //ERROR
     }
-
+    QTextStream bashrcStream(&bashrc);
+    QString source = bashrcStream.readAll();
+    source = pluginManager.execPlugins(source);
+    bashrc.resize(0);
+    bashrcStream << source;
+    bashrc.close();
 }
+
+

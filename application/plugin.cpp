@@ -1,7 +1,7 @@
 #include "plugin.h"
 
-Plugin::Plugin(QObject *parent)
-    : QObject(parent)
+Plugin::Plugin(QString pluginName, QObject *parent)
+    : QObject(parent), __pluginName(pluginName), __widget(new QWidget)
 {
 
 }
