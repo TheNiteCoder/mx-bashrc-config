@@ -2,7 +2,7 @@
 #define WINDOW_H
 
 #include <QWidget>
-#include "fancypromptplugin.h"
+#include "saveplugin.h"
 
 namespace Ui {
 class Window;

@@ -27,13 +27,14 @@ SOURCES += main.cpp\
         window.cpp \
     buffer.cpp \
     plugin.cpp \
-    fancypromptplugin.cpp
+    saveplugin.cpp
 
 
 HEADERS  += window.h \
     config.h \
     buffer.h \
     plugin.h \
-    fancypromptplugin.h
+    saveplugin.h
 
-FORMS    += window.ui
+FORMS    += window.ui \
+    saveplugin.ui

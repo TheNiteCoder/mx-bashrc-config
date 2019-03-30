@@ -12,7 +12,8 @@ Window::Window(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle(tr(APPNAME)+tr(" ")+tr(VERSION));
     //add all plugins wanted
-    pluginManager.addPlugin(new FancyPromptPlugin);
+    pluginManager.addPlugin(new SavePlugin);
+    //pluginManager.addPlugin(new FancyPromptPlugin);
     //add guis to tab widget
     foreach(Plugin* p, pluginManager.plugins())
     {
