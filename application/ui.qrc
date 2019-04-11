@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>promptplugin.ui</file>
+    </qresource>
+</RCC>

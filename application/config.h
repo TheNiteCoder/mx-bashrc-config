@@ -9,5 +9,7 @@
 #define VERSION "0.1"
 #define BASHRC QDir::homePath() + "/.bashrc"
 #define DEBUG qDebug()
+#define DO_SEPERATE_FILE 1
+#define PROGRAM_BASHRC QDir::homePath() + "/.config/mx-bashrc-config/bashrc.bash"
 
 #endif // CONFIG_H

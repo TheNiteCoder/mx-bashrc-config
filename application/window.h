@@ -2,7 +2,9 @@
 #define WINDOW_H
 
 #include <QWidget>
-#include "saveplugin.h"
+#include "plugin.h"
+#include "restoreplugin.h"
+#include "promptplugin.h"
 
 namespace Ui {
 class Window;
@@ -28,12 +30,12 @@ public:
         }
 
         void addPlugin(Plugin* plugin){__plugins.push_back(plugin);}
-        QString execPlugins(const QString source)
+        QString execPlugins(const QString source, const QString bashrcSource)
         {
             QString copy = source;
             foreach(Plugin* p, __plugins)
             {
-                copy = p->exec(copy);
+                copy = p->exec(copy, bashrcSource);
             }
             return copy;
         }
