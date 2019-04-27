@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     plugin.cpp \
     restoreplugin.cpp \
     promptplugin.cpp \
-    aliasplugin.cpp
+    aliasplugin.cpp \
+    seacher.cpp
 
 
 HEADERS  += window.h \
@@ -39,7 +40,8 @@ HEADERS  += window.h \
     plugin.h \
     restoreplugin.h \
     promptplugin.h \
-    aliasplugin.h
+    aliasplugin.h \
+    seacher.h
 
 FORMS    += window.ui \
     promptplugin.ui \

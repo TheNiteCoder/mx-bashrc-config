@@ -32,15 +32,18 @@ public:
         QString __name;
     };
 
-    Buffer(QString source, QObject *parent = 0);
+    Buffer(const QString source, QObject *parent = 0);
     Buffer(){}
     void setSource(QString source){__source = source;}
     QString source(){return __source;}
     void move(int t){
-        __iter+=t;
-        for(State state : states())
+        for(int  i = 0; i < t; i++)
         {
-            state.test(buffer());
+            __iter++;
+            for(State state : states())
+            {
+                state.test(buffer());
+            }
         }
     }
     QString::iterator iterator(){return __iter;}
