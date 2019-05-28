@@ -51,7 +51,7 @@ public:
 
     QChar moveForwardAndGetChar(){move(1);return *iterator();}
     QChar moveBackwardAndGetChar(){move(-1);return *iterator();}
-    QChar currentChar(){if(iterator()->isNull())return *iterator();}
+    QChar currentChar(){if(!iterator()->isNull())return *iterator();else return QChar();}
     QString buffer(){return __source.mid(iterator()-__source.begin());}
     int pos(){return iterator()-__source.begin();}
     QChar moveUntilFindingAndGetChar(QChar c);

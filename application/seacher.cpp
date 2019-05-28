@@ -12,10 +12,10 @@ Searcher::Searcher(Searcher::byte_t bitmask)
 
 int Searcher::test(const QString source, const QString lookFor)
 {
-    if(!line.contains(lookFor)) return ReturnSubstringNotFound;
-    int start = line.indexOf(lookFor);
+    if(!source.contains(lookFor)) return ReturnSubstringNotFound;
+    int start = source.indexOf(lookFor);
     int end = start + lookFor.length();
-    Buffer buf(line);
+    Buffer buf(source);
     buf.move(start);
     if(m_bitmask & CheckForDoubleQuotes)
         buf.addState(Buffer::State("q1", {"\""},  0));

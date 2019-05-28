@@ -1,6 +1,7 @@
 #include "aliasplugin.h"
 
 #include <QTableWidgetItem>
+#include <algorithm>
 #include "seacher.h"
 
 AliasPlugin::AliasPlugin()
@@ -40,6 +41,25 @@ void AliasPlugin::setup(const QString source, const QString bashrcSource)
         {
             line = line.mid(searcher.test(line, "#"));
         }
+        int aliasKeywordStart, aliasKeywordEnd;
+        if(line.contains("alias"))
+        {
+            aliasKeywordStart = line.indexOf("alias");
+            aliasKeywordEnd = line.indexOf(' ', aliasKeywordStart);
+        }
+        else
+        {
+            return;
+        }
+        int aliasAliasStart = std::find_if_not(line.begin()+aliasKeywordEnd, line.end(), [=](QChar c){return c == ' ';});
+        int aliasAliasEnd;
+        if(line.contains('=', aliasAliasStart))
+        {
+            aliasAliasEnd = line.indexOf('=', aliasAliasStart);
+        }
+        int aliasCommandStart = aliasAliasEnd+2;
+        int aliasCommandEnd = line.indexOf('\"', aliasAliasEnd+1);
+        aliasCommandEnd--; //so it isnt pointing to the "
 
     }
 }
