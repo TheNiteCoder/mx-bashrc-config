@@ -25,7 +25,7 @@ public:
 
 public:
     Searcher();
-    Searcher(const QString source, const int states = SearchStates::StateNone);
+    Searcher(const QString* source, const int states = SearchStates::StateNone);
     Searcher(Searcher& copy);
     Searcher(Searcher&& move);
     ~Searcher();
@@ -35,14 +35,14 @@ public:
     int search(const QRegExp search, int from = 0);
     int search(const QRegularExpression search, int from = 0);
     int search(const QChar search, int from = 0);
-    Searcher& setSource(const QString source);
+    Searcher& setSource(const QString* source);
     QString source();
     Searcher& setStates(const int states);
     SearchStates states();
 protected:
     template<class Type>
     int templateSearch(Type search, int from = 0);
-    QString m_source;
+    QString* m_source;
     SearchStates m_states;
 };
 

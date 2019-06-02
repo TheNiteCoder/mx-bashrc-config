@@ -21,97 +21,36 @@ AliasTab::~AliasTab()
 
 void AliasTab::setup(const BashrcSource data)
 {
-#define CHECK_SEARCH(x) (x != Searcher::ReturnValueSearchStatesFailed) && (x != Searcher::ReturnValueSearchStringNotFound)
-    QTextStream stream(new QString(data.program));
     QString tmp;
     QList<AliasData> aliases;
+
+#define CHECK(x) if(x == -1) continue
+    QTextStream stream(new QString(data.program));
     while(stream.readLineInto(&tmp))
     {
-        Searcher searcher(tmp, Searcher::StateCheckDoubleQuotations | Searcher::StateCheckSingleQuotations |
-                          Searcher::StateCheckSpecialQuotations);
-
-        QRegularExpression aliasRegExp("[\\s]{0,}alias[\\s]+[\\w]+=\"|'[\\s\\S]{0,}\"|'");
-
-        int pos;
-        while(CHECK_SEARCH((pos = searcher.search(aliasRegExp))))
+        AliasData adata;
+        adata.inBashrc = false;
+        QString scan = tmp;
+        if(scan.indexOf('#') != -1)
         {
-            AliasData adata;
-            adata.inBashrc = false;
-            tmp = tmp.mid(pos);
-            QString work = tmp;
-            searcher.setSource(work);
-            int chopPos = searcher.search("alias");
-            work = work.mid(chopPos + 5);
-            DEBUG_VAR(work);
-            searcher.setSource(work);
-            work = work.mid(searcher.search(QRegularExpression("\\S")));
-            DEBUG_VAR(work);
-            adata.alias = work.mid(0, searcher.search('=')-1);
-            work = work.mid(searcher.search('=')+1);
-            DEBUG_VAR(work);
-            searcher.setSource(work);
-            bool doubleQuotes = true;
-            if(work.at(0) != '"')
-                doubleQuotes = false;
-#define QUOTE (doubleQuotes) ? '"' : '\''
-            work = work.mid(1);
-            DEBUG_VAR(work);
-            searcher.setSource(work);
-            adata.command = work.mid(0, searcher.search(QUOTE));
-            aliases << adata;
-            tmp = work.mid(searcher.search(QUOTE)+1);
-#undef QUOTE
-            searcher.setStates(Searcher::StateCheckDoubleQuotations | Searcher::StateCheckSingleQuotations |
-                               Searcher::StateCheckSpecialQuotations);
-            searcher.setSource(tmp);
+            scan = scan.mid(0, scan.indexOf('#'));
         }
-
+        int aliasKeywordBegin = scan.indexOf("alias");
+        CHECK(aliasKeywordBegin);
+        int aliasWordBegin = scan.indexOf(QRegularExpression("\\S"), aliasKeywordBegin+5);
+        CHECK(aliasWordBegin);
+        int equalSignPos = scan.indexOf('=', aliasWordBegin);
+        CHECK(equalSignPos);
+        adata.alias = scan.mid(aliasWordBegin, equalSignPos-aliasWordBegin);
 
     }
+
     stream.setString(new QString(data.bashrc));
     while(stream.readLineInto(&tmp))
     {
-        Searcher searcher(tmp, Searcher::StateCheckDoubleQuotations | Searcher::StateCheckSingleQuotations |
-                          Searcher::StateCheckSpecialQuotations);
-
-        QRegularExpression aliasRegExp("[\\s]{0,}alias[\\s]+[\\w]+='|\"[\\s\\S]{0,}'|\"");
-
-        int pos;
-        while(CHECK_SEARCH((pos = searcher.search(aliasRegExp))))
-        {
-            AliasData adata;
-            adata.inBashrc = true;
-            tmp = tmp.mid(pos);
-            QString work = tmp;
-            searcher.setSource(work);
-            int chopPos = searcher.search("alias");
-            work = work.mid(chopPos + 5);
-            searcher.setSource(work);
-            work = work.mid(searcher.search(QRegularExpression("\\S")));
-            adata.alias = work.mid(0, searcher.search('=')-1);
-            work = work.mid(searcher.search('=')+1);
-            searcher.setSource(work);
-            bool doubleQuotes = true;
-            if(work.length() < 1)
-            {
-                continue;
-            }
-            if(work.at(0) != '"')
-                doubleQuotes = false;
-#define QUOTE (doubleQuotes) ? '"' : '\''
-            work = work.mid(1);
-            searcher.setSource(work);
-            adata.command = work.mid(0, searcher.search(QUOTE));
-            aliases << adata;
-            tmp = work.mid(searcher.search(QUOTE)+1);
-#undef QUOTE
-            searcher.setStates(Searcher::StateCheckDoubleQuotations | Searcher::StateCheckSingleQuotations |
-                               Searcher::StateCheckSpecialQuotations);
-            searcher.setSource(tmp);
-        }
-
 
     }
+
     for(AliasData adata : aliases)
     {
         ui->tableWidget_Aliases->setRowCount(ui->tableWidget_Aliases->rowCount()+1);
@@ -140,7 +79,7 @@ BashrcSource AliasTab::exec(const BashrcSource data)
         if(adata.inBashrc)
         {
             //TODO make a smart system for detecting if a alias exsists but the command changed
-            Searcher searcher(rtn.bashrc);
+            Searcher searcher(new QString(rtn.bashrc));
             if(CHECK_SEARCH(searcher.search(QRegularExpression(tr("[\\s]{0,}alias[\\s]+") + adata.alias + "=(\"|')" + adata.command + "(\"|')"))))
             {
                 continue;

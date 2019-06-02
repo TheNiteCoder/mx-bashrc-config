@@ -21,7 +21,7 @@ void PromptTab::setup(const BashrcSource data)
     QString program = data.program;
     /* Maybe check in bashrc in case they don't want to reconfigure their fancy prompt */
 #define CHECK_SEARCH(x) (x == Searcher::ReturnValueSearchStatesFailed || x == Searcher::ReturnValueSearchStringNotFound)
-    Searcher searcher(program, Searcher::StateCheckDoubleQuotations |
+    Searcher searcher(&program, Searcher::StateCheckDoubleQuotations |
                       Searcher::StateCheckSingleQuotations |
                       Searcher::StateCheckSpecialQuotations);
     int promptKeywordStart = searcher.search("prompt-");

@@ -10,7 +10,7 @@ Searcher::Searcher()
 
 }
 
-Searcher::Searcher(const QString source, const int states)
+Searcher::Searcher(const QString *source, const int states)
 {
     setSource(source);
     setStates((SearchStates)states);
@@ -30,18 +30,19 @@ Searcher::Searcher(Searcher &&move)
 
 Searcher::~Searcher()
 {
+
 }
 
 Searcher& Searcher::operator = (Searcher& copy)
 {
-    setSource(copy.source());
+    setSource(new QString(copy.source()));
     return *this;
 }
 
 Searcher& Searcher::operator = (Searcher&& move)
 {
-    setSource(move.source());
-    move.setSource(QString());
+    setSource(new QString(move.source()));
+    move.setSource(new QString());
     return *this;
 }
 
@@ -64,16 +65,15 @@ int Searcher::search(const QString search, int from)
 {
     return templateSearch(search, from);
 }
-
-Searcher &Searcher::setSource(const QString source)
+Searcher &Searcher::setSource(const QString *source)
 {
-    m_source = source;
+    m_source = (QString*)source;
     return *this;
 }
 
 QString Searcher::source()
 {
-    return m_source;
+    return *m_source;
 }
 
 Searcher &Searcher::setStates(const int states)
