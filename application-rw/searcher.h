@@ -19,8 +19,8 @@ public:
     };
     enum ReturnValues
     {
-        ReturnValueSearchStatesFailed = 0,
-        ReturnValueSearchStringNotFound = 1,
+        ReturnValueSearchStatesFailed = -1,
+        ReturnValueSearchStringNotFound = -2,
     };
 
 public:

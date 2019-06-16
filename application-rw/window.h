@@ -2,7 +2,11 @@
 #define WINDOW_H
 
 #include <QWidget>
-#include "ui_window.h"
+/*
+ * Name is different because of weird issue of the
+ * text of buttons not showing up
+ */
+#include "ui_window_fix.h"
 
 class Tab;
 struct BashrcSource;
@@ -25,6 +29,7 @@ public:
     explicit Window(QWidget *parent = 0);
     ~Window();
     BashrcSource getSource();
+    void setSource(const BashrcSource data);
 private:
     //NOTE TabManager does garbage collection on any members added
     class TabManager : public QObject

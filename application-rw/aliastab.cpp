@@ -1,4 +1,4 @@
-#include "aliastab.h"
+﻿#include "aliastab.h"
 
 #include "searcher.h"
 #include <QTextStream>
@@ -12,6 +12,30 @@ AliasTab::AliasTab()
     ui->tableWidget_Aliases->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget_Aliases->setColumnCount(2);
     ui->tableWidget_Aliases->setHorizontalHeaderLabels(QStringList() << "Alias" << "Command");
+    ui->tableWidget_Aliases->setSelectionBehavior(QTableWidget::SelectRows);
+
+    connect(ui->pushButton_AliasAdd, &QPushButton::clicked, [=](){
+        ui->tableWidget_Aliases->setRowCount(ui->tableWidget_Aliases->rowCount()+1);
+        ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 0, new AliasTabTableWidgetItem("", false));
+        ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 1, new AliasTabTableWidgetItem(""));
+    });
+    connect(ui->pushButton_AliasRemove, &QPushButton::clicked, [=](){
+        for(int i = ui->tableWidget_Aliases->rowCount()-1; i > -1; i--)
+        {
+            if(ui->tableWidget_Aliases->item(i,0) != nullptr &&  ui->tableWidget_Aliases->item(i,0)->isSelected())
+            {
+                AliasData adata;
+                adata.alias = ui->tableWidget_Aliases->item(i, 0)->text();
+                adata.command = ui->tableWidget_Aliases->item(i, 1)->text();
+                if(static_cast<AliasTabTableWidgetItem*>(ui->tableWidget_Aliases->item(i, 0))->info().toBool())
+                {
+                    adata.inBashrc = true;
+                    m_deletedAliases << adata;
+                }
+                ui->tableWidget_Aliases->removeRow(i);
+            }
+        }
+    });
 }
 
 AliasTab::~AliasTab()
@@ -35,6 +59,7 @@ void AliasTab::setup(const BashrcSource data)
         {
             scan = scan.mid(0, scan.indexOf('#'));
         }
+        //TODO error checking
         int aliasKeywordBegin = scan.indexOf("alias");
         CHECK(aliasKeywordBegin);
         int aliasWordBegin = scan.indexOf(QRegularExpression("\\S"), aliasKeywordBegin+5);
@@ -42,13 +67,58 @@ void AliasTab::setup(const BashrcSource data)
         int equalSignPos = scan.indexOf('=', aliasWordBegin);
         CHECK(equalSignPos);
         adata.alias = scan.mid(aliasWordBegin, equalSignPos-aliasWordBegin);
-
+        if(equalSignPos >= scan.length()) //in the case of nothing beginning assigned ex: alias hello=
+        {
+            aliases << adata;
+            continue;
+        }
+        QChar quote = scan.at(equalSignPos+1);
+        //check if the length is less or equal to equalSignPos+1 so indexOf doesn't recieve an invalid from point
+        if(equalSignPos+1 >= scan.length())
+        {
+            continue;
+        }
+        int otherQuote = scan.indexOf(quote, equalSignPos+2);
+        CHECK(otherQuote);
+        adata.command = scan.mid(equalSignPos+2, otherQuote-(equalSignPos-1));
+        adata.command.chop(1);
+        aliases << adata;
     }
 
     stream.setString(new QString(data.bashrc));
     while(stream.readLineInto(&tmp))
     {
-
+        AliasData adata;
+        adata.inBashrc = true;
+        QString scan = tmp;
+        if(scan.indexOf('#') != -1)
+        {
+            scan = scan.mid(0, scan.indexOf('#'));
+        }
+        //TODO error checking
+        int aliasKeywordBegin = scan.indexOf("alias");
+        CHECK(aliasKeywordBegin);
+        int aliasWordBegin = scan.indexOf(QRegularExpression("\\S"), aliasKeywordBegin+5);
+        CHECK(aliasWordBegin);
+        int equalSignPos = scan.indexOf('=', aliasWordBegin);
+        CHECK(equalSignPos);
+        adata.alias = scan.mid(aliasWordBegin, equalSignPos-aliasWordBegin);
+        if(equalSignPos >= scan.length()) //in the case of nothing beginning assigned ex: alias hello=
+        {
+            aliases << adata;
+            continue;
+        }
+        QChar quote = scan.at(equalSignPos+1);
+        //check if the length is less or equal to equalSignPos+1 so indexOf doesn't recieve an invalid from point
+        if(equalSignPos+1 >= scan.length())
+        {
+            continue;
+        }
+        int otherQuote = scan.indexOf(quote, equalSignPos+2);
+        CHECK(otherQuote);
+        adata.command = scan.mid(equalSignPos+2, otherQuote-(equalSignPos-1));
+        adata.command.chop(1);
+        aliases << adata;
     }
 
     for(AliasData adata : aliases)
@@ -71,7 +141,17 @@ BashrcSource AliasTab::exec(const BashrcSource data)
         AliasData adata;
         adata.alias = ui->tableWidget_Aliases->item(r, 0)->text();
         adata.command = ui->tableWidget_Aliases->item(r, 1)->text();
-        adata.inBashrc = dynamic_cast<AliasTabTableWidgetItem*>(ui->tableWidget_Aliases)->info().toBool();
+        adata.inBashrc = static_cast<AliasTabTableWidgetItem*>(ui->tableWidget_Aliases->item(r, 0))->info().toBool();
+        aliases << adata;
+    }
+
+    for(AliasData adata : m_deletedAliases)
+    {
+        Searcher searcher(new QString(rtn.bashrc));
+        if(CHECK_SEARCH(searcher.search(QRegularExpression(tr("[\\s]{0,}alias[\\s]+") + adata.alias + "=(\"|')" + adata.command + "(\"|')"))))
+        {
+            rtn.bashrc.remove(QRegularExpression(tr("[\\s]{0,}alias[\\s]+") + adata.alias + "=(\"|')" + adata.command + "(\"|')"));
+        }
     }
 
     for(AliasData adata : aliases)
@@ -85,15 +165,16 @@ BashrcSource AliasTab::exec(const BashrcSource data)
                 continue;
             }
             adata.command.replace('\'', "\\\'");
-            rtn.bashrc.append(tr("alias ") + adata.alias + "='" + adata.command + "'");
+            adata.command.replace('"', "\\\"");
+            rtn.bashrc.append("\n" + tr("alias ") + adata.alias + "='" + adata.command + "'");
         }
         else
         {
             adata.alias.replace('\'', "\\'");
-            rtn.program.append(tr("alias ") + adata.alias + tr("='") + adata.command + tr("'"));
+            adata.command.replace('"', "\\\"");
+            rtn.program.append("\n" + tr("alias ") + adata.alias + tr("='") + adata.command + tr("'"));
         }
     }
-
     return rtn;
 }
 
@@ -114,7 +195,8 @@ AliasTabTableWidgetItem &AliasTabTableWidgetItem::setInfo(QVariant info)
     return *this;
 }
 
-QVariant AliasTabTableWidgetItem::info()
+//temp fix QVarient crashes program
+QVariant& AliasTabTableWidgetItem::info()
 {
     return m_info;
 }

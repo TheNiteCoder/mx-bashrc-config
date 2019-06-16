@@ -1,16 +1,18 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-04-27T11:02:42
+# Project created by QtCreator 2019-06-11T13:58:25
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += testlib
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       -= gui
 
-TARGET = application-rw
+TARGET = tst_aliasparsetest
+CONFIG   += console
+CONFIG   -= app_bundle
+
 TEMPLATE = app
-CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -24,25 +26,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += main.cpp\
-        window.cpp \
-    buffer.cpp \
-    searcher.cpp \
-    tab.cpp \
-    prompttab.cpp \
-    aliastab.cpp \
-    othertab.cpp
-
-HEADERS  += window.h \
-    buffer.h \
-    searcher.h \
-    tab.h \
-    global.h \
-    prompttab.h \
-    aliastab.h \
-    othertab.h
-
-FORMS    += \
-    aliastab.ui \
-    window_fix.ui \
-    prompttab_fix.ui
+SOURCES += tst_aliasparsetest.cpp
+DEFINES += SRCDIR=\\\"$$PWD/\\\"

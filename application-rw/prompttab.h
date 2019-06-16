@@ -2,7 +2,7 @@
 #define PROMPTTAB_H
 
 #include "tab.h"
-#include "ui_prompttab.h"
+#include "ui_prompttab_fix.h"
 namespace Ui{
 class PromptTab;
 }

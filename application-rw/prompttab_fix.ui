@@ -33,6 +33,11 @@
         <widget class="QComboBox" name="comboBox_SelectPromptProvider">
          <item>
           <property name="text">
+           <string>Default</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>Fancy Prompt</string>
           </property>
          </item>

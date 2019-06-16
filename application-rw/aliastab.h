@@ -25,7 +25,7 @@ public:
     AliasTabTableWidgetItem(QString text, QVariant info = QVariant());
     ~AliasTabTableWidgetItem();
     AliasTabTableWidgetItem& setInfo(QVariant info);
-    QVariant info();
+    QVariant& info();
 protected:
     QVariant m_info;
 };
@@ -41,6 +41,7 @@ public:
     BashrcSource exec(const BashrcSource data);
 protected:
    Ui::AliasTab* ui;
+   QList<AliasData> m_deletedAliases;
 };
 
 #endif // ALIASTAB_H

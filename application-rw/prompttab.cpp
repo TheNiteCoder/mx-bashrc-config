@@ -20,26 +20,31 @@ void PromptTab::setup(const BashrcSource data)
 {
     QString program = data.program;
     /* Maybe check in bashrc in case they don't want to reconfigure their fancy prompt */
-#define CHECK_SEARCH(x) (x == Searcher::ReturnValueSearchStatesFailed || x == Searcher::ReturnValueSearchStringNotFound)
     Searcher searcher(&program, Searcher::StateCheckDoubleQuotations |
                       Searcher::StateCheckSingleQuotations |
                       Searcher::StateCheckSpecialQuotations);
     int promptKeywordStart = searcher.search("prompt-");
-    if(CHECK_SEARCH(promptKeywordStart))
+    if(!CHECK_SEARCH(promptKeywordStart))
     {
-        //put control code for incase no fancy prompt is found
+        ui->comboBox_SelectPromptProvider->setCurrentText("Default");
         return;
     }
+    else
+    {
+        ui->comboBox_SelectPromptProvider->setCurrentText("Fancy Prompt");
+    }
+
     int promptTypeStart = promptKeywordStart + tr("prompt-").size();
 
-    DEBUG << "PromptTab::setup: promptTypeStart: " << promptTypeStart;
-
     int promptTypeEnd = searcher.search(' ', promptTypeStart);
-    if(CHECK_SEARCH(promptTypeEnd))
+    if(!CHECK_SEARCH(promptTypeEnd))
     {
-        //put control code incase parsing for fancy prompt fails
         return;
     }
+
+    QString promptType = searcher.source().mid(promptTypeStart, promptTypeEnd-promptTypeStart);
+    promptType[0] = promptType.at(0).toUpper();
+    ui->comboBox_SelectFancyPrompt->setCurrentText(promptType);
 
     QMap<QString, QCheckBox*> flags;
     flags["--ascii"] = ui->checkBox_DisableUnicode;
@@ -53,72 +58,44 @@ void PromptTab::setup(const BashrcSource data)
     for(QString flag : flags.keys())
     {
         int search = searcher.search(flag);
-        flags[flag]->setChecked(!CHECK_SEARCH(search));
+        flags[flag]->setChecked(CHECK_SEARCH(search));
     }
 
-    int search;
-    search = searcher.search("--date=\"");
-    if(CHECK_SEARCH(search))
+    QMap<QString, QLineEdit*> textOpts;
+    textOpts["--date=\""] = ui->lineEdit_DateFormatText;
+    textOpts["--time=\""] = ui->lineEdit_TimeFormatText;
+    textOpts["--prompt=\""] = ui->lineEdit_PromptText;
+    textOpts["--title=\""] = ui->lineEdit_TitleText;
+
+    for(QString flag : textOpts.keys())
     {
-        int search2 = searcher.search('\"', search+1);
-        if(CHECK_SEARCH(search2))
-        {
-            ui->lineEdit_DateFormatText->setText(searcher.source().mid(search, search2 - search));
-        }
-    }
-    search = searcher.search("--lines=\"");
-    if(CHECK_SEARCH(search))
-    {
-        int search2 = searcher.search('\"', search+1);
-        if(CHECK_SEARCH(search2))
-        {
-            ui->spinBox_ExtraNewlinesBeforePrompt->setValue(searcher.source().mid(search, search2 - search).toInt());
-        }
-    }
-    search = searcher.search("--prompt=\"");
-    if(CHECK_SEARCH(search))
-    {
-        int search2 = searcher.search('\"', search+1);
-        if(CHECK_SEARCH(search2))
-        {
-            ui->lineEdit_PromptText->setText(searcher.source().mid(search, search2 - search));
-        }
-    }
-    search = searcher.search("--right=\"");
-    if(CHECK_SEARCH(search))
-    {
-        int search2 = searcher.search('\"', search+1);
-        if(CHECK_SEARCH(search2))
-        {
-            ui->spinBox_RightMargin->setValue(searcher.source().mid(search, search2 - search).toInt());
-        }
-    }
-    search = searcher.search("--time=\"");
-    if(CHECK_SEARCH(search))
-    {
-        int search2 = searcher.search('\"', search+1);
-        if(CHECK_SEARCH(search2))
-        {
-            ui->lineEdit_TimeFormatText->setText(searcher.source().mid(search, search2 - search));
-        }
-    }
-    search = searcher.search("--title=\"");
-    if(CHECK_SEARCH(search))
-    {
-        int search2 = searcher.search('\"', search+1);
-        if(CHECK_SEARCH(search2))
-        {
-            ui->lineEdit_TitleText->setText(searcher.source().mid(search, search2 - search));
-        }
+        int search = searcher.search(flag);
+        search += flag.length();
+        int search2 = searcher.search('\"', search);
+        textOpts[flag]->setText(searcher.source().mid(search, search2 - search));
     }
 
+    QMap<QString, QSpinBox*> numOpts;
+    numOpts["--right=\""] = ui->spinBox_RightMargin;
+    numOpts["--lines=\""] = ui->spinBox_ExtraNewlinesBeforePrompt;
 
-#undef CHECK_SEARCH
+    for(QString flag : numOpts.keys())
+    {
+        int search = searcher.search(flag);
+        search += flag.length();
+        int search2 = searcher.search('\"', search);
+        numOpts[flag]->setMinimum(0);
+        numOpts[flag]->setValue(searcher.source().mid(search, search2 - search).toInt());
+    }
+
 }
 
 BashrcSource PromptTab::exec(const BashrcSource data)
 {
-    BashrcSource rtn = data;
+    DEBUG_VAR(data.program);
+    BashrcSource rtn;
+    rtn.bashrc = data.bashrc;
+    rtn.program = data.program;
 
     QString promptCommand;
 
@@ -147,6 +124,6 @@ BashrcSource PromptTab::exec(const BashrcSource data)
     {
         //code for non fancy prompt
     }
-
-    return data;
+    return rtn;
 }
+#undef CHECK_SEARCH

@@ -24,6 +24,13 @@
     <widget class="QTabWidget" name="tabWidget_Tabs"/>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkBox_Use">
+     <property name="text">
+      <string>Use MX Bashrc</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="pushButton_Help">
@@ -33,7 +40,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_Close">
+      <widget class="QPushButton" name="pushButton_Apply">
        <property name="text">
         <string>Apply</string>
        </property>
@@ -50,7 +57,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_Apply">
+      <widget class="QPushButton" name="pushButton_Close">
        <property name="text">
         <string>Close</string>
        </property>
