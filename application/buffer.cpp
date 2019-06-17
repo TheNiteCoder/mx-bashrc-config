@@ -35,7 +35,11 @@ Buffer::Buffer(Buffer &&move)
 Buffer &Buffer::operator =(Buffer &copy)
 {
     DEBUG_ENTER(Buffer::operator=);
-    if(this == &copy) return *this;
+    if(this == &copy)
+    {
+        DEBUG_EXIT(Buffer::operator=);
+        return *this;
+    }
     setSource(copy.source());
     DEBUG_EXIT(Buffer::operator=);
     return *this;
@@ -44,7 +48,11 @@ Buffer &Buffer::operator =(Buffer &copy)
 Buffer &Buffer::operator =(Buffer &&move)
 {
     DEBUG_ENTER(Buffer::operator=);
-    if(this == &move) return *this;
+    if(this == &move)
+    {
+        DEBUG_EXIT(Buffer::operator=);
+        return *this;
+    }
     setSource(move.source());
     move.setSource(QString());
     DEBUG_EXIT(Buffer::operator=);
@@ -93,7 +101,11 @@ Buffer &Buffer::move(int times)
         for(int i = 0; i < times; i++)
         {
             m_sourceiter++;
-            if(m_sourceiter == m_source.end()) return *this;
+            if(m_sourceiter == m_source.end())
+            {
+                DEBUG_EXIT(Buffer::move);
+                return *this;
+            }
             for(State* state : m_states)
             {
                 if(buffer().indexOf(state->searchString()) == 0)
@@ -108,7 +120,11 @@ Buffer &Buffer::move(int times)
         for(int i = 0; i > times; i--)
         {
             m_sourceiter--;
-            if(m_sourceiter == m_source.end()) return *this;
+            if(m_sourceiter == m_source.end())
+            {
+                DEBUG_EXIT(Buffer::move);
+                return *this;
+            }
         }
     }
     DEBUG_EXIT(Buffer::move);
@@ -159,7 +175,11 @@ Buffer::State::~State()
 Buffer::State& Buffer::State::operator =(Buffer::State &copy)
 {
     DEBUG_ENTER(State::operator=);
-    if(this == &copy) return *this;
+    if(this == &copy)
+    {
+        DEBUG_EXIT(State::operator=);
+        return *this;
+    }
     setSearchString(copy.searchString());
     setState(copy.state());
     DEBUG_EXIT(State::operator=);
@@ -169,7 +189,11 @@ Buffer::State& Buffer::State::operator =(Buffer::State &copy)
 Buffer::State& Buffer::State::operator =(Buffer::State &&move)
 {
     DEBUG_ENTER(State::operator=);
-    if(this == &move) return *this;
+    if(this == &move)
+    {
+        DEBUG_EXIT(State::operator=);
+        return *this;
+    }
     setSearchString(move.searchString());
     move.setSearchString(QString());
     setState(move.state());

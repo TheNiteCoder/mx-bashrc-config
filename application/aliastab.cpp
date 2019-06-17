@@ -64,7 +64,6 @@ void AliasTab::setup(const BashrcSource data)
         {
             scan = scan.mid(0, scan.indexOf('#'));
         }
-        //TODO error checking
         int aliasKeywordBegin = scan.indexOf("alias");
         CHECK(aliasKeywordBegin);
         int aliasWordBegin = scan.indexOf(QRegularExpression("\\S"), aliasKeywordBegin+5);
@@ -100,7 +99,6 @@ void AliasTab::setup(const BashrcSource data)
         {
             scan = scan.mid(0, scan.indexOf('#'));
         }
-        //TODO error checking
         int aliasKeywordBegin = scan.indexOf("alias");
         CHECK(aliasKeywordBegin);
         int aliasWordBegin = scan.indexOf(QRegularExpression("\\S"), aliasKeywordBegin+5);

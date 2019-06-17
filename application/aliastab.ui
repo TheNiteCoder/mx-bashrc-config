@@ -59,14 +59,20 @@
          <item>
           <widget class="QPushButton" name="pushButton_AliasAdd">
            <property name="text">
-            <string>+</string>
+            <string>Add Alias</string>
+           </property>
+           <property name="icon">
+            <iconset theme="list-add"/>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_AliasRemove">
            <property name="text">
-            <string>-</string>
+            <string>Remove Alias(es)</string>
+           </property>
+           <property name="icon">
+            <iconset theme="list-remove"/>
            </property>
           </widget>
          </item>

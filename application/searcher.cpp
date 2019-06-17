@@ -111,7 +111,7 @@ Searcher &Searcher::setStates(const int states)
 
 Searcher::SearchStates Searcher::states()
 {
-    DEBUG_ENTER(SearchStates::states);
+    DEBUG_ENTER(Searcher::states);
     DEBUG_EXIT(Searcher::states);
     return m_states;
 }
