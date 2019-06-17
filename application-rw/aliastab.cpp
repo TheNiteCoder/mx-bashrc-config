@@ -6,6 +6,7 @@
 AliasTab::AliasTab()
     : Tab("Aliases")
 {
+    DEBUG_ENTER(AliasTab::AliasTab);
     ui = new Ui::AliasTab;
     setWidget(new QWidget());
     ui->setupUi(widget());
@@ -36,15 +37,19 @@ AliasTab::AliasTab()
             }
         }
     });
+    DEBUG_EXIT(AliasTab::AliasTab);
 }
 
 AliasTab::~AliasTab()
 {
+    DEBUG_ENTER(AliasTab::~AliasTab);
     delete ui;
+    DEBUG_EXIT(AliasTab::~AliasTab);
 }
 
 void AliasTab::setup(const BashrcSource data)
 {
+    DEBUG_ENTER(AliasTab::setup);
     QString tmp;
     QList<AliasData> aliases;
 
@@ -127,10 +132,12 @@ void AliasTab::setup(const BashrcSource data)
         ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 0, new AliasTabTableWidgetItem(adata.alias, adata.inBashrc));
         ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 1, new AliasTabTableWidgetItem(adata.command));
     }
+    DEBUG_EXIT(AliasTab::setup);
 }
 
 BashrcSource AliasTab::exec(const BashrcSource data)
 {
+    DEBUG_ENTER(AliasTab::exec);
     BashrcSource rtn;
     rtn.bashrc = data.bashrc;
     rtn.program = data.program;
@@ -142,7 +149,8 @@ BashrcSource AliasTab::exec(const BashrcSource data)
         adata.alias = ui->tableWidget_Aliases->item(r, 0)->text();
         adata.command = ui->tableWidget_Aliases->item(r, 1)->text();
         adata.inBashrc = static_cast<AliasTabTableWidgetItem*>(ui->tableWidget_Aliases->item(r, 0))->info().toBool();
-        aliases << adata;
+        if(adata.alias != "")
+            aliases << adata;
     }
 
     for(AliasData adata : m_deletedAliases)
@@ -156,6 +164,7 @@ BashrcSource AliasTab::exec(const BashrcSource data)
 
     for(AliasData adata : aliases)
     {
+        /*
         if(adata.inBashrc)
         {
             //TODO make a smart system for detecting if a alias exsists but the command changed
@@ -174,31 +183,48 @@ BashrcSource AliasTab::exec(const BashrcSource data)
             adata.command.replace('"', "\\\"");
             rtn.program.append("\n" + tr("alias ") + adata.alias + tr("='") + adata.command + tr("'"));
         }
+        */
+        Searcher searcher(new QString(rtn.bashrc));
+        if(CHECK_SEARCH(searcher.search(QRegularExpression(tr("[\\s]{0,}alias[\\s]+") + adata.alias + "=(\"|')" + adata.command + "(\"|')"))))
+        {
+            continue;
+        }
+        adata.command.replace('\'', "\\\'");
+        adata.command.replace('"', "\\\"");
+        rtn.bashrc.append("\n" + tr("alias ") + adata.alias + "='" + adata.command + "'");
     }
+    DEBUG_EXIT(AliasTab::exec);
     return rtn;
 }
 
 AliasTabTableWidgetItem::AliasTabTableWidgetItem(QString text, QVariant info)
 {
+    DEBUG_ENTER(AliasTabTableWidgetItem::AliasTabTableWidgetItem);
     setText(text);
     setInfo(info);
+    DEBUG_EXIT(AliasTabTableWidgetItem::AliasTabTableWidgetItem);
 }
 
 AliasTabTableWidgetItem::~AliasTabTableWidgetItem()
 {
+    DEBUG_ENTER(AliasTabTableWidgetItem::~AliasTabTableWidgetItem);
      //None
+    DEBUG_EXIT(AliasTabTableWidgetItem::~AliasTabTableWidgetItem);
 }
 
 AliasTabTableWidgetItem &AliasTabTableWidgetItem::setInfo(QVariant info)
 {
+    DEBUG_ENTER(AliasTabTableWidgetItem::setInfo);
     m_info = info;
+    DEBUG_EXIT(AliasTabTableWidgetItem::setInfo);
     return *this;
 }
 
 //temp fix QVarient crashes program
 QVariant& AliasTabTableWidgetItem::info()
 {
+    DEBUG_ENTER(AliasTabTableWidgetItem::info);
+    DEBUG_EXIT(AliasTabTableWidgetItem::info);
     return m_info;
 }
 
-#undef CHECK_SEARCH

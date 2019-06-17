@@ -30,6 +30,9 @@ public:
     ~Window();
     BashrcSource getSource();
     void setSource(const BashrcSource data);
+    void closeEvent(QCloseEvent *event);
+    void writePositionSettings();
+    void readPositionSettings();
 private:
     //NOTE TabManager does garbage collection on any members added
     class TabManager : public QObject

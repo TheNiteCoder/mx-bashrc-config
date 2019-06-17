@@ -30,8 +30,7 @@ SOURCES += main.cpp\
     searcher.cpp \
     tab.cpp \
     prompttab.cpp \
-    aliastab.cpp \
-    othertab.cpp
+    aliastab.cpp
 
 HEADERS  += window.h \
     buffer.h \
@@ -39,10 +38,12 @@ HEADERS  += window.h \
     tab.h \
     global.h \
     prompttab.h \
-    aliastab.h \
-    othertab.h
+    aliastab.h
 
 FORMS    += \
     aliastab.ui \
     window_fix.ui \
     prompttab_fix.ui
+
+RESOURCES += \
+    resource.qrc

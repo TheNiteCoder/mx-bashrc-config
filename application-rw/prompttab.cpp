@@ -6,18 +6,34 @@
 PromptTab::PromptTab()
     : Tab("Prompt")
 {
+    DEBUG_ENTER(PromptTab::PromptTab);
     ui = new Ui::PromptTab;
     setWidget(new QWidget);
     ui->setupUi(widget());
+
+    connect(ui->comboBox_SelectPromptProvider, &QComboBox::currentTextChanged, [=](QString text){
+        if(text == "Fancy Prompt")
+        {
+            ui->stackedWidget->setCurrentIndex(0);
+        }
+        else if(text == "Default")
+        {
+            ui->stackedWidget->setCurrentIndex(1);
+        }
+    });
+    DEBUG_EXIT(PromptTab::PromptTab);
 }
 
 PromptTab::~PromptTab()
 {
+    DEBUG_ENTER(PromptTab::~PromptTab);
     delete widget();
+    DEBUG_EXIT(PromptTab::~PromptTab);
 }
 
 void PromptTab::setup(const BashrcSource data)
 {
+    DEBUG_ENTER(PromptTab::setup);
     QString program = data.program;
     /* Maybe check in bashrc in case they don't want to reconfigure their fancy prompt */
     Searcher searcher(&program, Searcher::StateCheckDoubleQuotations |
@@ -32,6 +48,7 @@ void PromptTab::setup(const BashrcSource data)
     else
     {
         ui->comboBox_SelectPromptProvider->setCurrentText("Fancy Prompt");
+        program.append("source /usr/local/bin/fancy-prompt.bash\n");
     }
 
     int promptTypeStart = promptKeywordStart + tr("prompt-").size();
@@ -87,12 +104,12 @@ void PromptTab::setup(const BashrcSource data)
         numOpts[flag]->setMinimum(0);
         numOpts[flag]->setValue(searcher.source().mid(search, search2 - search).toInt());
     }
-
+    DEBUG_EXIT(PromptTab::setup);
 }
 
 BashrcSource PromptTab::exec(const BashrcSource data)
 {
-    DEBUG_VAR(data.program);
+    DEBUG_ENTER(PromptTab::exec);
     BashrcSource rtn;
     rtn.bashrc = data.bashrc;
     rtn.program = data.program;
@@ -101,7 +118,8 @@ BashrcSource PromptTab::exec(const BashrcSource data)
 
     if(ui->comboBox_SelectPromptProvider->currentText() == "Fancy Prompt")
     {
-        promptCommand.append("prompt-");
+        promptCommand.append("source /usr/local/bin/fancy-prompts.bash");
+        promptCommand.append("\nprompt-");
         promptCommand.append(ui->comboBox_SelectFancyPrompt->currentText().toLower());
         promptCommand.append(' ');
         promptCommand.append((ui->checkBox_BoldLines->isChecked()) ? "--bold " : "");
@@ -124,6 +142,6 @@ BashrcSource PromptTab::exec(const BashrcSource data)
     {
         //code for non fancy prompt
     }
+    DEBUG_EXIT(PromptTab::exec);
     return rtn;
 }
-#undef CHECK_SEARCH
