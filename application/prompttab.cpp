@@ -68,6 +68,7 @@ void PromptTab::setup(const BashrcSource data)
     flags["--mute"] = ui->checkBox_MutedColors;
     flags["--bold"] = ui->checkBox_BoldLines;
     flags["--compact"] = ui->checkBox_CompactLargePrompts;
+    flags["--compact2"] = ui->checkBox_CompactLargePrompts2;
     flags["--double"] = ui->checkBox_DoubleLines;
     flags["--nocolor"] = ui->checkBox_NoColor;
     flags["--parens"] = ui->checkBox_ParensInstead;
@@ -124,6 +125,7 @@ BashrcSource PromptTab::exec(const BashrcSource data)
         promptCommand.append(' ');
         promptCommand.append((ui->checkBox_BoldLines->isChecked()) ? "--bold " : "");
         promptCommand.append((ui->checkBox_CompactLargePrompts->isChecked()) ? "--compact " : "");
+        promptCommand.append((ui->checkBox_CompactLargePrompts2->isChecked()) ? "--compact2 " : "");
         promptCommand.append((ui->checkBox_DisableUnicode->isChecked()) ? "--ascii " : "");
         promptCommand.append((ui->checkBox_DoubleLines->isChecked()) ? "--double " : "");
         promptCommand.append((ui->checkBox_MutedColors->isChecked()) ? "--mute " : "");

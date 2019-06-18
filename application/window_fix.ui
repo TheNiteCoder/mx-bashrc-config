@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Window</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme="terminal">
+    <normaloff>.</normaloff>.</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget_Tabs"/>
@@ -26,12 +30,23 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <widget class="QPushButton" name="pushButton_About">
+       <property name="text">
+        <string>About</string>
+       </property>
+       <property name="icon">
+        <iconset theme="help-about"/>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="pushButton_Help">
        <property name="text">
         <string>Help</string>
        </property>
        <property name="icon">
-        <iconset theme="help"/>
+        <iconset theme="help">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -44,7 +59,8 @@
         <string>Apply</string>
        </property>
        <property name="icon">
-        <iconset theme="document-save"/>
+        <iconset theme="document-save">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -85,7 +101,8 @@
         <string>Close</string>
        </property>
        <property name="icon">
-        <iconset theme="window-close"/>
+        <iconset theme="window-close">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>

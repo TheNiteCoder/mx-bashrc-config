@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
+#include <QMessageBox>
 
 #include <QSettings>
 
@@ -24,7 +25,6 @@ Window::Window(QWidget *parent) :
     setWindowTitle(NAME);
 
     m_manager.addTab(new AliasTab());
-    //loading alias tab first because alias overriding somewhere FIX
     m_manager.addTab(new PromptTab());
     auto data = getSource();
     m_manager.setup(getSource());
@@ -40,6 +40,13 @@ Window::Window(QWidget *parent) :
     });
     connect(ui->pushButton_Close, &QPushButton::clicked, [=](){
         close();
+    });
+    connect(ui->pushButton_About, &QPushButton::clicked, [=](){
+        QMessageBox::about(this, NAME, "An easy way to configure your ~/.bashrc and bash prompt");
+    });
+    connect(ui->pushButton_Help, &QPushButton::clicked, [=](){
+#warning This program does not have an help browser yet
+        QMessageBox::about(this, NAME, "Can't really do that web browser thing without a link to go to");
     });
     DEBUG_EXIT(Window::Window);
 }

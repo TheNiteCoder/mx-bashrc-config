@@ -34,7 +34,7 @@
         <x>0</x>
         <y>0</y>
         <width>426</width>
-        <height>588</height>
+        <height>620</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -130,6 +130,13 @@
             <widget class="QCheckBox" name="checkBox_CompactLargePrompts">
              <property name="text">
               <string>Make The Larger Prompts Smaller</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBox_CompactLargePrompts2">
+             <property name="text">
+              <string>Make the Larger Prompts Smaller Elsewhere</string>
              </property>
             </widget>
            </item>
