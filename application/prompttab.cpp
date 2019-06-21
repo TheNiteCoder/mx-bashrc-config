@@ -2,6 +2,7 @@
 
 #include "searcher.h"
 #include <QMap>
+#include <QMessageBox>
 
 PromptTab::PromptTab()
     : Tab("Prompt")
@@ -20,6 +21,12 @@ PromptTab::PromptTab()
         {
             ui->stackedWidget->setCurrentIndex(1);
         }
+    });
+    connect(ui->pushButton_DateFormatHelp, &QPushButton::clicked, [=](){
+        QMessageBox::information(nullptr, NAME + " - Date Format Help", "Not implemented, but the syntax is the date command syntax(run man date)");
+    });
+    connect(ui->pushButton_TimeFormatHelp, &QPushButton::clicked, [=](){
+        QMessageBox::information(nullptr, NAME + " - Time Format Help", "Not implemented, but the syntax is the date command syntax(run man date)");
     });
     DEBUG_EXIT(PromptTab::PromptTab);
 }

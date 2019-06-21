@@ -41,7 +41,7 @@
        <item>
         <widget class="QComboBox" name="comboBox_SelectPromptProvider">
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change what gives you your prompt.&lt;/p&gt;&lt;p&gt;Default - Use what prompt you had before.&lt;/p&gt;&lt;p&gt;Fancy Prompt - &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change what gives you your prompt.&lt;/p&gt;&lt;p&gt;Default - Use what prompt you had before.&lt;/p&gt;&lt;p&gt;Fancy Prompt - Uses the MX Fancy Prompt utility&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <item>
           <property name="text">
@@ -209,6 +209,16 @@
              <item>
               <widget class="QLineEdit" name="lineEdit_TimeFormatText"/>
              </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_TimeFormatHelp">
+               <property name="text">
+                <string>Help</string>
+               </property>
+               <property name="icon">
+                <iconset theme="help"/>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>
@@ -237,6 +247,16 @@
              </item>
              <item>
               <widget class="QLineEdit" name="lineEdit_DateFormatText"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_DateFormatHelp">
+               <property name="text">
+                <string>Help</string>
+               </property>
+               <property name="icon">
+                <iconset theme="help"/>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
