@@ -18,6 +18,6 @@ struct BashrcSource
 #define DEBUG_VAR(x) qDebug() << #x << " = " << x
 #define DEBUG_POS qDebug() << __FILE__ << ":" << __LINE__
 #define CHECK_SEARCH(x) ((x != Searcher::ReturnValueSearchStatesFailed) && (x != Searcher::ReturnValueSearchStringNotFound))
-#define DEBUG_ENTER(x) qDebug() << "+++ " << #x << " +++"
-#define DEBUG_EXIT(x) qDebug() << "--- " << #x << " ---"
+#define DEBUG_ENTER(x) //qDebug() << "+++ " << #x << " +++"
+#define DEBUG_EXIT(x) //qDebug() << "--- " << #x << " ---"
 #endif // GLOBAL_H

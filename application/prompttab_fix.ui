@@ -215,7 +215,8 @@
                 <string>Help</string>
                </property>
                <property name="icon">
-                <iconset theme="help"/>
+                <iconset theme="help">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
               </widget>
              </item>
@@ -254,7 +255,8 @@
                 <string>Help</string>
                </property>
                <property name="icon">
-                <iconset theme="help"/>
+                <iconset theme="help">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
               </widget>
              </item>

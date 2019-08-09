@@ -50,12 +50,14 @@ void PromptTab::setup(const BashrcSource data)
     if(!CHECK_SEARCH(promptKeywordStart))
     {
         ui->comboBox_SelectPromptProvider->setCurrentText("Default");
+        ui->stackedWidget->setCurrentIndex(1);
         return;
     }
     else
     {
         ui->comboBox_SelectPromptProvider->setCurrentText("Fancy Prompt");
         program.append("source /usr/local/bin/fancy-prompt.bash\n");
+        ui->stackedWidget->setCurrentIndex(0);
     }
 
     int promptTypeStart = promptKeywordStart + tr("prompt-").size();

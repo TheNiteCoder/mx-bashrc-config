@@ -114,6 +114,14 @@ void Window::setSource(const BashrcSource data)
     bashrc.close();
 
     QFile program(QDir::homePath() + "/.config/mx-bashrc-config/bashrc.bash");
+    QFileInfo programInfo(program);
+    QDir dir;
+    if(!dir.exists(programInfo.absolutePath()))
+    {
+        qDebug() << "Creating dir: " << programInfo.absolutePath();
+        if(!dir.mkpath(programInfo.absolutePath()))
+            qDebug() << "Failed creating dir";
+    }
     if(!program.open(QFile::Text | QFile::WriteOnly))
     {
         //TODO error
