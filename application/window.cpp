@@ -10,6 +10,8 @@
 #include <QTextStream>
 #include <QMessageBox>
 
+#include <unistd.h>
+
 #include <QSettings>
 
 Window::Window(QWidget *parent) :
@@ -17,12 +19,17 @@ Window::Window(QWidget *parent) :
     ui(new Ui::Window),
     m_manager(ui)
 {
+    qsrand(time(nullptr));
     DEBUG_ENTER(Window::Window);
     ui->setupUi(this);
 
     readPositionSettings();
 
     setWindowTitle(NAME);
+
+    qDebug() << "Backing up .bashrc to ~/bashrc<random number> IS QUICK FIX TO PROTECT BASHRCS";
+    //temporay fix
+    system(QString(tr("cp ~/.bashrc ~/bashrc") + QString::number(qrand())).toStdString().c_str());
 
     m_manager.addTab(new AliasTab());
     m_manager.addTab(new PromptTab());
