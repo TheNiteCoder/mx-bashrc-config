@@ -121,8 +121,8 @@ BashrcSource PromptTab::exec(const BashrcSource data)
 {
     DEBUG_ENTER(PromptTab::exec);
     BashrcSource rtn;
-    rtn.bashrc = data.bashrc;
-    rtn.program = data.program;
+    // Copy contructor seems to work may be issue in future
+    rtn = data;
 
     QString promptCommand;
 
