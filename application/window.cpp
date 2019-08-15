@@ -29,7 +29,7 @@ Window::Window(QWidget *parent) :
 
     qDebug() << "Backing up .bashrc to ~/bashrc<random number> IS QUICK FIX TO PROTECT BASHRCS";
     //temporay fix
-    system(QString(tr("cp ~/.bashrc ~/bashrc") + QString::number(qrand())).toStdString().c_str());
+    system("cp ~/.bashrc ~/bashrc" + QString::number(qrand()).toUtf8());
 
     m_manager.addTab(new AliasTab());
     m_manager.addTab(new PromptTab());
