@@ -3,18 +3,17 @@
 
 #include "tab.h"
 #include "ui_aliastab.h"
+#include "aliasstream.h"
+
+template<class, class>
+class QMap;
 
 namespace Ui
 {
 class AliasTab;
 }
 
-struct AliasData
-{
-    QString alias;
-    QString command;
-    bool inBashrc;
-};
+class QCheckBox;
 
 //special spec for a table item class so it can hold some data
 class AliasTabTableWidgetItem : public QObject, public QTableWidgetItem
@@ -30,6 +29,7 @@ protected:
     QVariant m_info;
 };
 
+
 class AliasTab : public Tab
 {
     Q_OBJECT
@@ -41,7 +41,8 @@ public:
     BashrcSource exec(const BashrcSource data);
 protected:
    Ui::AliasTab* ui;
-   QList<AliasData> m_deletedAliases;
+   QList<Alias> m_deletedAliases;
+   QMap<QCheckBox*, Alias> m_aliasWithCheckboxes;
 };
 
 #endif // ALIASTAB_H

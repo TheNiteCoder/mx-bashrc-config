@@ -19,13 +19,14 @@ Window::Window(QWidget *parent) :
     ui(new Ui::Window),
     m_manager(ui)
 {
-    qsrand(time(nullptr));
     DEBUG_ENTER(Window::Window);
+    qsrand(time(nullptr));
     ui->setupUi(this);
 
     readPositionSettings();
 
     setWindowTitle(NAME);
+
 
     qDebug() << "Backing up .bashrc to ~/bashrc<random number> IS QUICK FIX TO PROTECT BASHRCS";
     //temporay fix
@@ -35,6 +36,17 @@ Window::Window(QWidget *parent) :
     m_manager.addTab(new PromptTab());
     auto data = getSource();
     m_manager.setup(getSource());
+
+    QStringList backupFileNames;
+    backupFileNames << USER_BASHRC << USER_BASHRC_ALIASES;
+    for(auto backupFileName : backupFileNames)
+    {
+        QDir dir;
+        if(QFile(backupFileName).exists() && dir.exists(BACKUP_BASHRCS))
+            if(system(QString(tr("cp ") + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup").toStdString().c_str()) != 0)
+                DEBUG << "Command: " << QString(tr("cp ") + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup");
+                DEBUG << "Backup command returned a non zero number";
+    }
 
     connect(ui->pushButton_Apply, &QPushButton::clicked, [=](){
         auto source = getSource();
@@ -76,32 +88,49 @@ Window::~Window()
 BashrcSource Window::getSource()
 {
     DEBUG_ENTER(Window::getSource);
-    QFile bashrc(QDir::homePath() + "/.bashrc");
+    QFile bashrc(USER_BASHRC);
     if(!bashrc.open(QFile::Text | QFile::ReadOnly))
     {
-        //TODO error
+        DEBUG << bashrc.fileName() + " isn't readable or exists";
         return BashrcSource();
     }
     QTextStream bashrcStream(&bashrc);
-    QString bashrcSouce = bashrcStream.readAll();
+    QString bashrcSource = bashrcStream.readAll();
     bashrc.close();
 
-    QFile program(QDir::homePath() + "/.config/mx-bashrc-config/bashrc.bash");
+    QFile program(PROGRAM_BASHRC);
     if(!program.open(QFile::Text | QFile::ReadOnly))
     {
         //TODO error
         //doesn't exist or can't access
+        DEBUG << program.fileName() + " isn't readable or exists";
         BashrcSource source;
-        source.bashrc = bashrcSouce;
+        source.bashrc = bashrcSource;
         return source;
     }
     QTextStream programStream(&program);
-    QString programSouce = programStream.readAll();
+    QString programSource = programStream.readAll();
     program.close();
 
+    QFile bashrcAliases(USER_BASHRC_ALIASES);
+    if(!bashrcAliases.open(QFile::Text | QFile::ReadOnly))
+    {
+        //TODO error
+        //doesn't exist or can't access
+        DEBUG << bashrcAliases.fileName() + " isn't readable or exists";
+        BashrcSource source;
+        source.bashrc = bashrcSource;
+        source.program = programSource;
+        return source;
+    }
+    QTextStream bashrcAliasesStream(&bashrcAliases);
+    QString bashrcAliasesSource = bashrcAliasesStream.readAll();
+    bashrcAliases.close();
+
     BashrcSource data;
-    data.program = programSouce;
-    data.bashrc =  bashrcSouce;
+    data.program = programSource;
+    data.bashrc =  bashrcSource;
+    data.bashrcAliases = bashrcAliasesSource;
 
     DEBUG_EXIT(Window::getSource);
     return data;
@@ -110,7 +139,7 @@ BashrcSource Window::getSource()
 void Window::setSource(const BashrcSource data)
 {
     DEBUG_ENTER(Window::setSource);
-    QFile bashrc(QDir::homePath() + "/.bashrc");
+    QFile bashrc(USER_BASHRC);
     if(!bashrc.open(QFile::Text | QFile::WriteOnly))
     {
         //TODO error
@@ -120,24 +149,44 @@ void Window::setSource(const BashrcSource data)
     bashrcStream << data.bashrc;
     bashrc.close();
 
-    QFile program(QDir::homePath() + "/.config/mx-bashrc-config/bashrc.bash");
+    QFile program(PROGRAM_BASHRC);
     QFileInfo programInfo(program);
     QDir dir;
     if(!dir.exists(programInfo.absolutePath()))
     {
-        qDebug() << "Creating dir: " << programInfo.absolutePath();
+        DEBUG << "Creating dir: " << programInfo.absolutePath();
         if(!dir.mkpath(programInfo.absolutePath()))
-            qDebug() << "Failed creating dir";
+            DEBUG << "Failed creating dir";
     }
     if(!program.open(QFile::Text | QFile::WriteOnly))
     {
         //TODO error
         //doesn't exist or can't access
+        DEBUG << program.fileName() + "isn't writable or exists";
         return;
     }
     QTextStream programStream(&program);
     programStream << data.program;
     program.close();
+
+    QFile bashrcAliases(USER_BASHRC_ALIASES);
+    QFileInfo bashrcAliasesInfo(bashrcAliases);
+    if(!dir.exists(bashrcAliasesInfo.absolutePath()))
+    {
+        DEBUG << "Creating dir: " << bashrcAliasesInfo.absolutePath();
+        if(!dir.mkpath(bashrcAliasesInfo.absolutePath()))
+            DEBUG << "Failed creating dir";
+    }
+    if(!bashrcAliases.open(QFile::Text | QFile::WriteOnly))
+    {
+        //TODO error
+        //doesn't exist or can't access
+        DEBUG << bashrcAliases.fileName() + "isn't writable or exists";
+        return;
+    }
+    QTextStream bashrcAliasesStream(&bashrcAliases);
+    bashrcAliasesStream << data.bashrcAliases;
+    bashrcAliases.close();
     DEBUG_EXIT(Window::setSource);
 }
 
@@ -145,6 +194,7 @@ Window::TabManager::TabManager(Ui::Window *ui)
     : window_ui(ui)
 {
     DEBUG_ENTER(TabManager::TabManager);
+
     DEBUG_EXIT(TabManager::TabManager);
 }
 

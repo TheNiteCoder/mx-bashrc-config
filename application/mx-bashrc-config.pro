@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     searcher.cpp \
     tab.cpp \
     prompttab.cpp \
-    aliastab.cpp
+    aliastab.cpp \
+    aliasstream.cpp
 
 HEADERS  += window.h \
     buffer.h \
@@ -38,7 +39,8 @@ HEADERS  += window.h \
     tab.h \
     global.h \
     prompttab.h \
-    aliastab.h
+    aliastab.h \
+    aliasstream.h
 
 FORMS    += \
     aliastab.ui \

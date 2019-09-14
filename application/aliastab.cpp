@@ -2,6 +2,9 @@
 
 #include "searcher.h"
 #include <QTextStream>
+#include <QCheckBox>
+#include <algorithm>
+#include <QString>
 
 AliasTab::AliasTab()
     : Tab("Aliases")
@@ -25,14 +28,10 @@ AliasTab::AliasTab()
         {
             if(ui->tableWidget_Aliases->item(i,0) != nullptr &&  ui->tableWidget_Aliases->item(i,0)->isSelected())
             {
-                AliasData adata;
-                adata.alias = ui->tableWidget_Aliases->item(i, 0)->text();
-                adata.command = ui->tableWidget_Aliases->item(i, 1)->text();
-                if(static_cast<AliasTabTableWidgetItem*>(ui->tableWidget_Aliases->item(i, 0))->info().toBool())
-                {
-                    adata.inBashrc = true;
-                    m_deletedAliases << adata;
-                }
+                Alias adata;
+                adata.setAlias(ui->tableWidget_Aliases->item(i, 0)->text());
+                adata.setCommand(ui->tableWidget_Aliases->item(i, 1)->text());
+                m_deletedAliases << adata;
                 ui->tableWidget_Aliases->removeRow(i);
             }
         }
@@ -44,153 +43,130 @@ AliasTab::~AliasTab()
 {
     DEBUG_ENTER(AliasTab::~AliasTab);
     delete ui;
+    m_aliasWithCheckboxes.clear();
     DEBUG_EXIT(AliasTab::~AliasTab);
 }
 
 void AliasTab::setup(const BashrcSource data)
 {
     DEBUG_ENTER(AliasTab::setup);
-    QString tmp;
-    QList<AliasData> aliases;
-
-#define CHECK(x) if(x == -1) continue
-    QTextStream stream(new QString(data.program));
-    while(stream.readLineInto(&tmp))
+    bool doSuggestions = true;
+    QFile suggestionAliases(SUGGEST_ALIASES);
+    QList<Alias> suggestionAliasesList;
+    if(!suggestionAliases.open(QFile::Text | QFile::ReadOnly))
     {
-        AliasData adata;
-        adata.inBashrc = false;
-        QString scan = tmp;
-        if(scan.indexOf('#') != -1)
+        DEBUG << suggestionAliases.fileName() + " isn't readable, isn't text, or doesn't exist";
+        DEBUG << "Not loading suggestions";
+        doSuggestions = false;
+    }
+    if(doSuggestions)
+    {
+        QTextStream stream(&suggestionAliases);
+        QString content = stream.readAll();
+        AliasStream aliasStream(&content);
+        suggestionAliasesList = aliasStream.get();
+        for(auto alias : suggestionAliasesList)
         {
-            scan = scan.mid(0, scan.indexOf('#'));
+            m_aliasWithCheckboxes[new QCheckBox(alias.alias() + " - " + alias.command())] = alias;
         }
-        int aliasKeywordBegin = scan.indexOf("alias");
-        CHECK(aliasKeywordBegin);
-        int aliasWordBegin = scan.indexOf(QRegularExpression("\\S"), aliasKeywordBegin+5);
-        CHECK(aliasWordBegin);
-        int equalSignPos = scan.indexOf('=', aliasWordBegin);
-        CHECK(equalSignPos);
-        adata.alias = scan.mid(aliasWordBegin, equalSignPos-aliasWordBegin);
-        if(equalSignPos >= scan.length()) //in the case of nothing beginning assigned ex: alias hello=
+        for(auto key : m_aliasWithCheckboxes.keys())
         {
-            aliases << adata;
-            continue;
+            ui->verticalLayout_SuggestionAliases->addWidget(key);
+            connect(key, &QCheckBox::clicked, [=](bool checked){
+                if(!checked)
+                    m_deletedAliases.append(m_aliasWithCheckboxes[key]);
+            });
         }
-        QChar quote = scan.at(equalSignPos+1);
-        //check if the length is less or equal to equalSignPos+1 so indexOf doesn't recieve an invalid from point
-        if(equalSignPos+1 >= scan.length())
+    }
+    AliasStream bashrcAliasStream(new QString(data.bashrc), true);
+    AliasStream programAliasStream(new QString(data.program));
+    AliasStream bashrcAliasesAliasStream(new QString(data.bashrcAliases));
+
+    QList<Alias> aliases;
+    aliases.append(bashrcAliasStream.get());
+    aliases.append(bashrcAliasesAliasStream.get());
+    aliases.append(programAliasStream.get());
+
+    for(auto alias : aliases)
+    {
+        DEBUG << alias.inBashrc();
+        bool addToTable = true;
+        for(auto key : m_aliasWithCheckboxes.keys())
         {
-            continue;
+            if(m_aliasWithCheckboxes[key] == alias)
+            {
+                key->setChecked(true);
+                addToTable = false;
+                break;
+            }
         }
-        int otherQuote = scan.indexOf(quote, equalSignPos+2);
-        CHECK(otherQuote);
-        adata.command = scan.mid(equalSignPos+2, otherQuote-(equalSignPos-1));
-        adata.command.chop(1);
-        aliases << adata;
+        if(addToTable)
+        {
+            ui->tableWidget_Aliases->setRowCount(ui->tableWidget_Aliases->rowCount()+1);
+            ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 0, new AliasTabTableWidgetItem(alias.alias(), alias.inBashrc()));
+            ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 1, new AliasTabTableWidgetItem(alias.command()));
+        }
     }
 
-    stream.setString(new QString(data.bashrc));
-    while(stream.readLineInto(&tmp))
-    {
-        AliasData adata;
-        adata.inBashrc = true;
-        QString scan = tmp;
-        if(scan.indexOf('#') != -1)
-        {
-            scan = scan.mid(0, scan.indexOf('#'));
-        }
-        int aliasKeywordBegin = scan.indexOf("alias");
-        CHECK(aliasKeywordBegin);
-        int aliasWordBegin = scan.indexOf(QRegularExpression("\\S"), aliasKeywordBegin+5);
-        CHECK(aliasWordBegin);
-        int equalSignPos = scan.indexOf('=', aliasWordBegin);
-        CHECK(equalSignPos);
-        adata.alias = scan.mid(aliasWordBegin, equalSignPos-aliasWordBegin);
-        if(equalSignPos >= scan.length()) //in the case of nothing beginning assigned ex: alias hello=
-        {
-            aliases << adata;
-            continue;
-        }
-        QChar quote = scan.at(equalSignPos+1);
-        //check if the length is less or equal to equalSignPos+1 so indexOf doesn't recieve an invalid from point
-        if(equalSignPos+1 >= scan.length())
-        {
-            continue;
-        }
-        int otherQuote = scan.indexOf(quote, equalSignPos+2);
-        CHECK(otherQuote);
-        adata.command = scan.mid(equalSignPos+2, otherQuote-(equalSignPos-1));
-        adata.command.chop(1);
-        aliases << adata;
-    }
 
-    for(AliasData adata : aliases)
-    {
-        ui->tableWidget_Aliases->setRowCount(ui->tableWidget_Aliases->rowCount()+1);
-        ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 0, new AliasTabTableWidgetItem(adata.alias, adata.inBashrc));
-        ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 1, new AliasTabTableWidgetItem(adata.command));
-    }
     DEBUG_EXIT(AliasTab::setup);
 }
 
 BashrcSource AliasTab::exec(const BashrcSource data)
 {
     DEBUG_ENTER(AliasTab::exec);
-    BashrcSource rtn;
-    rtn.bashrc = data.bashrc;
-    rtn.program = data.program;
 
-    QList<AliasData> aliases;
-    for(int r = 0; r < ui->tableWidget_Aliases->rowCount(); r++)
+    BashrcSource rtn = data;
+    // to make sure I don't have to implement a copy assignment operator
+    Q_ASSERT(rtn.bashrc == data.bashrc);
+    Q_ASSERT(rtn.bashrcAliases == data.bashrcAliases);
+    Q_ASSERT(rtn.program == data.program);
+
+    /* HAVING TROUBLE but good code
+    bool sendToBashAliases = false;
+
+    //Possible issues: if the content of the macro USER_BASHRC_ALIASES does change it will break this regex
+    if(QFile(USER_BASHRC_ALIASES).exists() && rtn.bashrc.contains(QRegularExpression("^[^#](\\.|source)[\s]+(\\$HOME|~|/home/sd)/(.bash_aliases")))
+        sendToBashAliases = true;
+    */
+
+    AliasStream bashrcAliasStream(&rtn.bashrc);
+    AliasStream programAliasStream(&rtn.program);
+    AliasStream bashrcAliasesAliasStream(&rtn.bashrcAliases);
+
+    for(Alias alias : m_deletedAliases)
     {
-        AliasData adata;
-        adata.alias = ui->tableWidget_Aliases->item(r, 0)->text();
-        adata.command = ui->tableWidget_Aliases->item(r, 1)->text();
-        adata.inBashrc = static_cast<AliasTabTableWidgetItem*>(ui->tableWidget_Aliases->item(r, 0))->info().toBool();
-        if(adata.alias != "")
-            aliases << adata;
+        //remove from all files and locations
+        bashrcAliasesAliasStream.remove(alias);
+        bashrcAliasStream.remove(alias);
+        programAliasStream.remove(alias);
     }
 
-    for(AliasData adata : m_deletedAliases)
+    for(int row = 0; row < ui->tableWidget_Aliases->rowCount(); row++)
     {
-        Searcher searcher(new QString(rtn.bashrc));
-        if(CHECK_SEARCH(searcher.search(QRegularExpression(tr("[\\s]{0,}alias[\\s]+") + adata.alias + "=(\"|')" + adata.command + "(\"|')"))))
+        Alias alias(ui->tableWidget_Aliases->item(row, 0)->text(),
+                    ui->tableWidget_Aliases->item(row, 1)->text());
+        alias.setInBashrc(static_cast<AliasTabTableWidgetItem*>(ui->tableWidget_Aliases->item(row, 0))->info().toBool());
+        if(alias.inBashrc())
         {
-            rtn.bashrc.remove(QRegularExpression(tr("[\\s]{0,}alias[\\s]+") + adata.alias + "=(\"|')" + adata.command + "(\"|')"));
-        }
-    }
-
-    for(AliasData adata : aliases)
-    {
-        /*
-        if(adata.inBashrc)
-        {
-            //TODO make a smart system for detecting if a alias exsists but the command changed
-            Searcher searcher(new QString(rtn.bashrc));
-            if(CHECK_SEARCH(searcher.search(QRegularExpression(tr("[\\s]{0,}alias[\\s]+") + adata.alias + "=(\"|')" + adata.command + "(\"|')"))))
-            {
-                continue;
-            }
-            adata.command.replace('\'', "\\\'");
-            adata.command.replace('"', "\\\"");
-            rtn.bashrc.append("\n" + tr("alias ") + adata.alias + "='" + adata.command + "'");
+            DEBUG << "Alias: " << alias.alias() << " : " << alias.command() << " has been detected as a bashrc alias";
+            bashrcAliasStream << alias;
         }
         else
         {
-            adata.alias.replace('\'', "\\'");
-            adata.command.replace('"', "\\\"");
-            rtn.program.append("\n" + tr("alias ") + adata.alias + tr("='") + adata.command + tr("'"));
+            bashrcAliasesAliasStream << alias;
         }
-        */
-        Searcher searcher(new QString(rtn.bashrc));
-        if(CHECK_SEARCH(searcher.search(QRegularExpression(tr("[\\s]{0,}alias[\\s]+") + adata.alias + "=(\"|')" + adata.command + "(\"|')"))))
-        {
-            continue;
-        }
-        adata.command.replace('\'', "\\\'");
-        adata.command.replace('"', "\\\"");
-        rtn.bashrc.append("\n" + tr("alias ") + adata.alias + "='" + adata.command + "'");
     }
+
+    for(auto key : m_aliasWithCheckboxes.keys())
+    {
+        if(key->isChecked())
+        {
+            bashrcAliasesAliasStream << m_aliasWithCheckboxes[key];
+        }
+    }
+
+
     DEBUG_EXIT(AliasTab::exec);
     return rtn;
 }
@@ -225,4 +201,3 @@ QVariant& AliasTabTableWidgetItem::info()
     DEBUG_EXIT(AliasTabTableWidgetItem::info);
     return m_info;
 }
-
