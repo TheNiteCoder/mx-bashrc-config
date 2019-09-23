@@ -16,7 +16,7 @@ Searcher::Searcher(const QString *source, const int states)
 {
     DEBUG_ENTER(Searcher::Searcher);
     setSource(source);
-    setStates((SearchStates)states);
+    setStates(static_cast<SearchStates>(states));
     DEBUG_EXIT(Searcher::Searcher);
 }
 
@@ -89,7 +89,7 @@ int Searcher::search(const QString search, int from)
 Searcher &Searcher::setSource(const QString *source)
 {
     DEBUG_ENTER(Searcher::setSource);
-    m_source = (QString*)source;
+    m_source = const_cast<QString*>(source);
     DEBUG_EXIT(Searcher::setSource);
     return *this;
 }
@@ -104,7 +104,7 @@ QString Searcher::source()
 Searcher &Searcher::setStates(const int states)
 {
     DEBUG_ENTER(Searcher::setStates);
-    m_states = (Searcher::SearchStates)states;
+    m_states = static_cast<Searcher::SearchStates>(states);
     DEBUG_EXIT(Searcher::setStates);
     return *this;
 }
@@ -123,7 +123,7 @@ int Searcher::templateSearch(Type search, int from)
     {
         return Searcher::ReturnValueSearchStringNotFound;
     }
-    Buffer::State *q1, *q2, *q3;
+    Buffer::State *q1 = nullptr, *q2 = nullptr, *q3 = nullptr; //do not have to worry about every referencing a nullptr
     Buffer buffer = Buffer(source());
     if(states() & SearchStates::StateCheckDoubleQuotations)
     {
