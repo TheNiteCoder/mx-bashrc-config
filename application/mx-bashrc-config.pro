@@ -47,5 +47,51 @@ FORMS    += \
     window_fix.ui \
     prompttab_fix.ui
 
+TRANSLATIONS += translations/mx-bashrc-config_am.ts \
+                translations/mx-bashrc-config_ar.ts \
+                translations/mx-bashrc-config_bg.ts \
+                translations/mx-bashrc-config_ca.ts \
+                translations/mx-bashrc-config_cs.ts \
+                translations/mx-bashrc-config_da.ts \
+                translations/mx-bashrc-config_de.ts \
+                translations/mx-bashrc-config_el.ts \
+                translations/mx-bashrc-config_es.ts \
+                translations/mx-bashrc-config_et.ts \
+                translations/mx-bashrc-config_eu.ts \
+                translations/mx-bashrc-config_fa.ts \
+                translations/mx-bashrc-config_fi.ts \
+                translations/mx-bashrc-config_fr.ts \
+                translations/mx-bashrc-config_he_IL.ts \
+                translations/mx-bashrc-config_hi.ts \
+                translations/mx-bashrc-config_hr.ts \
+                translations/mx-bashrc-config_hu.ts \
+                translations/mx-bashrc-config_id.ts \
+                translations/mx-bashrc-config_is.ts \
+                translations/mx-bashrc-config_it.ts \
+                translations/mx-bashrc-config_ja.ts \
+                translations/mx-bashrc-config_ja_JP.ts \
+                translations/mx-bashrc-config_kk.ts \
+                translations/mx-bashrc-config_ko.ts \
+                translations/mx-bashrc-config_lt.ts \
+                translations/mx-bashrc-config_mk.ts \
+                translations/mx-bashrc-config_mr.ts \
+                translations/mx-bashrc-config_nb.ts \
+                translations/mx-bashrc-config_nl.ts \
+                translations/mx-bashrc-config_pl.ts \
+                translations/mx-bashrc-config_pt.ts \
+                translations/mx-bashrc-config_pt_BR.ts \
+                translations/mx-bashrc-config_ro.ts \
+                translations/mx-bashrc-config_ru.ts \
+                translations/mx-bashrc-config_sk.ts \
+                translations/mx-bashrc-config_sl.ts \
+                translations/mx-bashrc-config_sq.ts \
+                translations/mx-bashrc-config_sr.ts \
+                translations/mx-bashrc-config_sv.ts \
+                translations/mx-bashrc-config_tr.ts \
+                translations/mx-bashrc-config_uk.ts \
+                translations/mx-bashrc-config_zh_CN.ts \
+                translations/mx-bashrc-config_zh_TW.ts
+
+
 RESOURCES += \
     resource.qrc
