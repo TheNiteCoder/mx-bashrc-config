@@ -63,11 +63,6 @@ Window::Window(QWidget *parent) :
     connect(ui->pushButton_About, &QPushButton::clicked, [=](){
         QMessageBox::about(this, NAME, "An easy way to configure your ~/.bashrc and bash prompt");
     });
-    connect(ui->pushButton_Help, &QPushButton::clicked, [=](){
-#warning This program does not have an help browser yet
-        QMessageBox::about(this, NAME, "Can't really do that web browser thing without a link to go to");
-    });
-    DEBUG_EXIT(Window::Window);
 }
 
 void Window::closeEvent(QCloseEvent *event)
@@ -273,4 +268,16 @@ void Window::readPositionSettings()
 
     qsettings.endGroup();
     DEBUG_EXIT(Window::readPositionSettings);
+}
+
+void Window::on_pushButton_Help_clicked()
+{
+    QLocale locale;
+    QString lang = locale.bcp47Name();
+
+    QString url = "file:///usr/share/doc/mx-bashrc-config/help/mx-bashrc-config.html";
+
+    QString cmd = QString("mx-viewer %1 '%2' &").arg(url).arg(tr("MX Bashrc Config"));
+    system(cmd.toUtf8());
+
 }

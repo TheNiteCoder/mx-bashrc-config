@@ -1,2 +1,3 @@
 mx-bashrc-config	 		 usr/bin
 *.desktop 					usr/share/applications
+help/*					usr/share/doc/mx-bashrc-config/help
