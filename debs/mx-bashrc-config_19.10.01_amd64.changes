@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Tue, 08 Oct 2019 20:54:13 -0400
+Source: mx-bashrc-config
+Binary: mx-bashrc-config
+Architecture: source amd64
+Version: 19.10.01
+Distribution: UNRELEASED
+Urgency: medium
+Maintainer: dolphin oracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ mx-bashrc-config - MX Bashrc Config
+Changes:
+ mx-bashrc-config (19.10.01) UNRELEASED; urgency=medium
+ .
+   * Initial release (Nite Coder)
+Checksums-Sha1:
+ a26c2dce303305522896f2c0f385a8a82da5e0a6 671 mx-bashrc-config_19.10.01.dsc
+ 7fc8fd5abd17d8ffa89a856be0f19a2ac9406db2 22752 mx-bashrc-config_19.10.01.tar.xz
+ b17a53d10e24ee0372bd7b1d20cfa5add7c3c83f 11848 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ 19a61739dc401b1f3b3e7ce3c48f86c4a60475fa 10970 mx-bashrc-config_19.10.01_amd64.buildinfo
+ 0f8d3848b1f2fec7c33a5e95e122662e6085524e 77350 mx-bashrc-config_19.10.01_amd64.deb
+Checksums-Sha256:
+ 3e97e8efbf09071240a3c6b86cb1a56d047d80a868565fe660bd231c228371d1 671 mx-bashrc-config_19.10.01.dsc
+ 98897d92543c3f62454b56e329d585549ee015bb472402db5b8c5708b3c80c80 22752 mx-bashrc-config_19.10.01.tar.xz
+ 969c71dbfcdc52a09834bbf5eb18711a64f2d962ea8c1ad928f0f446ea5a6e8b 11848 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ b2f076f8d22d770ad65124e78bb134be9a557830f791ac2c14a91bc56f298bb4 10970 mx-bashrc-config_19.10.01_amd64.buildinfo
+ a48a38bd6a9490313b9c2d43cd17dfca4eec857239d222b9bda5c2ac1fcd1efb 77350 mx-bashrc-config_19.10.01_amd64.deb
+Files:
+ 60d4860549b6ab50afe1fdfbebad7a68 671 admin optional mx-bashrc-config_19.10.01.dsc
+ 08c281368052fdc8bc2272fa39a2ef40 22752 admin optional mx-bashrc-config_19.10.01.tar.xz
+ 53fe7d2cb5ccccb3eeef04fe5d2d91bb 11848 debug optional mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ a7c53158ed9f5fcba829d0a0bda441f2 10970 admin optional mx-bashrc-config_19.10.01_amd64.buildinfo
+ 817331e808863f67502f033af96c51d4 77350 admin optional mx-bashrc-config_19.10.01_amd64.deb

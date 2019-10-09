@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Tue, 08 Oct 2019 20:54:13 -0400
+Source: mx-bashrc-config
+Binary: mx-bashrc-config
+Architecture: i386
+Version: 19.10.01
+Distribution: UNRELEASED
+Urgency: medium
+Maintainer: dolphin oracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ mx-bashrc-config - MX Bashrc Config
+Changes:
+ mx-bashrc-config (19.10.01) UNRELEASED; urgency=medium
+ .
+   * Initial release (Nite Coder)
+Checksums-Sha1:
+ f177384bda4333cd1d06c642a8181c8b99b98a79 11652 mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ 3ec570ef5a5691272c36ebdd019c819912c96b3f 10649 mx-bashrc-config_19.10.01_i386.buildinfo
+ 2cc12a12f4f1c364703cd3f0b3119bc8d4bf1b1e 79482 mx-bashrc-config_19.10.01_i386.deb
+Checksums-Sha256:
+ 19e0cca327213b22dfa4a0a56f25908e5dae4e6c3c657d7a8403affbed4fba31 11652 mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ 4bd6b95d2bad176526940f97dfaa10e5999fb66ff348b77b8725787931bfb682 10649 mx-bashrc-config_19.10.01_i386.buildinfo
+ 6780000d567606aec0b3a418abc819accc8bcc8f13aec4b4609ec9463ea272be 79482 mx-bashrc-config_19.10.01_i386.deb
+Files:
+ 30076bc1e8aeb501e4dc7b8f1c072621 11652 debug optional mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ defc4985d6b21bf2ac4401ce763dc107 10649 admin optional mx-bashrc-config_19.10.01_i386.buildinfo
+ 6237193dee82a58d59fe70bfa6f0f8e4 79482 admin optional mx-bashrc-config_19.10.01_i386.deb

@@ -1,0 +1,249 @@
+ dpkg-buildpackage -rfakeroot -us -uc
+dpkg-buildpackage: info: source package mx-bashrc-config
+dpkg-buildpackage: info: source version 19.10.01
+dpkg-buildpackage: info: source distribution UNRELEASED
+dpkg-buildpackage: info: source changed by Dolphin Oracle <dolphinoracle@gmail.com>
+ dpkg-source --before-build 64
+dpkg-buildpackage: info: host architecture amd64
+ fakeroot debian/rules clean
+dh clean --parallel 
+dh: Compatibility levels before 9 are deprecated (level 7 in use)
+   debian/rules override_dh_auto_clean
+make[1]: Entering directory '/media/dataext/development/working/64'
+dh_auto_clean
+dh_auto_clean: Compatibility levels before 9 are deprecated (level 7 in use)
+rm -f src/translations/*.qm
+make[1]: Leaving directory '/media/dataext/development/working/64'
+   dh_clean -O--parallel
+dh_clean: Compatibility levels before 9 are deprecated (level 7 in use)
+ dpkg-source -b 64
+dpkg-source: info: using source format '3.0 (native)'
+dpkg-source: info: building mx-bashrc-config in mx-bashrc-config_19.10.01.tar.xz
+dpkg-source: info: building mx-bashrc-config in mx-bashrc-config_19.10.01.dsc
+ debian/rules build
+dh build --parallel 
+dh: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_update_autotools_config -O--parallel
+   dh_auto_configure -O--parallel
+dh_auto_configure: Compatibility levels before 9 are deprecated (level 7 in use)
+	qmake -makefile QMAKE_STRIP=: PREFIX=/usr
+Info: creating stash file /media/dataext/development/working/64/.qmake.stash
+   debian/rules override_dh_auto_build
+make[1]: Entering directory '/media/dataext/development/working/64'
+lrelease mx-bashrc-config.pro
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_am.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_ar.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_bg.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_ca.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_cs.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_da.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_de.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_el.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_es.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_et.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_eu.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_fa.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_fi.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_fr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_he_IL.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_hi.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_hr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_hu.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_id.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_is.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_it.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_ja.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_ja_JP.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_kk.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_ko.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_lt.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_mk.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_mr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_nb.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_nl.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_pl.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_pt.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_pt_BR.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_ro.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_ru.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_sk.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_sl.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_sq.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_sr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_sv.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_tr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_uk.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_zh_CN.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+Updating '/media/dataext/development/working/64/translations/mx-bashrc-config_zh_TW.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+dh_auto_build -- QMAKE=qmake-qt5 LRELEASE=lrelease-qt5 QMAKE_OPTS="DEFINES+=NO_DEBUG_ON_CONSOLE"
+dh_auto_build: Compatibility levels before 9 are deprecated (level 7 in use)
+	make -j4 QMAKE=qmake-qt5 LRELEASE=lrelease-qt5 QMAKE_OPTS=DEFINES\+=NO_DEBUG_ON_CONSOLE
+make[2]: Entering directory '/media/dataext/development/working/64'
+/usr/lib/x86_64-linux-gnu/qt5/bin/uic aliastab.ui -o ui_aliastab.h
+/usr/lib/x86_64-linux-gnu/qt5/bin/uic window_fix.ui -o ui_window_fix.h
+/usr/lib/x86_64-linux-gnu/qt5/bin/uic prompttab_fix.ui -o ui_prompttab_fix.h
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o buffer.o buffer.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o searcher.o searcher.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o tab.o tab.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o aliastab.o aliastab.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o aliasstream.o aliasstream.cpp
+/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name resource resource.qrc -o qrc_resource.cpp
+/usr/lib/x86_64-linux-gnu/qt5/bin/moc -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/dataext/development/working/64 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include window.h -o moc_window.cpp
+/usr/lib/x86_64-linux-gnu/qt5/bin/moc -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/dataext/development/working/64 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include buffer.h -o moc_buffer.cpp
+/usr/lib/x86_64-linux-gnu/qt5/bin/moc -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/dataext/development/working/64 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include searcher.h -o moc_searcher.cpp
+/usr/lib/x86_64-linux-gnu/qt5/bin/moc -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/dataext/development/working/64 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include tab.h -o moc_tab.cpp
+/usr/lib/x86_64-linux-gnu/qt5/bin/moc -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/media/dataext/development/working/64 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include aliastab.h -o moc_aliastab.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o main.o main.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o window.o window.cpp
+window.cpp:67:2: warning: #warning This program does not have an help browser yet [-Wcpp]
+ #warning This program does not have an help browser yet
+  ^~~~~~~
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o prompttab.o prompttab.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o qrc_resource.o qrc_resource.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o moc_window.o moc_window.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o moc_buffer.o moc_buffer.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o moc_searcher.o moc_searcher.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o moc_tab.o moc_tab.cpp
+g++ -c -m64 -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -o moc_aliastab.o moc_aliastab.cpp
+g++ -m64 -Wl,-O1 -o mx-bashrc-config main.o window.o buffer.o searcher.o tab.o prompttab.o aliastab.o aliasstream.o qrc_resource.o moc_window.o moc_buffer.o moc_searcher.o moc_tab.o moc_aliastab.o   -L/usr/X11R6/lib64 -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+make[2]: Leaving directory '/media/dataext/development/working/64'
+make[1]: Leaving directory '/media/dataext/development/working/64'
+   dh_auto_test -O--parallel
+dh_auto_test: Compatibility levels before 9 are deprecated (level 7 in use)
+ fakeroot debian/rules binary
+dh binary --parallel 
+dh: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_testroot -O--parallel
+   dh_prep -O--parallel
+   debian/rules override_dh_auto_install
+make[1]: Entering directory '/media/dataext/development/working/64'
+dh_auto_install -- QMAKE=qmake-qt5 LRELEASE=lrelease-qt5 QMAKE_OPTS="DEFINES+=NO_DEBUG_ON_CONSOLE"
+dh_auto_install: Compatibility levels before 9 are deprecated (level 7 in use)
+make[1]: Leaving directory '/media/dataext/development/working/64'
+   dh_install -O--parallel
+dh_install: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_installdocs -O--parallel
+dh_installdocs: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_installchangelogs -O--parallel
+   dh_installinit -O--parallel
+dh_installinit: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_perl -O--parallel
+   dh_link -O--parallel
+   dh_strip_nondeterminism -O--parallel
+   dh_compress -O--parallel
+dh_compress: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_fixperms -O--parallel
+   dh_missing -O--parallel
+dh_missing: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_strip -O--parallel
+dh_strip: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_makeshlibs -O--parallel
+   debian/rules override_dh_shlibdeps
+make[1]: Entering directory '/media/dataext/development/working/64'
+dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
+dh_shlibdeps: Compatibility levels before 9 are deprecated (level 7 in use)
+dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/mx-bashrc-config/usr/bin/mx-bashrc-config was not linked against libGL.so.1 (it uses none of the library's symbols)
+make[1]: Leaving directory '/media/dataext/development/working/64'
+   dh_installdeb -O--parallel
+dh_installdeb: Compatibility levels before 9 are deprecated (level 7 in use)
+   dh_gencontrol -O--parallel
+   dh_md5sums -O--parallel
+   debian/rules override_dh_builddeb
+make[1]: Entering directory '/media/dataext/development/working/64'
+dh_builddeb -- -Z xz
+dpkg-deb: building package 'mx-bashrc-config-dbgsym' in '../mx-bashrc-config-dbgsym_19.10.01_amd64.deb'.
+dpkg-deb: building package 'mx-bashrc-config' in '../mx-bashrc-config_19.10.01_amd64.deb'.
+make[1]: Leaving directory '/media/dataext/development/working/64'
+ dpkg-genbuildinfo
+ dpkg-genchanges  >../mx-bashrc-config_19.10.01_amd64.changes
+dpkg-genchanges: info: including full source code in upload
+ dpkg-source --after-build 64
+dpkg-buildpackage: info: full upload; Debian-native package (full source is included)
