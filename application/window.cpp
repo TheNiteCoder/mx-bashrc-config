@@ -50,9 +50,9 @@ Window::Window(QWidget *parent) :
 
     connect(ui->pushButton_Apply, &QPushButton::clicked, [=](){
         auto source = getSource();
-        if(!source.bashrc.contains("source $HOME/.config/mx-bashrc-config/bashrc.bash"))
+        if(!source.bashrc.contains("source $HOME/.config/bash-config/bashrc.bash"))
         {
-            source.bashrc.append("source $HOME/.config/mx-bashrc-config/bashrc.bash");
+            source.bashrc.append("source $HOME/.config/bash-config/bashrc.bash");
         }
         source.program = "";
         setSource(m_manager.exec(source));
@@ -240,7 +240,7 @@ BashrcSource Window::TabManager::exec(const BashrcSource source)
 void Window::writePositionSettings()
 {
     DEBUG_ENTER(Window::writePositionSettings);
-    QSettings qsettings( "MX-Linux", "mx-bashrc-config" );
+    QSettings qsettings( "MX-Linux", "bash-config" );
 
     qsettings.beginGroup( "mainwindow" );
 
@@ -257,7 +257,7 @@ void Window::writePositionSettings()
 void Window::readPositionSettings()
 {
     DEBUG_ENTER(Window::readPositionSettings);
-    QSettings qsettings( "MX-Linux", "mx-bashrc-config" );
+    QSettings qsettings( "MX-Linux", "bash-config" );
 
     qsettings.beginGroup( "mainwindow" );
 
@@ -275,9 +275,9 @@ void Window::on_pushButton_Help_clicked()
     QLocale locale;
     QString lang = locale.bcp47Name();
 
-    QString url = "file:///usr/share/doc/mx-bashrc-config/help/mx-bashrc-config.html";
+    QString url = "file:///usr/share/doc/bash-config/help/bash-config.html";
 
-    QString cmd = QString("mx-viewer %1 '%2' &").arg(url).arg(tr("MX Bashrc Config"));
+    QString cmd = QString("mx-viewer %1 '%2' &").arg(url).arg(tr("Bash Config"));
     system(cmd.toUtf8());
 
 }
