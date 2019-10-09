@@ -10,8 +10,8 @@ Build-Depends: qt5-default, qttools5-dev-tools, debhelper (>= 7.0.50~)
 Package-List:
  mx-bashrc-config deb admin optional arch=any
 Checksums-Sha1:
- 7fc8fd5abd17d8ffa89a856be0f19a2ac9406db2 22752 mx-bashrc-config_19.10.01.tar.xz
+ 0a447a0dd2542f0e23961f17c51d1680b918d2ec 68972 mx-bashrc-config_19.10.01.tar.xz
 Checksums-Sha256:
- 98897d92543c3f62454b56e329d585549ee015bb472402db5b8c5708b3c80c80 22752 mx-bashrc-config_19.10.01.tar.xz
+ 0d26ce71aaf30938286957ec67e323ab9ff6730c22625e7309f9524048484132 68972 mx-bashrc-config_19.10.01.tar.xz
 Files:
- 08c281368052fdc8bc2272fa39a2ef40 22752 mx-bashrc-config_19.10.01.tar.xz
+ 89c2f4493fdd0b157ae93fd5600d3ce5 68972 mx-bashrc-config_19.10.01.tar.xz

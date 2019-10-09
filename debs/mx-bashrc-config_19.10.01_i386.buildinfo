@@ -4,17 +4,17 @@ Binary: mx-bashrc-config
 Architecture: i386
 Version: 19.10.01
 Checksums-Md5:
- 30076bc1e8aeb501e4dc7b8f1c072621 11652 mx-bashrc-config-dbgsym_19.10.01_i386.deb
- 6237193dee82a58d59fe70bfa6f0f8e4 79482 mx-bashrc-config_19.10.01_i386.deb
+ 13f67b9a300c623a95116c1b414ec75a 11706 mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ 3cdd267e56bf128358b4309330deeac4 126176 mx-bashrc-config_19.10.01_i386.deb
 Checksums-Sha1:
- f177384bda4333cd1d06c642a8181c8b99b98a79 11652 mx-bashrc-config-dbgsym_19.10.01_i386.deb
- 2cc12a12f4f1c364703cd3f0b3119bc8d4bf1b1e 79482 mx-bashrc-config_19.10.01_i386.deb
+ 1f0e1073e977f1c65ffdebff0abd1cd20a345e8b 11706 mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ b41be4f182797a5db311a06b4cf790bd548913fb 126176 mx-bashrc-config_19.10.01_i386.deb
 Checksums-Sha256:
- 19e0cca327213b22dfa4a0a56f25908e5dae4e6c3c657d7a8403affbed4fba31 11652 mx-bashrc-config-dbgsym_19.10.01_i386.deb
- 6780000d567606aec0b3a418abc819accc8bcc8f13aec4b4609ec9463ea272be 79482 mx-bashrc-config_19.10.01_i386.deb
+ 281c4df5ecec9fdfe4f7084188e46261f5e763e2b407bbd6e358c81ac3b18697 11706 mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ b4eaf209556ec403633ab6186efc4a71e8237c267d619990e034c150b7d168eb 126176 mx-bashrc-config_19.10.01_i386.deb
 Build-Origin: Debian
 Build-Architecture: i386
-Build-Date: Tue, 08 Oct 2019 21:10:56 -0400
+Build-Date: Tue, 08 Oct 2019 21:44:34 -0400
 Installed-Build-Depends:
  autoconf (= 2.69-10),
  automake (= 1:1.15-6),

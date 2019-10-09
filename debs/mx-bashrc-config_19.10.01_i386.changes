@@ -15,14 +15,14 @@ Changes:
  .
    * Initial release (Nite Coder)
 Checksums-Sha1:
- f177384bda4333cd1d06c642a8181c8b99b98a79 11652 mx-bashrc-config-dbgsym_19.10.01_i386.deb
- 3ec570ef5a5691272c36ebdd019c819912c96b3f 10649 mx-bashrc-config_19.10.01_i386.buildinfo
- 2cc12a12f4f1c364703cd3f0b3119bc8d4bf1b1e 79482 mx-bashrc-config_19.10.01_i386.deb
+ 1f0e1073e977f1c65ffdebff0abd1cd20a345e8b 11706 mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ ee1d9bd31b18f6b8848316c4ff484c5b789a2db5 10652 mx-bashrc-config_19.10.01_i386.buildinfo
+ b41be4f182797a5db311a06b4cf790bd548913fb 126176 mx-bashrc-config_19.10.01_i386.deb
 Checksums-Sha256:
- 19e0cca327213b22dfa4a0a56f25908e5dae4e6c3c657d7a8403affbed4fba31 11652 mx-bashrc-config-dbgsym_19.10.01_i386.deb
- 4bd6b95d2bad176526940f97dfaa10e5999fb66ff348b77b8725787931bfb682 10649 mx-bashrc-config_19.10.01_i386.buildinfo
- 6780000d567606aec0b3a418abc819accc8bcc8f13aec4b4609ec9463ea272be 79482 mx-bashrc-config_19.10.01_i386.deb
+ 281c4df5ecec9fdfe4f7084188e46261f5e763e2b407bbd6e358c81ac3b18697 11706 mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ e859b599a071ee3e7969adf5d953c402f2e53f7f1bc47ff9a3efb102ef1bc94d 10652 mx-bashrc-config_19.10.01_i386.buildinfo
+ b4eaf209556ec403633ab6186efc4a71e8237c267d619990e034c150b7d168eb 126176 mx-bashrc-config_19.10.01_i386.deb
 Files:
- 30076bc1e8aeb501e4dc7b8f1c072621 11652 debug optional mx-bashrc-config-dbgsym_19.10.01_i386.deb
- defc4985d6b21bf2ac4401ce763dc107 10649 admin optional mx-bashrc-config_19.10.01_i386.buildinfo
- 6237193dee82a58d59fe70bfa6f0f8e4 79482 admin optional mx-bashrc-config_19.10.01_i386.deb
+ 13f67b9a300c623a95116c1b414ec75a 11706 debug optional mx-bashrc-config-dbgsym_19.10.01_i386.deb
+ 5f7ec7df0cb90e5b44fcdb242aad9ed3 10652 admin optional mx-bashrc-config_19.10.01_i386.buildinfo
+ 3cdd267e56bf128358b4309330deeac4 126176 admin optional mx-bashrc-config_19.10.01_i386.deb

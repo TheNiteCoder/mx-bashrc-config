@@ -15,20 +15,20 @@ Changes:
  .
    * Initial release (Nite Coder)
 Checksums-Sha1:
- a26c2dce303305522896f2c0f385a8a82da5e0a6 671 mx-bashrc-config_19.10.01.dsc
- 7fc8fd5abd17d8ffa89a856be0f19a2ac9406db2 22752 mx-bashrc-config_19.10.01.tar.xz
- b17a53d10e24ee0372bd7b1d20cfa5add7c3c83f 11848 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- 19a61739dc401b1f3b3e7ce3c48f86c4a60475fa 10970 mx-bashrc-config_19.10.01_amd64.buildinfo
- 0f8d3848b1f2fec7c33a5e95e122662e6085524e 77350 mx-bashrc-config_19.10.01_amd64.deb
+ 196409e3db5a90d07b160eaccbd8282f370ee436 671 mx-bashrc-config_19.10.01.dsc
+ 0a447a0dd2542f0e23961f17c51d1680b918d2ec 68972 mx-bashrc-config_19.10.01.tar.xz
+ a9eb65dd3fdc59709c5aae0962cb32376ab70a09 11914 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ 1957c0e941a624ee3c7e962f494d51cede425abd 10973 mx-bashrc-config_19.10.01_amd64.buildinfo
+ 351aee5fe47d284624b59de842d142f401ffd246 124214 mx-bashrc-config_19.10.01_amd64.deb
 Checksums-Sha256:
- 3e97e8efbf09071240a3c6b86cb1a56d047d80a868565fe660bd231c228371d1 671 mx-bashrc-config_19.10.01.dsc
- 98897d92543c3f62454b56e329d585549ee015bb472402db5b8c5708b3c80c80 22752 mx-bashrc-config_19.10.01.tar.xz
- 969c71dbfcdc52a09834bbf5eb18711a64f2d962ea8c1ad928f0f446ea5a6e8b 11848 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- b2f076f8d22d770ad65124e78bb134be9a557830f791ac2c14a91bc56f298bb4 10970 mx-bashrc-config_19.10.01_amd64.buildinfo
- a48a38bd6a9490313b9c2d43cd17dfca4eec857239d222b9bda5c2ac1fcd1efb 77350 mx-bashrc-config_19.10.01_amd64.deb
+ 3306af6dae3c59ac18b8060e07b206d8de6fc0f98d25cdda7716f04b195a6c24 671 mx-bashrc-config_19.10.01.dsc
+ 0d26ce71aaf30938286957ec67e323ab9ff6730c22625e7309f9524048484132 68972 mx-bashrc-config_19.10.01.tar.xz
+ d1e8d860e249c0b902743cdff0fbd1c776fda6cd6e1a381fe01b3c31af9dcceb 11914 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ b3999edf595bfbd5d8a579b34187b9a9202b1a4ec32873ca2c77b425e88278e0 10973 mx-bashrc-config_19.10.01_amd64.buildinfo
+ a14ebd2cc77d822d314e5da182fd9a21ffaef1811b1f17504fa838b913934b04 124214 mx-bashrc-config_19.10.01_amd64.deb
 Files:
- 60d4860549b6ab50afe1fdfbebad7a68 671 admin optional mx-bashrc-config_19.10.01.dsc
- 08c281368052fdc8bc2272fa39a2ef40 22752 admin optional mx-bashrc-config_19.10.01.tar.xz
- 53fe7d2cb5ccccb3eeef04fe5d2d91bb 11848 debug optional mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- a7c53158ed9f5fcba829d0a0bda441f2 10970 admin optional mx-bashrc-config_19.10.01_amd64.buildinfo
- 817331e808863f67502f033af96c51d4 77350 admin optional mx-bashrc-config_19.10.01_amd64.deb
+ cec185762128308e251fed830a7ba949 671 admin optional mx-bashrc-config_19.10.01.dsc
+ 89c2f4493fdd0b157ae93fd5600d3ce5 68972 admin optional mx-bashrc-config_19.10.01.tar.xz
+ 824cc14af30cc636ad3a7cc8e21f106d 11914 debug optional mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ 60626e72a7c3fe2bacd8e6c732c35e13 10973 admin optional mx-bashrc-config_19.10.01_amd64.buildinfo
+ 0bb4707df5983b761d86975ac885f25c 124214 admin optional mx-bashrc-config_19.10.01_amd64.deb

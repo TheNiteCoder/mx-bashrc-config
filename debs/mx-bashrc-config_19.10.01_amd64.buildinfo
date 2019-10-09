@@ -4,20 +4,20 @@ Binary: mx-bashrc-config
 Architecture: amd64 source
 Version: 19.10.01
 Checksums-Md5:
- 60d4860549b6ab50afe1fdfbebad7a68 671 mx-bashrc-config_19.10.01.dsc
- 53fe7d2cb5ccccb3eeef04fe5d2d91bb 11848 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- 817331e808863f67502f033af96c51d4 77350 mx-bashrc-config_19.10.01_amd64.deb
+ cec185762128308e251fed830a7ba949 671 mx-bashrc-config_19.10.01.dsc
+ 824cc14af30cc636ad3a7cc8e21f106d 11914 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ 0bb4707df5983b761d86975ac885f25c 124214 mx-bashrc-config_19.10.01_amd64.deb
 Checksums-Sha1:
- a26c2dce303305522896f2c0f385a8a82da5e0a6 671 mx-bashrc-config_19.10.01.dsc
- b17a53d10e24ee0372bd7b1d20cfa5add7c3c83f 11848 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- 0f8d3848b1f2fec7c33a5e95e122662e6085524e 77350 mx-bashrc-config_19.10.01_amd64.deb
+ 196409e3db5a90d07b160eaccbd8282f370ee436 671 mx-bashrc-config_19.10.01.dsc
+ a9eb65dd3fdc59709c5aae0962cb32376ab70a09 11914 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ 351aee5fe47d284624b59de842d142f401ffd246 124214 mx-bashrc-config_19.10.01_amd64.deb
 Checksums-Sha256:
- 3e97e8efbf09071240a3c6b86cb1a56d047d80a868565fe660bd231c228371d1 671 mx-bashrc-config_19.10.01.dsc
- 969c71dbfcdc52a09834bbf5eb18711a64f2d962ea8c1ad928f0f446ea5a6e8b 11848 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- a48a38bd6a9490313b9c2d43cd17dfca4eec857239d222b9bda5c2ac1fcd1efb 77350 mx-bashrc-config_19.10.01_amd64.deb
+ 3306af6dae3c59ac18b8060e07b206d8de6fc0f98d25cdda7716f04b195a6c24 671 mx-bashrc-config_19.10.01.dsc
+ d1e8d860e249c0b902743cdff0fbd1c776fda6cd6e1a381fe01b3c31af9dcceb 11914 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
+ a14ebd2cc77d822d314e5da182fd9a21ffaef1811b1f17504fa838b913934b04 124214 mx-bashrc-config_19.10.01_amd64.deb
 Build-Origin: Debian
 Build-Architecture: amd64
-Build-Date: Tue, 08 Oct 2019 21:08:46 -0400
+Build-Date: Tue, 08 Oct 2019 21:40:43 -0400
 Installed-Build-Depends:
  autoconf (= 2.69-10),
  automake (= 1:1.15-6),
