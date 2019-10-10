@@ -1,23 +1,23 @@
 Format: 1.0
-Source: mx-bashrc-config
-Binary: mx-bashrc-config
+Source: bash-config
+Binary: bash-config
 Architecture: amd64 source
 Version: 19.10.01
 Checksums-Md5:
- cec185762128308e251fed830a7ba949 671 mx-bashrc-config_19.10.01.dsc
- 824cc14af30cc636ad3a7cc8e21f106d 11914 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- 0bb4707df5983b761d86975ac885f25c 124214 mx-bashrc-config_19.10.01_amd64.deb
+ a46b43141090b327225cf2d1c9d84c3b 641 bash-config_19.10.01.dsc
+ f70d7facf8d80aa1d307235dc75b108c 11888 bash-config-dbgsym_19.10.01_amd64.deb
+ 93f762ca6912a37e840b15c1bea275d8 123776 bash-config_19.10.01_amd64.deb
 Checksums-Sha1:
- 196409e3db5a90d07b160eaccbd8282f370ee436 671 mx-bashrc-config_19.10.01.dsc
- a9eb65dd3fdc59709c5aae0962cb32376ab70a09 11914 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- 351aee5fe47d284624b59de842d142f401ffd246 124214 mx-bashrc-config_19.10.01_amd64.deb
+ c3b93f536b9f1a12d3d93e3589abef319036baad 641 bash-config_19.10.01.dsc
+ 854868147d9fd5b89bcfbeb33953867bd574e1e0 11888 bash-config-dbgsym_19.10.01_amd64.deb
+ 4a630a834560a1ba2316c2adf4d9db8f5e5913b8 123776 bash-config_19.10.01_amd64.deb
 Checksums-Sha256:
- 3306af6dae3c59ac18b8060e07b206d8de6fc0f98d25cdda7716f04b195a6c24 671 mx-bashrc-config_19.10.01.dsc
- d1e8d860e249c0b902743cdff0fbd1c776fda6cd6e1a381fe01b3c31af9dcceb 11914 mx-bashrc-config-dbgsym_19.10.01_amd64.deb
- a14ebd2cc77d822d314e5da182fd9a21ffaef1811b1f17504fa838b913934b04 124214 mx-bashrc-config_19.10.01_amd64.deb
+ 2cd9469f46e7c77659ee2371d3d7820f2b74d5faeefbdbb26a263d1e9cd43844 641 bash-config_19.10.01.dsc
+ 8cab1e61baae199062d8c7449c249178e40824339b1049b88cad54be6572bae3 11888 bash-config-dbgsym_19.10.01_amd64.deb
+ 38f4316ce185623d4cdb8b0a48de339ca5acf7f67fafcb27242396c8acaa5fc2 123776 bash-config_19.10.01_amd64.deb
 Build-Origin: Debian
 Build-Architecture: amd64
-Build-Date: Tue, 08 Oct 2019 21:40:43 -0400
+Build-Date: Wed, 09 Oct 2019 20:58:32 -0400
 Installed-Build-Depends:
  autoconf (= 2.69-10),
  automake (= 1:1.15-6),
@@ -344,4 +344,4 @@ Installed-Build-Depends:
 Environment:
  DEB_BUILD_OPTIONS="parallel=4"
  LANG="en_US.UTF-8"
- SOURCE_DATE_EPOCH="1570582453"
+ SOURCE_DATE_EPOCH="1570665512"
