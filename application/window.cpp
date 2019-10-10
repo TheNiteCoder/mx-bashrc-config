@@ -50,9 +50,9 @@ Window::Window(QWidget *parent) :
 
     connect(ui->pushButton_Apply, &QPushButton::clicked, [=](){
         auto source = getSource();
-        if(!source.bashrc.contains("source $HOME/.config/mx-bashrc-config/bashrc.bash"))
+        if(!source.bashrc.contains("source $HOME/.config/bash-config/bashrc.bash"))
         {
-            source.bashrc.append("source $HOME/.config/mx-bashrc-config/bashrc.bash");
+            source.bashrc.append("source $HOME/.config/bash-config/bashrc.bash");
         }
         source.program = "";
         setSource(m_manager.exec(source));
@@ -63,11 +63,6 @@ Window::Window(QWidget *parent) :
     connect(ui->pushButton_About, &QPushButton::clicked, [=](){
         QMessageBox::about(this, NAME, "An easy way to configure your ~/.bashrc and bash prompt");
     });
-    connect(ui->pushButton_Help, &QPushButton::clicked, [=](){
-#warning This program does not have an help browser yet
-        QMessageBox::about(this, NAME, "Can't really do that web browser thing without a link to go to");
-    });
-    DEBUG_EXIT(Window::Window);
 }
 
 void Window::closeEvent(QCloseEvent *event)
@@ -245,7 +240,7 @@ BashrcSource Window::TabManager::exec(const BashrcSource source)
 void Window::writePositionSettings()
 {
     DEBUG_ENTER(Window::writePositionSettings);
-    QSettings qsettings( "MX-Linux", "mx-bashrc-config" );
+    QSettings qsettings( "MX-Linux", "bash-config" );
 
     qsettings.beginGroup( "mainwindow" );
 
@@ -262,7 +257,7 @@ void Window::writePositionSettings()
 void Window::readPositionSettings()
 {
     DEBUG_ENTER(Window::readPositionSettings);
-    QSettings qsettings( "MX-Linux", "mx-bashrc-config" );
+    QSettings qsettings( "MX-Linux", "bash-config" );
 
     qsettings.beginGroup( "mainwindow" );
 
@@ -273,4 +268,27 @@ void Window::readPositionSettings()
 
     qsettings.endGroup();
     DEBUG_EXIT(Window::readPositionSettings);
+}
+
+void Window::on_pushButton_Help_clicked()
+{
+    QLocale locale;
+    QString lang = locale.bcp47Name();
+
+    QFileInfo viewer("/usr/bin/mx-viewer");
+    QFileInfo viewer2("/usr/bin/antix-viewer");
+
+    QString url = "file:///usr/share/doc/bash-config/help/bash-config.html";
+    QString cmd;
+
+    if (viewer.exists()){
+         cmd = QString("mx-viewer %1 '%2' &").arg(url).arg(tr("Bash Config"));
+    } else if (viewer2.exists()) {
+         cmd = QString("antix-viewer %1 '%2' &").arg(url).arg(tr("Bash Config"));
+    } else {
+         cmd = QString("xdg-open %1 &").arg(url).arg(tr("Bash Config"));
+    }
+
+    system(cmd.toUtf8());
+
 }

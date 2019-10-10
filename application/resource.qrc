@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/mx">
-        <file>mx.png</file>
+    <qresource prefix="/mx"/>
+    <qresource prefix="/">
+        <file>logo.png</file>
     </qresource>
 </RCC>

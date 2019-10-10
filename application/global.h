@@ -16,15 +16,15 @@ struct BashrcSource
 
 #define joinPath(path1, path2) QDir::cleanPath(path1 + QDir::separator() + path2)
 
-#define NAME QString("MX Bashrc Config")
-#define NAME_BIN QString("mx-bashrc-config")
+#define NAME QString("Bash Config")
+#define NAME_BIN QString("bash-config")
 #define ORG QString("MX-Linux")
 
 #define USER_BASHRC joinPath(QDir::homePath(), ".bashrc")
 #define USER_BASHRC_ALIASES joinPath(QDir::homePath(), ".bash_aliases")
-#define PROGRAM_BASHRC joinPath(QDir::homePath(), ".config/mx-bashrc-config/bashrc.bash")
+#define PROGRAM_BASHRC joinPath(QDir::homePath(), ".config/bash-config/bashrc.bash")
 #define SUGGEST_ALIASES joinPath(QDir::homePath(), "suggest_aliases")
-#define BACKUP_BASHRCS joinPath(QDir::homePath(), ".config/mx-bashrc-config/")
+#define BACKUP_BASHRCS joinPath(QDir::homePath(), ".config/bash-config/")
 
 #define DEBUG qDebug() << __debug_start__.last()
 #define DEBUG_VAR(x) qDebug() << __debug_start__.last() << ":" << #x << " = " << x

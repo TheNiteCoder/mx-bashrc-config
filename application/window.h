@@ -33,6 +33,9 @@ public:
     void closeEvent(QCloseEvent *event);
     void writePositionSettings();
     void readPositionSettings();
+private slots:
+    void on_pushButton_Help_clicked();
+
 private:
     //NOTE TabManager does garbage collection on any members added
     class TabManager : public QObject

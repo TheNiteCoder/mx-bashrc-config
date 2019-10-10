@@ -1,0 +1,30 @@
+Format: 1.8
+Date: Wed, 09 Oct 2019 19:58:32 -0400
+Source: bash-config
+Binary: bash-config
+Architecture: i386
+Version: 19.10.01
+Distribution: UNRELEASED
+Urgency: medium
+Maintainer: dolphin oracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ bash-config - Bash Config
+Changes:
+ bash-config (19.10.01) UNRELEASED; urgency=medium
+ .
+   * Initial release (Nite Coder)
+   * name adjustments
+   * added help file
+Checksums-Sha1:
+ 92bec0d9f11b6645c8b27240916a8f375c43db33 11680 bash-config-dbgsym_19.10.01_i386.deb
+ 8aeb753f7d0ff1ea49d6aefa10e4ea0d0b70d81e 10612 bash-config_19.10.01_i386.buildinfo
+ 54191660332413d6171063fadee91ed21e023e2b 125852 bash-config_19.10.01_i386.deb
+Checksums-Sha256:
+ 2d4b2d7913aa6b77aeeed5b045dca25150fc30dc10852322b9584a00676458eb 11680 bash-config-dbgsym_19.10.01_i386.deb
+ b66c367a2c0d83fde71e05c1a43e2007b1cef2296544f53f1d3e52467d1800b6 10612 bash-config_19.10.01_i386.buildinfo
+ 35f3fe8ffbe3d1eb885a1a3e26b7ac8f660ba6dca04d2dc5a9620961898c4918 125852 bash-config_19.10.01_i386.deb
+Files:
+ b5b0abaa02927e8e36c3903d0af098d3 11680 debug optional bash-config-dbgsym_19.10.01_i386.deb
+ fe9ee66e2c516895171a3378a4172ad0 10612 admin optional bash-config_19.10.01_i386.buildinfo
+ a37fb4e188eec4ee1b49304097a4fbac 125852 admin optional bash-config_19.10.01_i386.deb
