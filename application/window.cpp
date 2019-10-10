@@ -275,9 +275,20 @@ void Window::on_pushButton_Help_clicked()
     QLocale locale;
     QString lang = locale.bcp47Name();
 
-    QString url = "file:///usr/share/doc/bash-config/help/bash-config.html";
+    QFileInfo viewer("/usr/bin/mx-viewer");
+    QFileInfo viewer2("/usr/bin/antix-viewer");
 
-    QString cmd = QString("mx-viewer %1 '%2' &").arg(url).arg(tr("Bash Config"));
+    QString url = "file:///usr/share/doc/bash-config/help/bash-config.html";
+    QString cmd;
+
+    if (viewer.exists()){
+         cmd = QString("mx-viewer %1 '%2' &").arg(url).arg(tr("Bash Config"));
+    } else if (viewer2.exists()) {
+         cmd = QString("antix-viewer %1 '%2' &").arg(url).arg(tr("Bash Config"));
+    } else {
+         cmd = QString("xdg-open %1 &").arg(url).arg(tr("Bash Config"));
+    }
+
     system(cmd.toUtf8());
 
 }

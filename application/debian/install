@@ -1,3 +1,3 @@
-bashrc-config	 		 usr/bin
+bash-config	 		 usr/bin
 *.desktop 					usr/share/applications
 help/*					usr/share/doc/bash-config/help
