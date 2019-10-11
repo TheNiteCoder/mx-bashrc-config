@@ -43,8 +43,8 @@ Window::Window(QWidget *parent) :
     {
         QDir dir;
         if(QFile(backupFileName).exists() && dir.exists(BACKUP_BASHRCS))
-            if(system(QString(tr("cp ") + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup").toStdString().c_str()) != 0)
-                DEBUG << "Command: " << QString(tr("cp ") + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup");
+            if(system(QString("cp " + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup").toStdString().c_str()) != 0)
+                DEBUG << "Command: " << QString("cp " + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup");
                 DEBUG << "Backup command returned a non zero number";
     }
 
@@ -61,7 +61,7 @@ Window::Window(QWidget *parent) :
         close();
     });
     connect(ui->pushButton_About, &QPushButton::clicked, [=](){
-        QMessageBox::about(this, NAME, "An easy way to configure your ~/.bashrc and bash prompt");
+        QMessageBox::about(this, NAME, tr("An easy way to configure your ~/.bashrc and bash prompt"));
     });
 }
 

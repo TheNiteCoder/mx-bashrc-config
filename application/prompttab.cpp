@@ -13,21 +13,16 @@ PromptTab::PromptTab()
     ui->setupUi(widget());
 
     connect(ui->comboBox_SelectPromptProvider, &QComboBox::currentTextChanged, [=](QString text){
-        if(text == "Fancy Prompt")
+        if (ui->comboBox_SelectPromptProvider->currentIndex() == 1)
         {
             ui->stackedWidget->setCurrentIndex(0);
         }
-        else if(text == "Default")
+        else if(ui->comboBox_SelectPromptProvider->currentIndex() == 0)
         {
             ui->stackedWidget->setCurrentIndex(1);
         }
     });
-    connect(ui->pushButton_DateFormatHelp, &QPushButton::clicked, [=](){
-        QMessageBox::information(nullptr, NAME + " - Date Format Help", "Not implemented, but the syntax is the date command syntax(run man date)");
-    });
-    connect(ui->pushButton_TimeFormatHelp, &QPushButton::clicked, [=](){
-        QMessageBox::information(nullptr, NAME + " - Time Format Help", "Not implemented, but the syntax is the date command syntax(run man date)");
-    });
+
     DEBUG_EXIT(PromptTab::PromptTab);
 }
 
@@ -59,8 +54,8 @@ void PromptTab::setup(const BashrcSource data)
         program.append("source /usr/local/bin/fancy-prompt.bash\n");
         ui->stackedWidget->setCurrentIndex(0);
     }
-
-    int promptTypeStart = promptKeywordStart + tr("prompt-").size();
+    QString promptsize = "prompt-";
+    int promptTypeStart = promptKeywordStart + promptsize.size();
 
     int promptTypeEnd = searcher.search(' ', promptTypeStart);
     if(!CHECK_SEARCH(promptTypeEnd))
@@ -140,12 +135,12 @@ BashrcSource PromptTab::exec(const BashrcSource data)
         promptCommand.append((ui->checkBox_MutedColors->isChecked()) ? "--mute " : "");
         promptCommand.append((ui->checkBox_NoColor->isChecked()) ? "--nocolor " : "");
         promptCommand.append((ui->checkBox_ParensInstead->isChecked()) ? "--parens " : "");
-        promptCommand.append(tr(" --lines=\"%1\"").arg(ui->spinBox_ExtraNewlinesBeforePrompt->value()));
-        promptCommand.append(tr(" --right=\"%1\"").arg(ui->spinBox_RightMargin->value()));
-        promptCommand.append(tr(" --date=\"%1\"").arg(ui->lineEdit_DateFormatText->text()));
-        promptCommand.append(tr(" --time=\"%1\"").arg(ui->lineEdit_TimeFormatText->text()));
-        promptCommand.append(tr(" --prompt=\"%1\"").arg(ui->lineEdit_PromptText->text()));
-        promptCommand.append(tr(" --title=\"%1\"").arg(ui->lineEdit_TitleText->text()));
+        promptCommand.append(QString(" --lines=\"%1\"").arg(ui->spinBox_ExtraNewlinesBeforePrompt->value()));
+        promptCommand.append(QString(" --right=\"%1\"").arg(ui->spinBox_RightMargin->value()));
+        promptCommand.append(QString(" --date=\"%1\"").arg(ui->lineEdit_DateFormatText->text()));
+        promptCommand.append(QString(" --time=\"%1\"").arg(ui->lineEdit_TimeFormatText->text()));
+        promptCommand.append(QString(" --prompt=\"%1\"").arg(ui->lineEdit_PromptText->text()));
+        promptCommand.append(QString(" --title=\"%1\"").arg(ui->lineEdit_TitleText->text()));
         rtn.program.append("\n");
         rtn.program.append(promptCommand);
     }
