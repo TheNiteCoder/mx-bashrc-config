@@ -1,7 +1,15 @@
-bash-config (19.10.01) UNRELEASED; urgency=medium
+bash-config (19.10.03) mx; urgency=medium
+
+  * remove unnecessary translations
+  * update help file
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Thu, 10 Oct 2019 21:29:36 -0400
+
+bash-config (19.10.02) mx; urgency=medium
 
   * Initial release (Nite Coder)
   * name adjustments
   * added help file 
+  * 
 
- -- Dolphin Oracle <dolphinoracle@gmail.com>  Wed, 09 Oct 2019 19:58:32 -0400
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Thu, 10 Oct 2019 21:29:22 -0400

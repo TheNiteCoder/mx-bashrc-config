@@ -147,69 +147,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../prompttab_fix.ui" line="215"/>
-        <location filename="../prompttab_fix.ui" line="255"/>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prompttab_fix.ui" line="245"/>
+        <location filename="../prompttab_fix.ui" line="234"/>
         <source>Date Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../prompttab_fix.ui" line="291"/>
+        <location filename="../prompttab_fix.ui" line="269"/>
         <source>Right Margin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../prompttab_fix.ui" line="327"/>
+        <location filename="../prompttab_fix.ui" line="305"/>
         <source>Extra Newlines Before Prompt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../prompttab_fix.ui" line="356"/>
+        <location filename="../prompttab_fix.ui" line="334"/>
         <source>Prompt Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../prompttab_fix.ui" line="385"/>
+        <location filename="../prompttab_fix.ui" line="363"/>
         <source>Title Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prompttab.cpp" line="63"/>
-        <source>prompt-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prompttab.cpp" line="143"/>
-        <source> --lines=&quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prompttab.cpp" line="144"/>
-        <source> --right=&quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prompttab.cpp" line="145"/>
-        <source> --date=&quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prompttab.cpp" line="146"/>
-        <source> --time=&quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prompttab.cpp" line="147"/>
-        <source> --prompt=&quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prompttab.cpp" line="148"/>
-        <source> --title=&quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -260,13 +219,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../window.cpp" line="46"/>
-        <location filename="../window.cpp" line="47"/>
-        <source>cp </source>
+        <location filename="../window.cpp" line="64"/>
+        <source>An easy way to configure your ~/.bashrc and bash prompt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../window.cpp" line="280"/>
+        <location filename="../window.cpp" line="285"/>
+        <location filename="../window.cpp" line="287"/>
+        <location filename="../window.cpp" line="289"/>
         <source>Bash Config</source>
         <translation type="unfinished"></translation>
     </message>
