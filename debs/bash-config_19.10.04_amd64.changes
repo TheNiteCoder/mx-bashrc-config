@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Fri, 11 Oct 2019 22:15:43 -0400
+Source: bash-config
+Binary: bash-config
+Architecture: source amd64
+Version: 19.10.04
+Distribution: mx
+Urgency: medium
+Maintainer: dolphin oracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ bash-config - Bash Config
+Changes:
+ bash-config (19.10.04) mx; urgency=medium
+ .
+   * update help file
+Checksums-Sha1:
+ 7f76636a4bdb9f26e63c6a6a237afab2af728331 641 bash-config_19.10.04.dsc
+ a4de7c12fbe69c3ee83b0d96c499ce86e12ff5b2 69628 bash-config_19.10.04.tar.xz
+ 37e19f9c04712bde4c1495aaa56b65faa75232bc 11800 bash-config-dbgsym_19.10.04_amd64.deb
+ dadf13968238129866b7481671ae2acf0c046b60 10918 bash-config_19.10.04_amd64.buildinfo
+ 5fb20ab0ef51f3f3d162aac7096c4f1d8fbd7b4c 124846 bash-config_19.10.04_amd64.deb
+Checksums-Sha256:
+ d7554352fe6e1b0c93a1daa1077d81d0183e7ad1a0c21209dc14d7d5ca4a969d 641 bash-config_19.10.04.dsc
+ 0a2909b00dcc6054712ef5a0fd42d0ece7ec9d76110faa85c31fdb325ba64a3a 69628 bash-config_19.10.04.tar.xz
+ 8db8510ca9607f48789650e4c4a94034f139c941c01393b98e99b839c4fb84de 11800 bash-config-dbgsym_19.10.04_amd64.deb
+ 40eb6576bb2af504c5e0d4675e45f4f0c73ad3ad3d7f7ab9f98bd3260d244706 10918 bash-config_19.10.04_amd64.buildinfo
+ e68ead8aec7180a6956c839285f4d02bbd100c747e5df91f1f0b53fb27a4ac25 124846 bash-config_19.10.04_amd64.deb
+Files:
+ a7f8ab984ad2601fe43f71ee8da3ebb9 641 admin optional bash-config_19.10.04.dsc
+ fd32e1f791f9f657b0c2f00f695edb22 69628 admin optional bash-config_19.10.04.tar.xz
+ 200df1b452fbce3aa9b9fe13570af836 11800 debug optional bash-config-dbgsym_19.10.04_amd64.deb
+ 1a8040d05e6904d6e3eb99bada6f65c0 10918 admin optional bash-config_19.10.04_amd64.buildinfo
+ cf9a2ab69d27e323a9751730ee8f9607 124846 admin optional bash-config_19.10.04_amd64.deb
