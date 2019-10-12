@@ -20,23 +20,24 @@ Window::Window(QWidget *parent) :
     m_manager(ui)
 {
     DEBUG_ENTER(Window::Window);
-    qsrand(time(nullptr));
     ui->setupUi(this);
 
     readPositionSettings();
 
     setWindowTitle(NAME);
 
-
+    /* Disabling
     qDebug() << "Backing up .bashrc to ~/bashrc<random number> IS QUICK FIX TO PROTECT BASHRCS";
     //temporay fix
     system("cp ~/.bashrc ~/bashrc" + QString::number(qrand()).toUtf8());
+    */
 
     m_manager.addTab(new AliasTab());
     m_manager.addTab(new PromptTab());
     auto data = getSource();
     m_manager.setup(getSource());
 
+    /* Disabled beacuse it doesn't work and won't be necassary
     QStringList backupFileNames;
     backupFileNames << USER_BASHRC << USER_BASHRC_ALIASES;
     for(auto backupFileName : backupFileNames)
@@ -47,6 +48,7 @@ Window::Window(QWidget *parent) :
                 DEBUG << "Command: " << QString("cp " + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup");
                 DEBUG << "Backup command returned a non zero number";
     }
+    */
 
     connect(ui->pushButton_Apply, &QPushButton::clicked, [=](){
         auto source = getSource();
@@ -63,12 +65,13 @@ Window::Window(QWidget *parent) :
     connect(ui->pushButton_About, &QPushButton::clicked, [=](){
         QMessageBox::about(this, NAME, tr("An easy way to configure your ~/.bashrc and bash prompt"));
     });
+    DEBUG_EXIT(Window::Window);
 }
 
 void Window::closeEvent(QCloseEvent *event)
 {
     DEBUG_ENTER(Window::closeEvent);
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     writePositionSettings();
     DEBUG_EXIT(Window::closeEvent);
 }
