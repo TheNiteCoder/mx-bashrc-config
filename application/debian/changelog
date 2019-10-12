@@ -1,3 +1,9 @@
+bash-config (19.10.04) mx; urgency=medium
+
+  * update help file 
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Fri, 11 Oct 2019 22:15:43 -0400
+
 bash-config (19.10.03) mx; urgency=medium
 
   * remove unnecessary translations
