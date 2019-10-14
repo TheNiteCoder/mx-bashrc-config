@@ -13,6 +13,7 @@ PromptTab::PromptTab()
     ui->setupUi(widget());
 
     connect(ui->comboBox_SelectPromptProvider, &QComboBox::currentTextChanged, [=](QString text){
+        Q_UNUSED(text)
         if (ui->comboBox_SelectPromptProvider->currentIndex() == 1)
         {
             ui->stackedWidget->setCurrentIndex(0);
