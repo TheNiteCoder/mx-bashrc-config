@@ -48,9 +48,39 @@ void PromptTab::setup(const BashrcSource data)
         ui->comboBox_SelectPromptProvider->setCurrentText("Default");
         ui->stackedWidget->setCurrentIndex(1);
         DEBUG << "Selected Default Prompt Provider";
+        QRegularExpression regexFindPS1("PS1=('|\")(.{0,})(\\1)");
+        QRegularExpressionMatchIterator iter = regexFindPS1.globalMatch(data.bashrc);
+        // need to retrieve the last match because only the last PS1 counts
+        QRegularExpressionMatch lastMatch;
+        while(iter.hasNext())
+        {
+            lastMatch = iter.next();
+        }
+        // get the 2nd group which is the content of the quotes
+        QString quotedText = lastMatch.captured(2);
+        DEBUG_VAR(quotedText);
+        // need to do the same for the program's bashrc
+        iter = regexFindPS1.globalMatch(data.program);
+        bool foundPS1 = false;
+        while(iter.hasNext())
+        {
+            foundPS1 = true;
+            lastMatch = iter.next();
+        }
+        QString programQuotedText = lastMatch.captured(2);
+        DEBUG_VAR(programQuotedText);
+        if(programQuotedText == quotedText.remove("\\n") && foundPS1)
+        {
+            ui->checkBox_RemoveAllNewlines->setChecked(true);
+        }
+        else
+        {
+            ui->checkBox_RemoveAllNewlines->setChecked(false);
+        }
     }
     else
     {
+        DEBUG << "Selected Fancy Prompt Prompt Provider";
         ui->comboBox_SelectPromptProvider->setCurrentText("Fancy Prompt");
         program.append("source /usr/local/bin/fancy-prompt.bash\n");
         ui->stackedWidget->setCurrentIndex(0);
@@ -147,8 +177,27 @@ BashrcSource PromptTab::exec(const BashrcSource data)
     }
     else
     {
-        //code for non fancy prompt
+        if(ui->checkBox_RemoveAllNewlines->isChecked())
+        {
+            QRegularExpression regexForPS1("PS1=('|\")(.{0,})(\\1)");
+            QRegularExpressionMatchIterator iter = regexForPS1.globalMatch(data.bashrc);
+            if(!iter.hasNext())
+            {
+                DEBUG << "No prompt code detected using regex: " << regexForPS1.pattern();
+                int ui = QMessageBox::warning(widget(), NAME + QString(" - Warning"), QString("No Prompt Configurations Found! Can Not Remove Newlines"), QMessageBox::Ok, QMessageBox::NoButton);
+                goto end; // not preferred method of logic and control flow but it works
+            }
+            QRegularExpressionMatch lastMatch;
+            while(iter.hasNext())
+            {
+                lastMatch = iter.next();
+            }
+            QString quotedText = lastMatch.captured(2);
+            quotedText = quotedText.remove("\\n");
+            rtn.program.append(QString("PS1=\"%1\"").arg(quotedText));
+        }
     }
+    end:
     DEBUG_EXIT(PromptTab::exec);
     return rtn;
 }
