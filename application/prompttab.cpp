@@ -58,7 +58,7 @@ void PromptTab::setup(const BashrcSource data)
     {
         ui->comboBox_SelectPromptProvider->setCurrentText("Prompt Builder");
         ui->stackedWidget->setCurrentIndex(2);
-        DEBUG << "Selected Prompt Builder Prompt Provider"
+        DEBUG << "Selected Prompt Builder Prompt Provider";
     }
     else
     {

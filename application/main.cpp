@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     QTranslator qtTran;
     qtTran.load(QString("qt_") + QLocale::system().name());
-    a.installTranslator(qtTran);
+    a.installTranslator(&qtTran);
 
     /*
     QTranslator prgmTran;
