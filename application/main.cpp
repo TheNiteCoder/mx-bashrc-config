@@ -1,6 +1,7 @@
 #include "window.h"
 #include "global.h"
 #include <QApplication>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
@@ -9,6 +10,17 @@ int main(int argc, char *argv[])
     QApplication::setOrganizationDomain("MX-Linux");
     QApplication::setApplicationName(NAME_BIN);
     QApplication::setApplicationVersion("1.0.0");
+
+    QTranslator qtTran;
+    qtTran.load(QString("qt_") + QLocale::system().name());
+    a.installTranslator(qtTran);
+
+    /*
+    QTranslator prgmTran;
+    prgmTran.load(QString(NAME_BIN) + QLocale::system().name(), "filepath"); //CHANGE PATH IF USING
+    a.installTranslator(prgmTran);
+    */
+
     Window w;
     w.show();
 
