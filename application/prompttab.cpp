@@ -22,10 +22,6 @@ PromptTab::PromptTab()
         {
             ui->stackedWidget->setCurrentIndex(1);
         }
-        else if(ui->comboBox_SelectPromptProvider->currentIndex() == 2)
-        {
-            ui->stackedWidget->setCurrentIndex(2);
-        }
     });
 
     DEBUG_EXIT(PromptTab::PromptTab);
@@ -52,13 +48,6 @@ void PromptTab::setup(const BashrcSource data)
         ui->comboBox_SelectPromptProvider->setCurrentText("Default");
         ui->stackedWidget->setCurrentIndex(1);
         DEBUG << "Selected Default Prompt Provider";
-    }
-    promptKeywordStart = searcher.search(QRegularExpression("^PS1="));
-    if(!CHECK_SEARCH(promptKeywordStart))
-    {
-        ui->comboBox_SelectPromptProvider->setCurrentText("Prompt Builder");
-        ui->stackedWidget->setCurrentIndex(2);
-        DEBUG << "Selected Prompt Builder Prompt Provider";
     }
     else
     {
