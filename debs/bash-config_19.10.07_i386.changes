@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Mon, 14 Oct 2019 15:46:18 -0400
+Source: bash-config
+Binary: bash-config
+Architecture: i386
+Version: 19.10.07
+Distribution: mx
+Urgency: medium
+Maintainer: dolphin oracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ bash-config - Bash Config
+Changes:
+ bash-config (19.10.07) mx; urgency=medium
+ .
+   * latest from upstream
+Checksums-Sha1:
+ e143193056e3c51c0fe6b1dfcd6ed054386d5a47 11616 bash-config-dbgsym_19.10.07_i386.deb
+ b9f1d114ea072c73adc3a873f47c09c3150ab128 10612 bash-config_19.10.07_i386.buildinfo
+ f054e4070274e8e8ea719d2808e717c93d792520 178956 bash-config_19.10.07_i386.deb
+Checksums-Sha256:
+ adc86f34b7cc57b351c5dc68f610e61a69270cbf38429f97bf59536c2e53fa32 11616 bash-config-dbgsym_19.10.07_i386.deb
+ d79650828dbb72fd4684b602794eb0d52501a87dab20468175c29e0f36b55e9d 10612 bash-config_19.10.07_i386.buildinfo
+ 3fa401c06625cfbf892f29341a6cb25d8fabda4e4c7531dd539a64f2162e2ec6 178956 bash-config_19.10.07_i386.deb
+Files:
+ 9be97a936f5c32c1f745fc029c0cd475 11616 debug optional bash-config-dbgsym_19.10.07_i386.deb
+ ab7f5f8585ba809e36adbff5f5035fa5 10612 admin optional bash-config_19.10.07_i386.buildinfo
+ b6840c24beb77335739418323c04bd30 178956 admin optional bash-config_19.10.07_i386.deb

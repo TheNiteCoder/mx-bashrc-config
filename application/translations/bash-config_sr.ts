@@ -171,6 +171,11 @@
         <source>Title Text</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../prompttab_fix.ui" line="379"/>
+        <source>Remove all newlines</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -219,14 +224,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../window.cpp" line="64"/>
+        <location filename="../window.cpp" line="66"/>
         <source>An easy way to configure your ~/.bashrc and bash prompt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../window.cpp" line="285"/>
-        <location filename="../window.cpp" line="287"/>
-        <location filename="../window.cpp" line="289"/>
+        <location filename="../window.cpp" line="288"/>
+        <location filename="../window.cpp" line="290"/>
+        <location filename="../window.cpp" line="292"/>
         <source>Bash Config</source>
         <translation type="unfinished"></translation>
     </message>
