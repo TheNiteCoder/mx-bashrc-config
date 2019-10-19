@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     tab.cpp \
     prompttab.cpp \
     aliastab.cpp \
-    aliasstream.cpp
+    aliasstream.cpp \
+    global.cpp
 
 HEADERS  += window.h \
     buffer.h \

@@ -7,6 +7,8 @@ This file is dedicated to feature ideas and other things
   * Drag and Drop interface? 
     * pros: Really easy for user
     * cons: Hard to code
-  * Editor allowing you to edit the promopt code directly
+  * Editor allowing you to edit the prompt code directly
     * pros: Easy to code
     * cons: Not really useful unless you know what you are doing
+  * Progress
+    * Added a quick option of removing all the newlines providing a little more customization 
