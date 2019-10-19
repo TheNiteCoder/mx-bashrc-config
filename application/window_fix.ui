@@ -20,8 +20,7 @@
    <string>Window</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="terminal">
-    <normaloff>.</normaloff>.</iconset>
+   <iconset theme="preferences-system"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -69,7 +68,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="resource.qrc">:/logo.png</pixmap>
+        <pixmap>:/logo.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -112,8 +111,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
