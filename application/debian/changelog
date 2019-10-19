@@ -1,6 +1,6 @@
 bash-config (19.10.08) mx; urgency=medium
 
-  * fix to "remove all newlines" function
+  * fix to "remove all newlines" function (nite coder)
 
  -- Dolphin Oracle <dolphinoracle@gmail.com>  Fri, 18 Oct 2019 22:01:50 -0400
 
