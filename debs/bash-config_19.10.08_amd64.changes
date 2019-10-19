@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Fri, 18 Oct 2019 22:01:50 -0400
+Source: bash-config
+Binary: bash-config
+Architecture: source amd64
+Version: 19.10.08
+Distribution: mx
+Urgency: medium
+Maintainer: dolphin oracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ bash-config - Bash Config
+Changes:
+ bash-config (19.10.08) mx; urgency=medium
+ .
+   * fix to "remove all newlines" function (nite coder)
+Checksums-Sha1:
+ 0f2dc7359bdc05ba062bd0cc354d471461544ae0 644 bash-config_19.10.08.dsc
+ 70ea915197bf73342661b516b8f66820be315384 123332 bash-config_19.10.08.tar.xz
+ 830a4611d18d7c76b6105ce8f7ccd4efc206dc90 12146 bash-config-dbgsym_19.10.08_amd64.deb
+ c98f673fb92ad0aef73e1bc60ff27e6ce1dc4239 10918 bash-config_19.10.08_amd64.buildinfo
+ 6194ab9da523a4bebf1d0c2767b2749f3d8f7111 179746 bash-config_19.10.08_amd64.deb
+Checksums-Sha256:
+ 3010c5e2074cec4fc4de05e5556d9266f188d2dcf69a3f1e6a085d9011dddc33 644 bash-config_19.10.08.dsc
+ f00a52d55093ed3c0dabc3ee748d91a4df8b04819fb64e16f7a976422bc685f1 123332 bash-config_19.10.08.tar.xz
+ 2eac11bdf15c66e3705b811444135641f3eb7ae73f55f33a4bee3e5b4db90ab3 12146 bash-config-dbgsym_19.10.08_amd64.deb
+ 7221c3eeb5d47f5a06bd65cb0194b68e1c5945444704e32def505f76a8ecfb68 10918 bash-config_19.10.08_amd64.buildinfo
+ 56793ac1d05a50277e29bf6e896e0e3a2eebb058d6027634b648b6c8e0eb6f90 179746 bash-config_19.10.08_amd64.deb
+Files:
+ 4e443559564502a08f65454f728fe2b7 644 admin optional bash-config_19.10.08.dsc
+ 47b92241cf830cec90e5e14d29f347cb 123332 admin optional bash-config_19.10.08.tar.xz
+ 437600789318cc32a08b24c4a7871841 12146 debug optional bash-config-dbgsym_19.10.08_amd64.deb
+ 07dd4aad64d81af7eaac94e37bfc14fc 10918 admin optional bash-config_19.10.08_amd64.buildinfo
+ 3991949deba9e49d43ecdf3776a20926 179746 admin optional bash-config_19.10.08_amd64.deb
