@@ -3,6 +3,7 @@
 #include "searcher.h"
 #include <QMap>
 #include <QMessageBox>
+#include <QProcess>
 
 PromptTab::PromptTab()
     : Tab("Prompt")
@@ -49,34 +50,34 @@ void PromptTab::setup(const BashrcSource data)
         ui->stackedWidget->setCurrentIndex(1);
         DEBUG << "Selected Default Prompt Provider";
         QRegularExpression regexFindPS1("PS1=('|\")(.{0,})(\\1)");
-        QRegularExpressionMatchIterator iter = regexFindPS1.globalMatch(data.bashrc);
-        // need to retrieve the last match because only the last PS1 counts
-        QRegularExpressionMatch lastMatch;
-        while(iter.hasNext())
-        {
-            lastMatch = iter.next();
-        }
-        // get the 2nd group which is the content of the quotes
-        QString quotedText = lastMatch.captured(2);
-        DEBUG_VAR(quotedText);
         // need to do the same for the program's bashrc
-        iter = regexFindPS1.globalMatch(data.program);
-        bool foundPS1 = false;
+        QRegularExpressionMatchIterator iter = regexFindPS1.globalMatch(data.program);
+        QRegularExpressionMatch lastMatch;
+        bool foundPS1 = iter.hasNext();
         while(iter.hasNext())
         {
-            foundPS1 = true;
             lastMatch = iter.next();
         }
         QString programQuotedText = lastMatch.captured(2);
         DEBUG_VAR(programQuotedText);
-        if(programQuotedText == quotedText.remove("\\n") && foundPS1)
+        // removing stderr because bash says an error through stderr: bash: cannot set terminal process group (2761): Inappropriate ioctl for device\nbash: no job control in this shell
+        ExecuteResult result = runCmd("echo $PS1", true, true);
+        DEBUG_VAR(result.output);
+
+        if(!result.output.isEmpty())
         {
-            ui->checkBox_RemoveAllNewlines->setChecked(true);
+            QString PS1 = result.output.replace("\n", " ");
+            DEBUG_VAR(PS1);
+            if(programQuotedText == PS1.remove("\\n") && foundPS1)
+            {
+                ui->checkBox_RemoveAllNewlines->setChecked(true);
+            }
+            else
+            {
+                ui->checkBox_RemoveAllNewlines->setChecked(false);
+            }
         }
-        else
-        {
-            ui->checkBox_RemoveAllNewlines->setChecked(false);
-        }
+        else DEBUG << "PS1 variable not found in QProcess bash -i";
     }
     else
     {
@@ -90,6 +91,7 @@ void PromptTab::setup(const BashrcSource data)
         int promptTypeEnd = searcher.search(' ', promptTypeStart);
         if(!CHECK_SEARCH(promptTypeEnd))
         {
+            DEBUG_EXIT(PromptTab::setup);
             return;
         }
 
@@ -179,22 +181,18 @@ BashrcSource PromptTab::exec(const BashrcSource data)
     {
         if(ui->checkBox_RemoveAllNewlines->isChecked())
         {
-            QRegularExpression regexForPS1("PS1=('|\")(.{0,})(\\1)");
-            QRegularExpressionMatchIterator iter = regexForPS1.globalMatch(data.bashrc);
-            if(!iter.hasNext())
+            QString result = runCmd("echo $PS1", true, true).output.replace("\n", " ");
+            if(!result.isEmpty())
             {
-                DEBUG << "No prompt code detected using regex: " << regexForPS1.pattern();
+                QString PS1 = result;
+                DEBUG_VAR(PS1);
+                rtn.program.append(QString("PS1=\"%1\"").arg(PS1.remove("\\n")));
+            }
+            else
+            {
                 int ui = QMessageBox::warning(widget(), NAME + QString(" - Warning"), QString("No Prompt Configurations Found! Can Not Remove Newlines"), QMessageBox::Ok, QMessageBox::NoButton);
-                goto end; // not preferred method of logic and control flow but it works
+                goto end;
             }
-            QRegularExpressionMatch lastMatch;
-            while(iter.hasNext())
-            {
-                lastMatch = iter.next();
-            }
-            QString quotedText = lastMatch.captured(2);
-            quotedText = quotedText.remove("\\n");
-            rtn.program.append(QString("PS1=\"%1\"").arg(quotedText));
         }
     }
     end:
