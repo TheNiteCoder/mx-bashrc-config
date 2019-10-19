@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Fri, 18 Oct 2019 22:01:50 -0400
+Source: bash-config
+Binary: bash-config
+Architecture: i386
+Version: 19.10.08
+Distribution: mx
+Urgency: medium
+Maintainer: dolphin oracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ bash-config - Bash Config
+Changes:
+ bash-config (19.10.08) mx; urgency=medium
+ .
+   * fix to "remove all newlines" function (nite coder)
+Checksums-Sha1:
+ eff40f40757a7a690c51b4d70034ad51590d3cdc 11918 bash-config-dbgsym_19.10.08_i386.deb
+ 406c409c8ee1cfe3dc965edbed97fcceee724dd8 10612 bash-config_19.10.08_i386.buildinfo
+ 369b6e415f27d050f5c8368c931e241bdecbac62 181578 bash-config_19.10.08_i386.deb
+Checksums-Sha256:
+ f5f8baee07180d54a30e685c6a59e7dbe451b47fda11f20fb9cde7b0721a43f2 11918 bash-config-dbgsym_19.10.08_i386.deb
+ aafe53056c1a8cb0675e7f5f8fb74032c9f206a034f4f2d6507cad75543890d1 10612 bash-config_19.10.08_i386.buildinfo
+ b8156b7970bdb2227d7d9dd79ab9d70c69e6f9571b2fe0b6df291e8c3563d95a 181578 bash-config_19.10.08_i386.deb
+Files:
+ f7ea592f911203a35824f378613be17e 11918 debug optional bash-config-dbgsym_19.10.08_i386.deb
+ d8d00d17ef08ae50cdebe415a4832e54 10612 admin optional bash-config_19.10.08_i386.buildinfo
+ 25993c3a44c03a4e819a14eaf6e721d5 181578 admin optional bash-config_19.10.08_i386.deb
