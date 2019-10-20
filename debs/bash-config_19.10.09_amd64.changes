@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Sat, 19 Oct 2019 13:40:30 -0400
+Source: bash-config
+Binary: bash-config
+Architecture: source amd64
+Version: 19.10.09
+Distribution: mx
+Urgency: medium
+Maintainer: dolphin oracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ bash-config - Bash Config
+Changes:
+ bash-config (19.10.09) mx; urgency=medium
+ .
+   * icon change in app
+Checksums-Sha1:
+ 4161f6054fcb162dfad11d192a33add81296b421 644 bash-config_19.10.09.dsc
+ 4635f1f33794c4d44fc4c6b293837ad902145576 123344 bash-config_19.10.09.tar.xz
+ 7d85b1ce59be2e9787211238aaa8c13a64a17d9c 12156 bash-config-dbgsym_19.10.09_amd64.deb
+ 01333e9112153ffa7347ad5bcff11dca0d0b6666 10918 bash-config_19.10.09_amd64.buildinfo
+ f048f7f752a86e9c04f1dccad5c297dbdb3a48e6 179644 bash-config_19.10.09_amd64.deb
+Checksums-Sha256:
+ e0441afb100182a9bcdca425f32367c0a1dd23dfd32dca48147662a839d4ed77 644 bash-config_19.10.09.dsc
+ 9b1fea5cdc1f5fbe6f0b87e2da6ff3766d48f36f8af27e8ee8ac41f5e585a01d 123344 bash-config_19.10.09.tar.xz
+ 22aa1a8cff0ae8eba2accc50ac65bcc55bf8688a517c8eabdc227bf096a2ba94 12156 bash-config-dbgsym_19.10.09_amd64.deb
+ 6f119d36823f88e7642ed4b2059064daf26b0b3f2826834ef0aad6a61a1269a2 10918 bash-config_19.10.09_amd64.buildinfo
+ a810360dbb1c9ec15440992185dd9c16e180f61c1bce8172e9768401385dc9b4 179644 bash-config_19.10.09_amd64.deb
+Files:
+ d3f4332bc2fedeb63aae41de1aebd513 644 admin optional bash-config_19.10.09.dsc
+ 4d64c3c5b5e052342f0977f41d174f2b 123344 admin optional bash-config_19.10.09.tar.xz
+ dc42cb3ee9cbcee45ba87d90b790d9e6 12156 debug optional bash-config-dbgsym_19.10.09_amd64.deb
+ ea78beeab065f7adcd7cb626dfe867f5 10918 admin optional bash-config_19.10.09_amd64.buildinfo
+ 1fecd33935a6d39c6814849ae2379cc1 179644 admin optional bash-config_19.10.09_amd64.deb
