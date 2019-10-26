@@ -61,12 +61,12 @@ void PromptTab::setup(const BashrcSource data)
         QString programQuotedText = lastMatch.captured(2);
         DEBUG_VAR(programQuotedText);
         // removing stderr because bash says an error through stderr: bash: cannot set terminal process group (2761): Inappropriate ioctl for device\nbash: no job control in this shell
-        ExecuteResult result = runCmd("echo $PS1", true, true);
+        ExecuteResult result = runCmd("echo -n \"$PS1\"", true, true); // -n for removing the newline and \"'s for keeping leading whitespace
         DEBUG_VAR(result.output);
 
         if(!result.output.isEmpty())
         {
-            QString PS1 = result.output.replace("\n", " ");
+            QString PS1 = result.output;
             DEBUG_VAR(PS1);
             if(programQuotedText == PS1.remove("\\n") && foundPS1)
             {
@@ -181,10 +181,10 @@ BashrcSource PromptTab::exec(const BashrcSource data)
     {
         if(ui->checkBox_RemoveAllNewlines->isChecked())
         {
-            QString result = runCmd("echo $PS1", true, true).output.replace("\n", " ");
-            if(!result.isEmpty())
+            ExecuteResult result = runCmd("echo -n \"$PS1\"", true, true); // -n for removing the newline and \"'s for keeping leading whitespace
+            if(!result.output.isEmpty())
             {
-                QString PS1 = result;
+                QString PS1 = result.output;
                 DEBUG_VAR(PS1);
                 rtn.program.append(QString("PS1=\"%1\"").arg(PS1.remove("\\n")));
             }
