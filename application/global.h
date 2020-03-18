@@ -46,4 +46,5 @@ ExecuteResult runCmd(QString cmd, bool interactive = false, bool onlyStdout = fa
 #define DEBUG_ENTER(x) __debug_start__.append(QObject::tr(__FILE__) + ":" + QString::number(__LINE__) + ":" + QObject::tr(#x)) //qDebug() << "+++ " << #x << " +++"
 #define DEBUG_EXIT(x) __debug_start__.pop_back() //qDebug() << "--- " << #x << " ---"
 #define CHECK(x) if(x == -1) continue
+
 #endif // GLOBAL_H
