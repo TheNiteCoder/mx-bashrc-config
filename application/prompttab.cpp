@@ -44,6 +44,8 @@ PromptTab::PromptTab()
         if(item != nullptr)
         {
             ui->listWidget_PromptCustom->addItem(item);
+            CustomPromptItem* citem = static_cast<CustomPromptItem*>(item);
+            CustomPromptItemEditor::edit(citem);
         }
     });
 
