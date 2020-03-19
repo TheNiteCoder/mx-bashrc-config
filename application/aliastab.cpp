@@ -144,6 +144,10 @@ BashrcSource AliasTab::exec(const BashrcSource data)
 
     for(int row = 0; row < ui->tableWidget_Aliases->rowCount(); row++)
     {
+        // if empty field in either field skip over this alias
+        if(ui->tableWidget_Aliases->item(row, 0)->text().isEmpty() ||
+                ui->tableWidget_Aliases->item(row, 1)->text().isEmpty())
+            continue;
         Alias alias(ui->tableWidget_Aliases->item(row, 0)->text(),
                     ui->tableWidget_Aliases->item(row, 1)->text());
         alias.setInBashrc(static_cast<AliasTabTableWidgetItem*>(ui->tableWidget_Aliases->item(row, 0))->info().toBool());
