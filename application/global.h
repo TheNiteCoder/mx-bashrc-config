@@ -36,7 +36,7 @@ ExecuteResult runCmd(QString cmd, bool interactive = false, bool onlyStdout = fa
 #define USER_BASHRC joinPath(QDir::homePath(), ".bashrc")
 #define USER_BASHRC_ALIASES joinPath(QDir::homePath(), ".bash_aliases")
 #define PROGRAM_BASHRC joinPath(QDir::homePath(), ".config/bash-config/bashrc.bash")
-#define SUGGEST_ALIASES joinPath(QDir::homePath(), "suggest_aliases")
+#define SUGGEST_ALIASES joinPath(QDir::homePath(), ".config/bash-config/suggest_aliases")
 #define BACKUP_BASHRCS joinPath(QDir::homePath(), ".config/bash-config/")
 
 #define DEBUG qDebug() << __debug_start__.last()

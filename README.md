@@ -18,4 +18,13 @@ Qt5 GUI
 
 Qt5 Widgets
 
+## Usage and Features
+
+### Suggesting Aliases
+
+Using standard bash alias syntax: `alias ls="ls -l"` you can suggest aliases to the user.
+
+File path easily changed in the global.h file `#define SUGGEST_ALIASES`
+
+
 
