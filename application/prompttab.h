@@ -8,6 +8,8 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QDialog>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 class QPushButton;
 class QLineEdit;
@@ -20,6 +22,7 @@ enum class CustomPromptItemType
 {
     Base = 0,
     SimpleText,
+    Text,
     Special,
 };
 
@@ -30,6 +33,8 @@ enum class CustomPromptPropertyType
     Checkbox,
     Text,
 };
+
+class XmlConverter;
 
 class CustomPromptProperty : public QObject
 {
@@ -57,6 +62,8 @@ public:
     void setColor(QColor color) { m_color = color; updateBtn(); }
     QColor color() const { return m_color; }
     bool enabled() const { return m_enabledColor; }
+    void setEnabled(bool enabled) { m_enabledColor = enabled; updateBtn(); }
+    // TODO move out of the ColorProperty class
     QString stringify(QColor color) const;
     CustomPromptPropertyType type() const override { return CustomPromptPropertyType::Color; }
 private slots:
@@ -100,32 +107,52 @@ class CustomPromptItem : public QListWidgetItem
 public:
     CustomPromptItem(QString name);
     QVector<CustomPromptProperty*> properties() const { return m_properties; }
-    CustomPromptProperty* propertyByName(QString name);
-    virtual void save() = 0;
-    virtual QString stringify() { return QString{}; }
+    CustomPromptProperty* propertyByName(QString name) const;
+    virtual void updateMembers() {}
+    virtual void updateProperties() {}
     virtual CustomPromptItemType type() const { return CustomPromptItemType::Base; }
 protected:
     QVector<CustomPromptProperty*> m_properties;
+    friend XmlConverter;
 };
 
 class SimpleTextItem : public CustomPromptItem
 {
 public:
     SimpleTextItem(QString name);
-    void save() override;
-    QString stringify() override;
+    void updateMembers() override;
+    void updateProperties() override;
     CustomPromptItemType type() const override { return CustomPromptItemType::SimpleText; }
-    QPair<QColor, bool> propertyForeground() const { return {foreground, foregroundEnabled}; }
-    QPair<QColor, bool> propertyBackground() const { return {background, backgroundEnabled}; }
-    QString propertyString() const { return str; }
-    bool propertyBold() const { return bold; }
-protected:
-    QColor foreground, background;
-    QString str;
-    bool bold, foregroundEnabled, backgroundEnabled;
+    QColor propertyForeground() const { return m_foreground; }
+    void setPropertyForeground(QColor color) { m_foreground = color; updateProperties(); }
+    QColor propertyBackground() const { return m_background; }
+    void setPropertyBackground(QColor color) { m_background = color; updateProperties(); }
+    bool propertyForegroundEnabled() const { return m_foregroundEnabled; }
+    void setPropertyForegroundEnabled(bool enabled) { m_foregroundEnabled = enabled; updateProperties(); }
+    bool propertyBackgroundEnabled() const { return m_backgroundEnabled; }
+    void setPropertyBackgroundEnabled(bool enabled) { m_backgroundEnabled = enabled; updateProperties(); }
+    bool propertyBold() const { return m_bold; }
+    void setPropertyBold(bool bold) { m_bold = bold; updateProperties(); }
+private:
+    QColor m_defaultBackgroundColor, m_defaultForegroundColor;
+    QColor m_foreground, m_background;
+    bool m_bold, m_foregroundEnabled, m_backgroundEnabled;
 };
 
-class SpecialItem : public CustomPromptItem
+class TextItem : public SimpleTextItem
+{
+public:
+    TextItem(QString name, QString text);
+    void updateMembers() override;
+    void updateProperties() override;
+    CustomPromptItemType type() const override { return CustomPromptItemType::Text; }
+    QString propertyText() const { return m_text; }
+    void setPropertyText(QString text) { m_text = text; updateProperties(); }
+protected:
+    QString m_text;
+};
+
+class SpecialItem : public SimpleTextItem
 {
 public:
     enum class Type
@@ -136,18 +163,14 @@ public:
         WorkingLong,
         WorkingShort,
     };
-    static QString typeToString(Type t);
+    static QString typeToBashString(Type t);
     SpecialItem(QString name, Type type);
-    void save() override;
-    QString stringify() override;
+    void updateMembers() override;
+    void updateProperties() override;
     Type itemType() const { return m_type; }
-    QPair<QColor, bool> propertyForeground() const { return {foreground, foregroundEnabled}; }
-    QPair<QColor, bool> propertyBackground() const { return {background, backgroundEnabled}; }
-    bool propertyBold() const { return bold; }
+    void setItemType(Type t) { m_type = t; }
     CustomPromptItemType type() const override { return CustomPromptItemType::Special; }
 protected:
-    QColor foreground, background;
-    bool bold, foregroundEnabled, backgroundEnabled;
     Type m_type;
 };
 
@@ -163,6 +186,13 @@ public:
     static void edit(CustomPromptItem* item, QWidget* parent = nullptr);
 };
 
+class XmlConverter
+{
+public:
+    static QString convert(CustomPromptItem* item);
+    static CustomPromptItem* convert(QString source);
+};
+
 class PromptTab : public Tab
 {
 public:
@@ -174,5 +204,8 @@ protected:
     Ui::PromptTab* ui;
     const QString customPromptCommentString = "#BASH_CONFIG_USING_CUSTOM_PROMPT";
 };
+
+QString itemToXml(CustomPromptItem* item);
+CustomPromptItem* xmlToItem(QString xml);
 
 #endif // PROMPTTAB_H

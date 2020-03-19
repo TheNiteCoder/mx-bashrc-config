@@ -33,8 +33,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>426</width>
-        <height>620</height>
+        <width>440</width>
+        <height>476</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -68,311 +68,330 @@
          <widget class="QWidget" name="page_FancyPrompts">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <widget class="QComboBox" name="comboBox_SelectFancyPrompt">
-             <item>
-              <property name="text">
-               <string>Tiny</string>
+            <widget class="QScrollArea" name="scrollArea_2">
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="scrollAreaWidgetContents_2">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>337</width>
+                <height>568</height>
+               </rect>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Std</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Color</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Gentoo</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Dir</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Med</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Narrow</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Wide</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Fancy</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Zee</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Date</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Curl</string>
-              </property>
-             </item>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <widget class="QComboBox" name="comboBox_SelectFancyPrompt">
+                 <item>
+                  <property name="text">
+                   <string>Tiny</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Std</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Color</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Gentoo</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Dir</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Med</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Narrow</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Wide</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Fancy</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Zee</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Date</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Curl</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_CompactLargePrompts">
+                 <property name="text">
+                  <string>Make The Larger Prompts Smaller</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_MutedColors">
+                 <property name="text">
+                  <string>Muted Colors</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_DisableUnicode">
+                 <property name="text">
+                  <string>Disable Unicode</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_5">
+                   <property name="text">
+                    <string>Time Format</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_TimeFormatText"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>Date Format</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_DateFormatText"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Right Margin</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinBox_RightMargin">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="text">
+                    <string>Extra Newlines Before Prompt</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinBox_ExtraNewlinesBeforePrompt"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="text">
+                    <string>Prompt Text</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_PromptText"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_7">
+                   <property name="text">
+                    <string>Title Text</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_TitleText"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_DoubleLines">
+                 <property name="text">
+                  <string>Use Double Lines</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_BoldLines">
+                 <property name="text">
+                  <string>Use Bold Lines</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_NoColor">
+                 <property name="text">
+                  <string>No Colors(Overrides All Other Color Options)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_ParensInstead">
+                 <property name="text">
+                  <string>Use Parentheses Instead Of Square Brackets</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_CompactLargePrompts2">
+                 <property name="text">
+                  <string>Make the Larger Prompts Smaller Elsewhere</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_CompactLargePrompts">
-             <property name="text">
-              <string>Make The Larger Prompts Smaller</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_CompactLargePrompts2">
-             <property name="text">
-              <string>Make the Larger Prompts Smaller Elsewhere</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_ParensInstead">
-             <property name="text">
-              <string>Use Parentheses Instead Of Square Brackets</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_NoColor">
-             <property name="text">
-              <string>No Colors(Overrides All Other Color Options)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_BoldLines">
-             <property name="text">
-              <string>Use Bold Lines</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_DoubleLines">
-             <property name="text">
-              <string>Use Double Lines</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_DisableUnicode">
-             <property name="text">
-              <string>Disable Unicode</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_MutedColors">
-             <property name="text">
-              <string>Muted Colors</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <property name="spacing">
-              <number>10</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>Time Format</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_TimeFormatText"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <property name="spacing">
-              <number>10</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Date Format</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_DateFormatText"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <property name="spacing">
-              <number>10</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Right Margin</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinBox_RightMargin">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="spacing">
-              <number>10</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Extra Newlines Before Prompt</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinBox_ExtraNewlinesBeforePrompt"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <property name="spacing">
-              <number>10</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_4">
-               <property name="text">
-                <string>Prompt Text</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_PromptText"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <property name="spacing">
-              <number>10</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>Title Text</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_TitleText"/>
-             </item>
-            </layout>
            </item>
           </layout>
          </widget>
@@ -403,6 +422,9 @@
          <widget class="QWidget" name="page">
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
+            <widget class="QListWidget" name="listWidget_PromptCustom"/>
+           </item>
+           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <property name="sizeConstraint">
               <enum>QLayout::SetMaximumSize</enum>
@@ -417,6 +439,9 @@
                </property>
                <property name="text">
                 <string>Add Item</string>
+               </property>
+               <property name="icon">
+                <iconset theme="list-add"/>
                </property>
                <property name="checkable">
                 <bool>false</bool>
@@ -437,12 +462,12 @@
                <property name="text">
                 <string>Remove Item(s)</string>
                </property>
+               <property name="icon">
+                <iconset theme="list-remove"/>
+               </property>
               </widget>
              </item>
             </layout>
-           </item>
-           <item>
-            <widget class="QListWidget" name="listWidget_PromptCustom"/>
            </item>
           </layout>
          </widget>
