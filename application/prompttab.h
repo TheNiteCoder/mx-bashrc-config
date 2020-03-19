@@ -168,9 +168,10 @@ public:
     void updateMembers() override;
     void updateProperties() override;
     Type itemType() const { return m_type; }
-    void setItemType(Type t) { m_type = t; }
+    void setItemType(Type t) { m_type = t; refreshText(); }
     CustomPromptItemType type() const override { return CustomPromptItemType::Special; }
 protected:
+    void refreshText();
     Type m_type;
 };
 

@@ -55,6 +55,32 @@ PromptTab::PromptTab()
         }
     });
 
+    connect(ui->pushButton_PromptCustomUp, &QPushButton::clicked, [=](){
+        QList<QListWidgetItem*> items = ui->listWidget_PromptCustom->selectedItems();
+        if(items.size() == 0) return;
+        QListWidgetItem* item = items.at(0);
+        if(item == nullptr) return;
+        ui->listWidget_PromptCustom->setCurrentItem(item);
+        int index = ui->listWidget_PromptCustom->currentRow();
+        if(index == 0) return;
+        item = ui->listWidget_PromptCustom->takeItem(index);
+        ui->listWidget_PromptCustom->insertItem(index - 1, item);
+        ui->listWidget_PromptCustom->setCurrentItem(item);
+    });
+
+    connect(ui->pushButton_PromptCustomDown, &QPushButton::clicked, [=](){
+        QList<QListWidgetItem*> items = ui->listWidget_PromptCustom->selectedItems();
+        if(items.size() == 0) return;
+        QListWidgetItem* item = items.at(0);
+        if(item == nullptr) return;
+        ui->listWidget_PromptCustom->setCurrentItem(item);
+        int index = ui->listWidget_PromptCustom->currentRow();
+        if(index == ui->listWidget_PromptCustom->count() - 1) return;
+        item = ui->listWidget_PromptCustom->takeItem(index);
+        ui->listWidget_PromptCustom->insertItem(index + 1, item);
+        ui->listWidget_PromptCustom->setCurrentItem(item);
+    });
+
     connect(ui->listWidget_PromptCustom, &QListWidget::itemDoubleClicked, [=](QListWidgetItem* item){
         CustomPromptItem* citem = dynamic_cast<CustomPromptItem*>(item);
         CustomPromptItemEditor::edit(citem);
@@ -338,7 +364,7 @@ BashrcSource PromptTab::exec(const BashrcSource data)
 
                 if(bold)
                 {
-                    code.append("export PS1=\"$(tput bold)\"\n");
+                    code.append("export PS1=\"$PS1$(tput bold)\"\n");
                 }
 
                 if(obj->propertyForegroundEnabled())
@@ -367,6 +393,7 @@ BashrcSource PromptTab::exec(const BashrcSource data)
                 lines.append(code);
 
             }
+            lines.append("export PS1=\"$PS1$(tput sgr0)\"\n");
         }
         // this stops the escape squences from applying anymore
         lines.append("export PS1=\"$PS1$(tput sgr0)\"\n");
@@ -628,7 +655,22 @@ SpecialItem::SpecialItem(QString name, SpecialItem::Type type)
     : SimpleTextItem(name)
 {
     m_type = type;
-    switch(type)
+    refreshText();
+}
+
+void SpecialItem::updateMembers()
+{
+    SimpleTextItem::updateMembers();
+}
+
+void SpecialItem::updateProperties()
+{
+    SimpleTextItem::updateProperties();
+}
+
+void SpecialItem::refreshText()
+{
+    switch(m_type)
     {
     case Type::HostLong:
         setText("Hostname (Long)");
@@ -643,19 +685,9 @@ SpecialItem::SpecialItem(QString name, SpecialItem::Type type)
         setText("Current Directory(Long)");
         break;
     case Type::WorkingShort:
-        setText("Current Directory(Short");
+        setText("Current Directory(Short)");
         break;
     }
-}
-
-void SpecialItem::updateMembers()
-{
-    SimpleTextItem::updateMembers();
-}
-
-void SpecialItem::updateProperties()
-{
-    SimpleTextItem::updateProperties();
 }
 
 CustomPromptProperty* CustomPromptItem::propertyByName(QString name) const
@@ -824,25 +856,29 @@ CustomPromptItem *xmlToItem(QString xml)
                     if(xmlStream.name() == "itemType")
                     {
                         QString rawStringItemType = xmlStream.readElementText();
-                        if(rawStringItemType == "WorkingLong")
+                        if(rawStringItemType == "workinglong")
                         {
                             static_cast<SpecialItem*>(obj)->setItemType(SpecialItem::Type::WorkingLong);
                         }
-                        if(rawStringItemType == "WorkingShort")
+                        else if(rawStringItemType == "workingshort")
                         {
                             static_cast<SpecialItem*>(obj)->setItemType(SpecialItem::Type::WorkingShort);
                         }
-                        if(rawStringItemType == "HostLong")
+                        else if(rawStringItemType == "hostlong")
                         {
                             static_cast<SpecialItem*>(obj)->setItemType(SpecialItem::Type::HostLong);
                         }
-                        if(rawStringItemType == "HostShort")
+                        else if(rawStringItemType == "hostshort")
                         {
                             static_cast<SpecialItem*>(obj)->setItemType(SpecialItem::Type::HostShort);
                         }
-                        if(rawStringItemType == "Username")
+                        else if(rawStringItemType == "username")
                         {
                             static_cast<SpecialItem*>(obj)->setItemType(SpecialItem::Type::Username);
+                        }
+                        else
+                        {
+                            DEBUG << "rawStringItemType didn't match: " << rawStringItemType;
                         }
                     }
                     else if(xmlStream.name() == "bold")

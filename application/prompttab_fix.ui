@@ -63,7 +63,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_FancyPrompts">
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -76,8 +76,8 @@
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>0</y>
-                <width>337</width>
+                <y>-119</y>
+                <width>388</width>
                 <height>568</height>
                </rect>
               </property>
@@ -164,6 +164,41 @@
                 <widget class="QCheckBox" name="checkBox_DisableUnicode">
                  <property name="text">
                   <string>Disable Unicode</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_DoubleLines">
+                 <property name="text">
+                  <string>Use Double Lines</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_BoldLines">
+                 <property name="text">
+                  <string>Use Bold Lines</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_NoColor">
+                 <property name="text">
+                  <string>No Colors(Overrides All Other Color Options)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_ParensInstead">
+                 <property name="text">
+                  <string>Use Parentheses Instead Of Square Brackets</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_CompactLargePrompts2">
+                 <property name="text">
+                  <string>Make the Larger Prompts Smaller Elsewhere</string>
                  </property>
                 </widget>
                </item>
@@ -354,41 +389,6 @@
                  </item>
                 </layout>
                </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_DoubleLines">
-                 <property name="text">
-                  <string>Use Double Lines</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_BoldLines">
-                 <property name="text">
-                  <string>Use Bold Lines</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_NoColor">
-                 <property name="text">
-                  <string>No Colors(Overrides All Other Color Options)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_ParensInstead">
-                 <property name="text">
-                  <string>Use Parentheses Instead Of Square Brackets</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_CompactLargePrompts2">
-                 <property name="text">
-                  <string>Make the Larger Prompts Smaller Elsewhere</string>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </widget>
             </widget>
@@ -438,10 +438,11 @@
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Add Item</string>
+                <string>Add</string>
                </property>
                <property name="icon">
-                <iconset theme="list-add"/>
+                <iconset theme="list-add">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
                <property name="checkable">
                 <bool>false</bool>
@@ -460,10 +461,37 @@
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Remove Item(s)</string>
+                <string>Remove</string>
                </property>
                <property name="icon">
-                <iconset theme="list-remove"/>
+                <iconset theme="list-remove">
+                 <normaloff>.</normaloff>.</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_PromptCustomUp">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Up</string>
+               </property>
+               <property name="icon">
+                <iconset theme="arrow-up"/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_PromptCustomDown">
+               <property name="text">
+                <string>Down</string>
+               </property>
+               <property name="icon">
+                <iconset theme="arrow-down"/>
                </property>
               </widget>
              </item>
