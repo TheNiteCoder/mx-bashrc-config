@@ -134,9 +134,8 @@ public:
     bool propertyBold() const { return m_bold; }
     void setPropertyBold(bool bold) { m_bold = bold; updateProperties(); }
 private:
-    QColor m_defaultBackgroundColor, m_defaultForegroundColor;
     QColor m_foreground, m_background;
-    bool m_bold, m_foregroundEnabled, m_backgroundEnabled;
+    bool m_bold = false, m_foregroundEnabled = false, m_backgroundEnabled = false;
 };
 
 class TextItem : public SimpleTextItem

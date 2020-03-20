@@ -13,8 +13,6 @@
 #include <QGroupBox>
 #include <QCheckBox>
 
-#include <iostream>
-
 PromptTab::PromptTab()
     : Tab("Prompt")
 {
@@ -116,7 +114,7 @@ void PromptTab::setup(const BashrcSource data)
 //        }
 //        DEBUG << "promptString: " << promptString;
         // R"()" is for a raw string C++ 11 feature note: () are neccarry
-//        iter = QRegularExpression(R"(\\\[\\003\[([0-9;]+)m\\\])").globalMatch(promptString);
+//        iter = QRegularExpression(R"(\\\[\\e\[([0-9;]+)m\\\])").globalMatch(promptString);
         ui->comboBox_SelectPromptProvider->setCurrentText("Custom");
         QStringList lines = program.split("\n");
         QRegularExpression regex{"^\\s{0,}#\\s{0,}<.+>"};
@@ -325,7 +323,7 @@ BashrcSource PromptTab::exec(const BashrcSource data)
 
                 if(bold)
                 {
-                    code.append("export PS1=\"$(tput bold)\"\n");
+                    code.append("export PS1=\"$PS1\\[\\e[1m\\]\"\n");
                 }
 
                 if(obj->propertyForegroundEnabled())
@@ -364,7 +362,7 @@ BashrcSource PromptTab::exec(const BashrcSource data)
 
                 if(bold)
                 {
-                    code.append("export PS1=\"$PS1$(tput bold)\"\n");
+                    code.append("export PS1=\"$PS1\\[\\e[1m\\]\"\n");
                 }
 
                 if(obj->propertyForegroundEnabled())
@@ -393,10 +391,10 @@ BashrcSource PromptTab::exec(const BashrcSource data)
                 lines.append(code);
 
             }
-            lines.append("export PS1=\"$PS1$(tput sgr0)\"\n");
+            lines.append("export PS1=\"$PS1\\[$(tput sgr0)\\]\"\n");
         }
         // this stops the escape squences from applying anymore
-        lines.append("export PS1=\"$PS1$(tput sgr0)\"\n");
+//        lines.append("export PS1=\"$PS1$(tput sgr0)\"\n");
 
         for(auto item : forLater)
         {
@@ -847,12 +845,14 @@ CustomPromptItem *xmlToItem(QString xml)
             CustomPromptItem* obj = new CustomPromptItem{""};
             if(type == "special")
             {
+                DEBUG << "Found type special";
                 if(obj != nullptr) delete obj;
                 obj = new SpecialItem("", SpecialItem::Type::Username);
                 QColor foreground, background;
                 bool foregroundEnabled = false, backgroundEnabled = false;
                 while(xmlStream.readNextStartElement())
                 {
+                    DEBUG << xmlStream.name();
                     if(xmlStream.name() == "itemType")
                     {
                         QString rawStringItemType = xmlStream.readElementText();
@@ -881,11 +881,6 @@ CustomPromptItem *xmlToItem(QString xml)
                             DEBUG << "rawStringItemType didn't match: " << rawStringItemType;
                         }
                     }
-                    else if(xmlStream.name() == "bold")
-                    {
-                        QString raw = xmlStream.readElementText();
-                        static_cast<SpecialItem*>(obj)->setPropertyBold(raw == "true");
-                    }
                     else if(xmlStream.name() == "foreground")
                     {
                         bool hitRed = false, hitGreen = false, hitBlue = false, hitEnabled = false;
@@ -951,6 +946,16 @@ CustomPromptItem *xmlToItem(QString xml)
                         }
                         if(hitRed && hitGreen && hitBlue && hitEnabled)
                             break;
+                    }
+                    else if(xmlStream.name() == "bold")
+                    {
+                        QString raw = xmlStream.readElementText();
+                        DEBUG << "raw: " << raw;
+                        static_cast<SpecialItem*>(obj)->setPropertyBold(raw == "true");
+                    }
+                    else
+                    {
+                        DEBUG << "Nothing to be done for iteration: " << xmlStream.name();
                     }
                 }
                 static_cast<SpecialItem*>(obj)->setPropertyForeground(foreground);
@@ -967,37 +972,33 @@ CustomPromptItem *xmlToItem(QString xml)
                 bool foregroundEnabled = false, backgroundEnabled = false;
                 while(xmlStream.readNextStartElement())
                 {
-                    DEBUG << "Name: " << xmlStream.name();
-                    if(xmlStream.name() == "text")
+                    QString name = xmlStream.name().toString();
+                    if(name == "text")
                     {
                         static_cast<TextItem*>(obj)->setPropertyText(xmlStream.readElementText());
                     }
-                    else if(xmlStream.name() == "foreground")
+                    else if(name == "foreground")
                     {
                         bool hitRed = false, hitGreen = false, hitBlue = false, hitEnabled = false;
                         while(xmlStream.readNextStartElement())
                         {
-                            DEBUG << "Name: " << xmlStream.name();
-                            if(xmlStream.name() == "red")
+                            name = xmlStream.name().toString();
+                            if(name == "red")
                             {
-
-//                                DEBUG << xmlStream.readElementText().toInt();
                                 foreground.setRed(xmlStream.readElementText().toInt());
                                 hitRed = true;
                             }
-                            else if(xmlStream.name() == "green")
+                            else if(name == "green")
                             {
-//                                DEBUG << xmlStream.readElementText().toInt();
                                 foreground.setGreen(xmlStream.readElementText().toInt());
                                 hitGreen = true;
                             }
-                            else if(xmlStream.name() == "blue")
+                            else if(name == "blue")
                             {
-//                                DEBUG << xmlStream.readElementText().toInt();
                                 foreground.setBlue(xmlStream.readElementText().toInt());
                                 hitBlue = true;
                             }
-                            else if(xmlStream.name() == "enabled")
+                            else if(name == "enabled")
                             {
                                 foregroundEnabled = xmlStream.readElementText() == "true";
                                 hitEnabled = true;
@@ -1010,28 +1011,28 @@ CustomPromptItem *xmlToItem(QString xml)
                             }
                         }
                     }
-                    else if(xmlStream.name() == "background")
+                    else if(name == "background")
                     {
                         bool hitRed = false, hitGreen = false, hitBlue = false, hitEnabled = false;
                         while(xmlStream.readNextStartElement())
                         {
-                            DEBUG << "Name: " << xmlStream.name();
-                            if(xmlStream.name() == "red")
+                            name = xmlStream.name().toString();
+                            if(name == "red")
                             {
                                 background.setRed(xmlStream.readElementText().toInt());
                                 hitRed = true;
                             }
-                            else if(xmlStream.name() == "green")
+                            else if(name == "green")
                             {
                                 background.setGreen(xmlStream.readElementText().toInt());
                                 hitGreen = true;
                             }
-                            else if(xmlStream.name() == "blue")
+                            else if(name == "blue")
                             {
                                 background.setBlue(xmlStream.readElementText().toInt());
                                 hitBlue = true;
                             }
-                            else if(xmlStream.name() == "enabled")
+                            else if(name == "enabled")
                             {
                                 backgroundEnabled = xmlStream.readElementText() == "true";
                                 hitEnabled = true;
@@ -1044,10 +1045,15 @@ CustomPromptItem *xmlToItem(QString xml)
                             }
                         }
                     }
-                    else if(xmlStream.name() == "bold")
+                    else if(name == "bold")
                     {
                         QString raw = xmlStream.readElementText();
-                        static_cast<SpecialItem*>(obj)->setPropertyBold(raw == "true");
+                        DEBUG << "raw: " << raw;
+                        static_cast<TextItem*>(obj)->setPropertyBold(raw == "true");
+                    }
+                    else
+                    {
+                        DEBUG << "Nothing to be done for iteration: " << xmlStream.name();
                     }
                 }
 
