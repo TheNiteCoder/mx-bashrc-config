@@ -63,7 +63,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_FancyPrompts">
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -76,7 +76,7 @@
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>-119</y>
+                <y>0</y>
                 <width>388</width>
                 <height>568</height>
                </rect>
@@ -481,17 +481,25 @@
                 <string>Up</string>
                </property>
                <property name="icon">
-                <iconset theme="arrow-up"/>
+                <iconset theme="arrow-up">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pushButton_PromptCustomDown">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>Down</string>
                </property>
                <property name="icon">
-                <iconset theme="arrow-down"/>
+                <iconset theme="arrow-down">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
               </widget>
              </item>
