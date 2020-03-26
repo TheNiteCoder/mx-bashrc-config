@@ -26,7 +26,7 @@ class Window : public QWidget
     Q_OBJECT
 
 public:
-    explicit Window(QWidget *parent = 0);
+    explicit Window(QWidget *parent = nullptr);
     ~Window();
     BashrcSource getSource();
     void setSource(const BashrcSource data);
