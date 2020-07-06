@@ -7,12 +7,14 @@
 
 AliasStream::AliasStream(QString *str, bool isOfBashrc)
 {
+    SCOPE_TRACKER;
     m_source = str;
     m_isOfBashrc = isOfBashrc;
 }
 
 AliasStream &AliasStream::operator <<(const Alias &alias)
 {
+    SCOPE_TRACKER;
     if(m_source == nullptr)
         return *this;
     QString templateAliasRegex("(alias) (%1)=(\"|')(%2)(\\3)");
@@ -42,6 +44,7 @@ AliasStream &AliasStream::operator <<(const Alias &alias)
 
 AliasStream &AliasStream::operator <<(const QList<Alias> &aliases)
 {
+    SCOPE_TRACKER;
     if(m_source == nullptr)
         return *this;
     for(Alias alias : aliases)
@@ -53,6 +56,7 @@ AliasStream &AliasStream::operator <<(const QList<Alias> &aliases)
 
 AliasStream &AliasStream::operator >>(QList<Alias> &aliases)
 {
+    SCOPE_TRACKER;
     if(m_source == nullptr)
         return *this;
     QList<Alias> rtn;
@@ -80,6 +84,7 @@ AliasStream &AliasStream::operator >>(QList<Alias> &aliases)
 
 QList<Alias> AliasStream::get()
 {
+    SCOPE_TRACKER;
     QList<Alias> rtn;
     *this >> rtn;
     return rtn;
@@ -87,16 +92,19 @@ QList<Alias> AliasStream::get()
 
 void AliasStream::set(const Alias &alias)
 {
+    SCOPE_TRACKER;
     *this << alias;
 }
 
 void AliasStream::set(const QList<Alias> &alias)
 {
+    SCOPE_TRACKER;
     *this << alias;
 }
 
 void AliasStream::remove(const Alias &alias)
 {
+    SCOPE_TRACKER;
     QString templateAliasRegex("(alias) (%1)=(\"|')(%2)(\\3)");
     QString templateAliasText("alias %1='%2'");
     if(m_source->contains(QRegularExpression(templateAliasRegex.arg(alias.alias()).arg(alias.command().replace('\\', "\\\\")))))
@@ -108,6 +116,7 @@ void AliasStream::remove(const Alias &alias)
 
 void AliasStream::remove(const QList<Alias> &alias)
 {
+    SCOPE_TRACKER;
     for(auto a : alias)
         remove(a);
 }
@@ -115,41 +124,49 @@ void AliasStream::remove(const QList<Alias> &alias)
 
 QString *AliasStream::source() const
 {
+    SCOPE_TRACKER;
     return m_source;
 }
 
 void AliasStream::setSource(QString *source)
 {
+    SCOPE_TRACKER;
     m_source = source;
 }
 
 bool AliasStream::getIsOfBashrc() const
 {
+    SCOPE_TRACKER;
     return m_isOfBashrc;
 }
 
 void AliasStream::setIsOfBashrc(bool isOfBashrc)
 {
+    SCOPE_TRACKER;
     m_isOfBashrc = isOfBashrc;
 }
 
 Alias::Alias()
 {
+    SCOPE_TRACKER;
 }
 
 Alias::Alias(const QString &alias, const QString &command)
 {
+    SCOPE_TRACKER;
     m_alias = alias;
     m_command = command;
 }
 
 Alias::Alias(const Alias &other)
 {
+    SCOPE_TRACKER;
     *this = other;
 }
 
 Alias &Alias::operator=(const Alias &other)
 {
+    SCOPE_TRACKER;
     m_alias = other.m_alias;
     m_command = other.m_command;
     m_start = other.m_start;
@@ -161,70 +178,84 @@ Alias &Alias::operator=(const Alias &other)
 
 bool Alias::operator ==(const Alias &other)
 {
+    SCOPE_TRACKER;
     return m_alias == other.m_alias && m_command == other.m_command;
 }
 
 bool Alias::operator !=(const Alias &other)
 {
+    SCOPE_TRACKER;
     return !(*this == other);
 }
 
 QString Alias::command() const
 {
+    SCOPE_TRACKER;
     return m_command;
 }
 
 void Alias::setCommand(const QString &command)
 {
+    SCOPE_TRACKER;
     m_command = command;
 }
 
 QString Alias::alias() const
 {
+    SCOPE_TRACKER;
     return m_alias;
 }
 
 void Alias::setAlias(const QString &alias)
 {
+    SCOPE_TRACKER;
     m_alias = alias;
 }
 
 int Alias::start() const
 {
+    SCOPE_TRACKER;
     return m_start;
 }
 
 void Alias::setStart(int start)
 {
+    SCOPE_TRACKER;
     m_start = start;
 }
 
 int Alias::end() const
 {
+    SCOPE_TRACKER;
     return m_end;
 }
 
 void Alias::setEnd(int end)
 {
+    SCOPE_TRACKER;
     m_end = end;
 }
 
 int Alias::length() const
 {
+    SCOPE_TRACKER;
     return m_length;
 }
 
 void Alias::setLength(int length)
 {
+    SCOPE_TRACKER;
     m_length = length;
 }
 
 bool Alias::inBashrc() const
 {
+    SCOPE_TRACKER;
     return m_inBashrc;
 }
 
 void Alias::setInBashrc(bool inBashrc)
 {
+    SCOPE_TRACKER;
     m_inBashrc = inBashrc;
 }

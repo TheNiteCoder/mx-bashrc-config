@@ -2,7 +2,7 @@
 
 ExecuteResult runCmd(QString cmd, bool interactive, bool onlyStdout)
 {
-    DEBUG_ENTER(runCmd);
+    SCOPE_TRACKER;
     QEventLoop loop;
     QProcess proc;
     if(!onlyStdout)
@@ -17,7 +17,6 @@ ExecuteResult runCmd(QString cmd, bool interactive, bool onlyStdout)
     result.rv = proc.exitCode();
     result.output = proc.readAll(); //remove .trimmed() because all spaces count in output
     proc.close();
-    DEBUG_EXIT(runCmd);
     return result;
 };
 

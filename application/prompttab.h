@@ -14,9 +14,36 @@
 class QPushButton;
 class QLineEdit;
 
+QString terminalEncode(QString input);
+QString terminalDecode(QString input);
+
 namespace Ui{
 class PromptTab;
 }
+
+class CustomPromptItemProperty : public QObject
+{
+    Q_OBJECT
+public:
+    enum class Location
+    {
+        Begin,
+        End,
+    };
+    enum class Gui
+    {
+        InGroup,
+        Alone
+    };
+    CustomPromptItemProperty(QObject* parent = nullptr);
+    virtual QString stringify() = 0;
+    virtual Gui gui() = 0;
+    virtual Location location() = 0;
+    virtual void toXml(QXmlStreamWriter& writer) = 0;
+    QWidget* widget() { return m_widget; }
+private:
+    QWidget* m_widget;
+};
 
 enum class CustomPromptItemType
 {
@@ -136,6 +163,7 @@ public:
 private:
     QColor m_foreground, m_background;
     bool m_bold = false, m_foregroundEnabled = false, m_backgroundEnabled = false;
+//    QColor m_defaultForegroundColor, m_defaultBackgroundColor;
 };
 
 class TextItem : public SimpleTextItem

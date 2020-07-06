@@ -21,6 +21,8 @@ PromptTab::PromptTab()
     setWidget(new QWidget);
     ui->setupUi(widget());
 
+    ui->listWidget_PromptCustom->setToolTip("Double click for more options");
+
     connect(ui->comboBox_SelectPromptProvider, &QComboBox::currentTextChanged, [=](QString text){
         Q_UNUSED(text)
         if (ui->comboBox_SelectPromptProvider->currentIndex() == 1)
@@ -51,6 +53,10 @@ PromptTab::PromptTab()
         {
             if(item != nullptr) delete ui->listWidget_PromptCustom->takeItem(ui->listWidget_PromptCustom->row(item));
         }
+    });
+
+    connect(ui->pushButton_PromptCustomEdit, &QPushButton::clicked, [=](){
+        CustomPromptItemEditor::edit(static_cast<CustomPromptItem*>(ui->listWidget_PromptCustom->currentItem()));
     });
 
     connect(ui->pushButton_PromptCustomUp, &QPushButton::clicked, [=](){
@@ -1110,4 +1116,16 @@ void TextItem::updateProperties()
     else
         DEBUG << "Text property doesn't exist";
     setText(m_text);
+}
+
+QString terminalEncode(QString input)
+{
+    input.replace(QRegularExpression("^[^\\]+$"), "\\$");
+    return input;
+}
+
+QString terminalDecode(QString input)
+{
+    input.replace(QRegularExpression("\\$"), "$");
+    return input;
 }

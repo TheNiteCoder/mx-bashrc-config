@@ -10,7 +10,7 @@ class Tab : public QObject
 {
     Q_OBJECT
 public:
-    explicit Tab(const QString name, const QIcon icon = QIcon(), QObject *parent = 0);
+    explicit Tab(const QString name, const QIcon icon = QIcon(), QObject *parent = nullptr);
     Tab(Tab& copy);
     Tab(Tab&& move);
     Tab& operator = (Tab& copy);

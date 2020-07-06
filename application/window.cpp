@@ -4,6 +4,7 @@
 #include "tab.h"
 #include "prompttab.h"
 #include "aliastab.h"
+#include "othertab.h"
 
 #include <QDir>
 #include <QFile>
@@ -26,29 +27,11 @@ Window::Window(QWidget *parent) :
 
     setWindowTitle(NAME);
 
-    /* Disabling
-    qDebug() << "Backing up .bashrc to ~/bashrc<random number> IS QUICK FIX TO PROTECT BASHRCS";
-    //temporay fix
-    system("cp ~/.bashrc ~/bashrc" + QString::number(qrand()).toUtf8());
-    */
-
-    m_manager.addTab(new AliasTab());
-    m_manager.addTab(new PromptTab());
+    m_manager.addTab(new AliasTab);
+    m_manager.addTab(new PromptTab);
+    m_manager.addTab(new OtherTab);
     auto data = getSource();
     m_manager.setup(getSource());
-
-    /* Disabled beacuse it doesn't work and won't be necassary
-    QStringList backupFileNames;
-    backupFileNames << USER_BASHRC << USER_BASHRC_ALIASES;
-    for(auto backupFileName : backupFileNames)
-    {
-        QDir dir;
-        if(QFile(backupFileName).exists() && dir.exists(BACKUP_BASHRCS))
-            if(system(QString("cp " + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup").toStdString().c_str()) != 0)
-                DEBUG << "Command: " << QString("cp " + backupFileName + " " + BACKUP_BASHRCS + QDir::separator() + QFileInfo(QFile(backupFileName)).fileName() + "$(date +%Y%m%d%T).bash.bkup");
-                DEBUG << "Backup command returned a non zero number";
-    }
-    */
 
     connect(ui->pushButton_Apply, &QPushButton::clicked, [=](){
         auto source = getSource();

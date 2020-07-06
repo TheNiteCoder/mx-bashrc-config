@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     prompttab.cpp \
     aliastab.cpp \
     aliasstream.cpp \
-    global.cpp
+    global.cpp \
+    othertab.cpp
 
 HEADERS  += window.h \
     buffer.h \
@@ -41,12 +42,14 @@ HEADERS  += window.h \
     global.h \
     prompttab.h \
     aliastab.h \
-    aliasstream.h
+    aliasstream.h \
+    othertab.h
 
 FORMS    += \
     aliastab.ui \
     window_fix.ui \
-    prompttab_fix.ui
+    prompttab_fix.ui \
+    othertab.ui
 
 TRANSLATIONS += translations/bash-config_am.ts \
                 translations/bash-config_ar.ts \

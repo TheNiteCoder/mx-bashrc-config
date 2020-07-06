@@ -62,7 +62,7 @@
          <item>
           <widget class="QPushButton" name="pushButton_AliasAdd">
            <property name="text">
-            <string>Add Alias</string>
+            <string>Add</string>
            </property>
            <property name="icon">
             <iconset theme="list-add">
@@ -73,7 +73,7 @@
          <item>
           <widget class="QPushButton" name="pushButton_AliasRemove">
            <property name="text">
-            <string>Remove Alias(es)</string>
+            <string>Remove</string>
            </property>
            <property name="icon">
             <iconset theme="list-remove">

@@ -9,7 +9,7 @@
 AliasTab::AliasTab()
     : Tab("Aliases")
 {
-    DEBUG_ENTER(AliasTab::AliasTab);
+    SCOPE_TRACKER;
     ui = new Ui::AliasTab;
     setWidget(new QWidget());
     ui->setupUi(widget());
@@ -36,20 +36,18 @@ AliasTab::AliasTab()
             }
         }
     });
-    DEBUG_EXIT(AliasTab::AliasTab);
 }
 
 AliasTab::~AliasTab()
 {
-    DEBUG_ENTER(AliasTab::~AliasTab);
+    SCOPE_TRACKER;
     delete ui;
     m_aliasWithCheckboxes.clear();
-    DEBUG_EXIT(AliasTab::~AliasTab);
 }
 
 void AliasTab::setup(const BashrcSource data)
 {
-    DEBUG_ENTER(AliasTab::setup);
+    SCOPE_TRACKER;
     bool doSuggestions = true;
     QFile suggestionAliases(SUGGEST_ALIASES);
     QList<Alias> suggestionAliasesList;
@@ -89,7 +87,6 @@ void AliasTab::setup(const BashrcSource data)
 
     for(auto alias : aliases)
     {
-        DEBUG << alias.inBashrc();
         bool addToTable = true;
         for(auto key : m_aliasWithCheckboxes.keys())
         {
@@ -107,20 +104,13 @@ void AliasTab::setup(const BashrcSource data)
             ui->tableWidget_Aliases->setItem(ui->tableWidget_Aliases->rowCount()-1, 1, new AliasTabTableWidgetItem(alias.command()));
         }
     }
-
-
-    DEBUG_EXIT(AliasTab::setup);
 }
 
 BashrcSource AliasTab::exec(const BashrcSource data)
 {
-    DEBUG_ENTER(AliasTab::exec);
+    SCOPE_TRACKER;
 
     BashrcSource rtn = data;
-    // to make sure I don't have to implement a copy assignment operator
-    Q_ASSERT(rtn.bashrc == data.bashrc);
-    Q_ASSERT(rtn.bashrcAliases == data.bashrcAliases);
-    Q_ASSERT(rtn.program == data.program);
 
     /* HAVING TROUBLE but good code
     bool sendToBashAliases = false;
@@ -170,38 +160,32 @@ BashrcSource AliasTab::exec(const BashrcSource data)
         }
     }
 
-
-    DEBUG_EXIT(AliasTab::exec);
     return rtn;
 }
 
 AliasTabTableWidgetItem::AliasTabTableWidgetItem(QString text, QVariant info)
 {
-    DEBUG_ENTER(AliasTabTableWidgetItem::AliasTabTableWidgetItem);
+    SCOPE_TRACKER;
     setText(text);
     setInfo(info);
-    DEBUG_EXIT(AliasTabTableWidgetItem::AliasTabTableWidgetItem);
 }
 
 AliasTabTableWidgetItem::~AliasTabTableWidgetItem()
 {
-    DEBUG_ENTER(AliasTabTableWidgetItem::~AliasTabTableWidgetItem);
+    SCOPE_TRACKER;
      //None
-    DEBUG_EXIT(AliasTabTableWidgetItem::~AliasTabTableWidgetItem);
 }
 
 AliasTabTableWidgetItem &AliasTabTableWidgetItem::setInfo(QVariant info)
 {
-    DEBUG_ENTER(AliasTabTableWidgetItem::setInfo);
+    SCOPE_TRACKER;
     m_info = info;
-    DEBUG_EXIT(AliasTabTableWidgetItem::setInfo);
     return *this;
 }
 
 //temp fix QVarient crashes program
 QVariant& AliasTabTableWidgetItem::info()
 {
-    DEBUG_ENTER(AliasTabTableWidgetItem::info);
-    DEBUG_EXIT(AliasTabTableWidgetItem::info);
+    SCOPE_TRACKER;
     return m_info;
 }

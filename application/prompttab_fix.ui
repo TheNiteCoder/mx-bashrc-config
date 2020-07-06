@@ -63,7 +63,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_FancyPrompts">
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -423,6 +423,17 @@
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
             <widget class="QListWidget" name="listWidget_PromptCustom"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_PromptCustomEdit">
+             <property name="text">
+              <string>Edit</string>
+             </property>
+             <property name="icon">
+              <iconset theme="edit">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+            </widget>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
