@@ -73,7 +73,6 @@ TRANSLATIONS += translations/bash-config_am.ts \
                 translations/bash-config_is.ts \
                 translations/bash-config_it.ts \
                 translations/bash-config_ja.ts \
-                translations/bash-config_ja_JP.ts \
                 translations/bash-config_kk.ts \
                 translations/bash-config_ko.ts \
                 translations/bash-config_lt.ts \
