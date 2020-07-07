@@ -21,6 +21,9 @@ namespace Ui{
 class PromptTab;
 }
 
+namespace v2
+{
+
 class CustomPromptItemProperty : public QObject
 {
     Q_OBJECT
@@ -39,11 +42,24 @@ public:
     virtual QString stringify() = 0;
     virtual Gui gui() = 0;
     virtual Location location() = 0;
-    virtual void toXml(QXmlStreamWriter& writer) = 0;
     QWidget* widget() { return m_widget; }
 private:
     QWidget* m_widget;
 };
+
+class CustomPromptItem : QObject
+{
+    Q_OBJECT
+public:
+    CustomPromptItem(QObject* parent = nullptr);
+    void edit();
+    QMap<QString, CustomPromptItemProperty*> properties() const { return m_properties; }
+    QMap<QString, CustomPromptItemProperty*>& properties() { return m_properties; }
+private:
+    QMap<QString, CustomPromptItemProperty*> m_properties;
+};
+
+}
 
 enum class CustomPromptItemType
 {
@@ -51,6 +67,7 @@ enum class CustomPromptItemType
     SimpleText,
     Text,
     Special,
+    Module,
 };
 
 enum class CustomPromptPropertyType
@@ -59,6 +76,8 @@ enum class CustomPromptPropertyType
     Color,
     Checkbox,
     Text,
+    Filename,
+    Dirname,
 };
 
 class XmlConverter;
@@ -79,6 +98,32 @@ protected:
     QWidget* m_widget;
     QString m_name;
 };
+
+//class DirnameProperty : public CustomPromptProperty
+//{
+//    Q_OBJECT
+//public:
+//    DirnameProperty(QString name, QObject* parent = nullptr);
+//    bool good() override;
+//    void setPath(QString dir) { m_path = dir; }
+//    QString path() const { return m_path; }
+//    CustomPromptPropertyType type() const override { return CustomPromptPropertyType::Dirname; }
+//private:
+//    QString m_path;
+//};
+
+//class FilenameProperty : public CustomPromptProperty
+//{
+//    Q_OBJECT
+//public:
+//    FilenameProperty(QString name, QObject* parent = nullptr);
+//    bool good() override;
+//    void setPath(QString dir) { m_path = dir; }
+//    QString path() const { return m_path; }
+//    CustomPromptPropertyType type() const override { return CustomPromptPropertyType::Filename; }
+//private:
+//    QString m_path;
+//};
 
 class ColorProperty : public CustomPromptProperty
 {

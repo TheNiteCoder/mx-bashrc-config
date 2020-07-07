@@ -1,5 +1,7 @@
 #include "global.h"
 
+#include <QRandomGenerator>
+
 ExecuteResult runCmd(QString cmd, bool interactive, bool onlyStdout)
 {
     SCOPE_TRACKER;
@@ -19,4 +21,31 @@ ExecuteResult runCmd(QString cmd, bool interactive, bool onlyStdout)
     proc.close();
     return result;
 };
+
+QString randomString(int length, QString possible)
+{
+    QString result;
+    while(length > 0)
+    {
+        result.append(possible.at(static_cast<int>(QRandomGenerator::global()->generate() % static_cast<unsigned int>(possible.length()))));
+        length--;
+    }
+    return result;
+}
+
+QString bashInteractiveVariable(QString name)
+{
+    QProcess proc;
+    QString uniqueString = randomString(64);
+    proc.setProgram("bash");
+    proc.setArguments(QStringList() << "-ic" << QString("echo -n %1; echo -n \"$%2\"").arg(uniqueString).arg(name));
+    proc.start(QProcess::ReadOnly);
+    proc.waitForStarted();
+    proc.waitForFinished();
+    QString output = proc.readAll();
+    int pos = output.indexOf(uniqueString);
+    output = output.mid(pos + uniqueString.length());
+    return output;
+}
+
 

@@ -156,13 +156,11 @@ void PromptTab::setup(const BashrcSource data)
         QString programQuotedText = lastMatch.captured(2);
         DEBUG_VAR(programQuotedText);
         // removing stderr because bash says an error through stderr: bash: cannot set terminal process group (2761): Inappropriate ioctl for device\nbash: no job control in this shell
-        ExecuteResult result = runCmd("echo -n \"$PS1\"", true, true); // -n for removing the newline and \"'s for keeping leading whitespace
-        DEBUG_VAR(result.output);
-
-        if(!result.output.isEmpty())
+        //ExecuteResult result = runCmd("echo -n \"$PS1\"", true, true); // -n for removing the newline and \"'s for keeping leading whitespace
+        QString PS1 = bashInteractiveVariable("PS1");
+        DEBUG_VAR(PS1);
+        if(!PS1.isEmpty())
         {
-            QString PS1 = result.output;
-            DEBUG_VAR(PS1);
             if(programQuotedText == PS1.remove("\\n") && foundPS1)
             {
                 ui->checkBox_RemoveAllNewlines->setChecked(true);
@@ -324,6 +322,7 @@ BashrcSource PromptTab::exec(const BashrcSource data)
                 QColor background = obj->propertyBackground();
                 bool bold = obj->propertyBold();
                 QString text = obj->propertyText();
+                text = terminalEncode(text);
                 int ansi256 = rgbToAnsi256(foreground);
             //    int ansi16 = (color.red()*6/256)*36 + (color.green()*6/256)*6 + (color.blue()*6/256);
 
@@ -413,11 +412,11 @@ BashrcSource PromptTab::exec(const BashrcSource data)
     {
         if(ui->checkBox_RemoveAllNewlines->isChecked())
         {
-            ExecuteResult result = runCmd("echo -n \"$PS1\"", true, true); // -n for removing the newline and \"'s for keeping leading whitespace
-            if(!result.output.isEmpty())
+            //ExecuteResult result = runCmd("echo -n \"$PS1\"", true, true); // -n for removing the newline and \"'s for keeping leading whitespace
+            QString PS1 = bashInteractiveVariable("PS1");
+            DEBUG_VAR(PS1);
+            if(!PS1.isEmpty())
             {
-                QString PS1 = result.output;
-                DEBUG_VAR(PS1);
                 rtn.program.append(QString("PS1=\"%1\"").arg(PS1.remove("\\n")));
             }
             else
@@ -1121,11 +1120,13 @@ void TextItem::updateProperties()
 QString terminalEncode(QString input)
 {
     input.replace(QRegularExpression("^[^\\]+$"), "\\$");
+    input.replace("\\", "\\\\");
     return input;
 }
 
 QString terminalDecode(QString input)
 {
     input.replace(QRegularExpression("\\$"), "$");
+    input.replace("\\\\", "\\");
     return input;
 }

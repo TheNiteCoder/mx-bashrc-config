@@ -12,6 +12,9 @@
 
 static QStringList __debug_start__ = { QString("noscope") };
 
+QString randomString(int length, QString possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+QString bashInteractiveVariable(QString name);
+
 struct BashrcSource
 {
     QString bashrc;
@@ -39,9 +42,7 @@ struct ScopeTracker
     {
         __debug_start__.pop_back();
         if(trace)
-            qDebug().noquote() << "---" << output << " ---";
-    }
-};
+            qDebug().noquote() << "---" << output << " ---"; } };
 
 #define SCOPE_TRACKER ScopeTracker _scope_tracker{__PRETTY_FUNCTION__}
 #define DEBUG_ENTER(x)
