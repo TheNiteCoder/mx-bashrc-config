@@ -56,7 +56,7 @@ PromptTab::PromptTab()
     });
 
     connect(ui->pushButton_PromptCustomEdit, &QPushButton::clicked, [=](){
-        CustomPromptItemEditor::edit(static_cast<CustomPromptItem*>(ui->listWidget_PromptCustom->currentItem()));
+        CustomPromptItemEditor::edit(static_cast<CustomPromptItem*>(ui->listWidget_PromptCustom->currentItem()), widget());
     });
 
     connect(ui->pushButton_PromptCustomUp, &QPushButton::clicked, [=](){
@@ -87,7 +87,7 @@ PromptTab::PromptTab()
 
     connect(ui->listWidget_PromptCustom, &QListWidget::itemDoubleClicked, [=](QListWidgetItem* item){
         CustomPromptItem* citem = dynamic_cast<CustomPromptItem*>(item);
-        CustomPromptItemEditor::edit(citem);
+        CustomPromptItemEditor::edit(citem, widget());
     });
 
     DEBUG_EXIT(PromptTab::PromptTab);
@@ -585,6 +585,10 @@ QListWidgetItem *CustomItemSelectorDialog::getItem(QWidget *parent)
 {
     Q_UNUSED(parent)
     QDialog dialog;
+    dialog.setModal(true);
+//    dialog.setParent(parent);
+    dialog.setWindowTitle(NAME);
+    dialog.setWindowIcon(QIcon::fromTheme("preferences-system"));
     dialog.setLayout(new QVBoxLayout);
     QListWidget* list = new QListWidget;
     QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -635,7 +639,9 @@ CustomPromptItem::CustomPromptItem(QString name)
 void CustomPromptItemEditor::edit(CustomPromptItem *item, QWidget* parent)
 {
     QDialog* dialog = new QDialog;
-    dialog->setParent(parent);
+    dialog->setWindowTitle(NAME);
+    dialog->setWindowIcon(QIcon::fromTheme("preferences-system"));
+//    dialog->setParent(parent);
     dialog->setModal(true);
 
     dialog->setLayout(new QVBoxLayout);
@@ -652,6 +658,7 @@ void CustomPromptItemEditor::edit(CustomPromptItem *item, QWidget* parent)
     dialog->layout()->addWidget(btnBox);
     int result = dialog->exec();
     if(result == QDialog::Accepted) item->updateMembers();
+    delete dialog;
 }
 
 SpecialItem::SpecialItem(QString name, SpecialItem::Type type)
