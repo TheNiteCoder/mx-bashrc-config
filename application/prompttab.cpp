@@ -56,7 +56,7 @@ PromptTab::PromptTab()
     });
 
     connect(ui->pushButton_PromptCustomEdit, &QPushButton::clicked, [=](){
-        CustomPromptItemEditor::edit(static_cast<CustomPromptItem*>(ui->listWidget_PromptCustom->currentItem()), widget());
+        CustomPromptItemEditor::edit(static_cast<CustomPromptItem*>(ui->listWidget_PromptCustom->currentItem()));
     });
 
     connect(ui->pushButton_PromptCustomUp, &QPushButton::clicked, [=](){
@@ -87,7 +87,7 @@ PromptTab::PromptTab()
 
     connect(ui->listWidget_PromptCustom, &QListWidget::itemDoubleClicked, [=](QListWidgetItem* item){
         CustomPromptItem* citem = dynamic_cast<CustomPromptItem*>(item);
-        CustomPromptItemEditor::edit(citem, widget());
+        CustomPromptItemEditor::edit(citem);
     });
 
     DEBUG_EXIT(PromptTab::PromptTab);
@@ -658,7 +658,6 @@ void CustomPromptItemEditor::edit(CustomPromptItem *item, QWidget* parent)
     dialog->layout()->addWidget(btnBox);
     int result = dialog->exec();
     if(result == QDialog::Accepted) item->updateMembers();
-    delete dialog;
 }
 
 SpecialItem::SpecialItem(QString name, SpecialItem::Type type)
