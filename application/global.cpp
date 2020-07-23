@@ -1,6 +1,7 @@
 #include "global.h"
 
 #include <QRandomGenerator>
+#include <QRegularExpression>
 
 ExecuteResult runCmd(QString cmd, bool interactive, bool onlyStdout)
 {
@@ -49,3 +50,38 @@ QString bashInteractiveVariable(QString name)
 }
 
 
+
+QString escapeRegexCharacters(QString input)
+{
+#define E(c) input.replace(c, QString("\\") + c)
+    E('|');
+    E('(');
+    E(')');
+    E('[');
+    E(']');
+    E('.');
+    E('+');
+    E('*');
+    E('?');
+    E('{');
+    E('}');
+    E('^');
+    E('$');
+    E("\\d");
+    E("\\D");
+    E("\\w");
+    E("\\W");
+    E("\\s");
+    E("\\S");
+    E("\\b");
+    E("\\B");
+    E("\\n");
+    E("\\t");
+    E("\\c");
+    E("\\x");
+    E("\\u");
+#undef E
+    QRegularExpression regex{"\\\\\\d"};
+    input.replace(regex, "\\" + regex.pattern());
+    return input;
+}

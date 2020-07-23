@@ -107,11 +107,13 @@ void AliasStream::remove(const Alias &alias)
     SCOPE_TRACKER;
     QString templateAliasRegex("(alias) (%1)=(\"|')(%2)(\\3)");
     QString templateAliasText("alias %1='%2'");
-    if(m_source->contains(QRegularExpression(templateAliasRegex.arg(alias.alias()).arg(alias.command().replace('\\', "\\\\")))))
+#define E(i) escapeRegexCharacters(i)
+    if(m_source->contains(QRegularExpression(templateAliasRegex.arg(E(alias.alias())).arg(E(alias.command().replace('\\', "\\\\"))))))
     {
-        m_source->remove(QRegularExpression(templateAliasRegex.arg(alias.alias()).arg(alias.command().replace('\\', "\\\\"))));
-        DEBUG << "Did detect and remove alias";
+        m_source->remove(QRegularExpression(templateAliasRegex.arg(E(alias.alias())).arg(E(alias.command().replace('\\', "\\\\")))));
+        DEBUG << "Did detect and remove alias" << alias.alias();
     }
+#undef E
 }
 
 void AliasStream::remove(const QList<Alias> &alias)
