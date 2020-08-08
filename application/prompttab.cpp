@@ -97,6 +97,7 @@ PromptTab::~PromptTab()
 {
     DEBUG_ENTER(PromptTab::~PromptTab);
     delete widget();
+    delete ui;
     DEBUG_EXIT(PromptTab::~PromptTab);
 }
 
@@ -403,7 +404,7 @@ BashrcSource PromptTab::exec(const BashrcSource data)
 
         for(auto item : forLater)
         {
-            lines.append("#" + itemToXml(item) + "\n");
+            lines.append("#" + itemToXml(item));
         }
 
         rtn.program.append(lines);
@@ -638,7 +639,7 @@ CustomPromptItem::CustomPromptItem(QString name)
 
 void CustomPromptItemEditor::edit(CustomPromptItem *item, QWidget* parent)
 {
-    QDialog* dialog = new QDialog;
+    QDialog* dialog = new QDialog{parent};
     dialog->setWindowTitle(NAME);
     dialog->setWindowIcon(QIcon::fromTheme("preferences-system"));
 //    dialog->setParent(parent);

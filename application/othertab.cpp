@@ -68,6 +68,7 @@ OtherTab::OtherTab()
 OtherTab::~OtherTab()
 {
     SCOPE_TRACKER;
+    delete ui;
 }
 
 void OtherTab::setup(const BashrcSource source)
