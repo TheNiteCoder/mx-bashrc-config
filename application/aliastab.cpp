@@ -120,6 +120,8 @@ BashrcSource AliasTab::exec(const BashrcSource data)
         sendToBashAliases = true;
     */
 
+    QList<Alias> addedAliases;
+
     AliasStream bashrcAliasStream(&rtn.bashrc);
     AliasStream programAliasStream(&rtn.program);
     AliasStream bashrcAliasesAliasStream(&rtn.bashrcAliases);
@@ -144,10 +146,12 @@ BashrcSource AliasTab::exec(const BashrcSource data)
         if(alias.inBashrc())
         {
             DEBUG << "Alias: " << alias.alias() << " : " << alias.command() << " has been detected as a bashrc alias";
+            addedAliases << alias;
             bashrcAliasStream << alias;
         }
         else
         {
+            addedAliases << alias;
             bashrcAliasesAliasStream << alias;
         }
     }
@@ -157,8 +161,22 @@ BashrcSource AliasTab::exec(const BashrcSource data)
         if(key->isChecked())
         {
             bashrcAliasesAliasStream << m_aliasWithCheckboxes[key];
+            addedAliases << m_aliasWithCheckboxes[key];
         }
     }
+
+    QList<Alias> allAliases;
+    allAliases.append(bashrcAliasStream.get());
+    allAliases.append(bashrcAliasesAliasStream.get());
+    allAliases.append(programAliasStream.get());
+
+    allAliases.erase(std::remove_if(allAliases.begin(), allAliases.end(), [addedAliases](Alias alias){
+        return addedAliases.contains(alias);
+    }), allAliases.end());
+
+    bashrcAliasStream.remove(allAliases);
+    bashrcAliasesAliasStream.remove(allAliases);
+    programAliasStream.remove(allAliases);
 
     return rtn;
 }
