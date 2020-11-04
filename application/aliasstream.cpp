@@ -108,9 +108,9 @@ void AliasStream::remove(const Alias &alias)
     QString templateAliasRegex("(alias) (%1)=(\"|')(%2)(\\3)");
     QString templateAliasText("alias %1='%2'");
 #define E(i) escapeRegexCharacters(i)
-    if(m_source->contains(QRegularExpression(templateAliasRegex.arg(E(alias.alias())).arg(E(alias.command().replace('\\', "\\\\"))))))
+    if(m_source->contains(QRegularExpression(templateAliasRegex.arg(E(alias.alias())).arg(E(alias.command())))))
     {
-        m_source->remove(QRegularExpression(templateAliasRegex.arg(E(alias.alias())).arg(E(alias.command().replace('\\', "\\\\")))));
+        m_source->remove(QRegularExpression(templateAliasRegex.arg(E(alias.alias())).arg(E(alias.command()))));
         DEBUG << "Did detect and remove alias" << alias.alias();
     }
 #undef E
