@@ -54,6 +54,7 @@ QString bashInteractiveVariable(QString name)
 QString escapeRegexCharacters(QString input)
 {
 #define E(c) input.replace(c, QString("\\") + c)
+    E('\\');
     E('|');
     E('(');
     E(')');
