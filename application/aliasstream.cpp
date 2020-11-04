@@ -153,29 +153,11 @@ Alias::Alias()
     SCOPE_TRACKER;
 }
 
-Alias::Alias(const QString &alias, const QString &command)
+Alias::Alias(QString alias, QString command)
 {
     SCOPE_TRACKER;
     m_alias = alias;
     m_command = command;
-}
-
-Alias::Alias(const Alias &other)
-{
-    SCOPE_TRACKER;
-    *this = other;
-}
-
-Alias &Alias::operator=(const Alias &other)
-{
-    SCOPE_TRACKER;
-    m_alias = other.m_alias;
-    m_command = other.m_command;
-    m_start = other.m_start;
-    m_end = other.m_end;
-    m_inBashrc = other.m_inBashrc;
-    m_length = other.m_length;
-    return *this;
 }
 
 bool Alias::operator ==(const Alias &other)

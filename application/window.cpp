@@ -20,7 +20,7 @@ Window::Window(QWidget *parent) :
     ui(new Ui::Window),
     m_manager(ui)
 {
-    DEBUG_ENTER(Window::Window);
+    SCOPE_TRACKER;
     ui->setupUi(this);
 
     readPositionSettings();
@@ -48,27 +48,24 @@ Window::Window(QWidget *parent) :
     connect(ui->pushButton_About, &QPushButton::clicked, [=](){
         QMessageBox::about(this, NAME, tr("An easy way to configure your ~/.bashrc and bash prompt"));
     });
-    DEBUG_EXIT(Window::Window);
 }
 
 void Window::closeEvent(QCloseEvent *event)
 {
-    DEBUG_ENTER(Window::closeEvent);
+    SCOPE_TRACKER;
     Q_UNUSED(event)
     writePositionSettings();
-    DEBUG_EXIT(Window::closeEvent);
 }
 
 Window::~Window()
 {
-    DEBUG_ENTER(Window::~Window);
+    SCOPE_TRACKER;
     delete ui;
-    DEBUG_EXIT(Window::~Window);
 }
 
 BashrcSource Window::getSource()
 {
-    DEBUG_ENTER(Window::getSource);
+    SCOPE_TRACKER;
     QFile bashrc(USER_BASHRC);
     if(!bashrc.open(QFile::Text | QFile::ReadOnly))
     {
@@ -113,13 +110,12 @@ BashrcSource Window::getSource()
     data.bashrc =  bashrcSource;
     data.bashrcAliases = bashrcAliasesSource;
 
-    DEBUG_EXIT(Window::getSource);
     return data;
 }
 
 void Window::setSource(const BashrcSource data)
 {
-    DEBUG_ENTER(Window::setSource);
+    SCOPE_TRACKER;
     QFile bashrc(USER_BASHRC);
     if(!bashrc.open(QFile::Text | QFile::WriteOnly))
     {
@@ -168,64 +164,57 @@ void Window::setSource(const BashrcSource data)
     QTextStream bashrcAliasesStream(&bashrcAliases);
     bashrcAliasesStream << data.bashrcAliases;
     bashrcAliases.close();
-    DEBUG_EXIT(Window::setSource);
 }
 
 Window::TabManager::TabManager(Ui::Window *ui)
     : window_ui(ui)
 {
-    DEBUG_ENTER(TabManager::TabManager);
-
-    DEBUG_EXIT(TabManager::TabManager);
+    SCOPE_TRACKER;
 }
 
 Window::TabManager &Window::TabManager::addTabs(QList<Tab *> tabs)
 {
-    DEBUG_ENTER(TabManager::addTabs);
+    SCOPE_TRACKER;
     for(Tab* tab : tabs)
     {
         m_tabs.append(tab);
     }
-    DEBUG_EXIT(TabManager::addTabs);
     return *this;
 }
 
 Window::TabManager &Window::TabManager::addTab(Tab *tab)
 {
-    DEBUG_ENTER(TabManager::addTab);
+    SCOPE_TRACKER;
     addTabs(QList<Tab*>() << tab);
-    DEBUG_EXIT(TabManager::addTab);
     return *this;
 }
 
 Window::TabManager &Window::TabManager::setup(const BashrcSource source)
 {
-    DEBUG_ENTER(TabManager::setup);
+    SCOPE_TRACKER;
     for(Tab* tab : m_tabs)
     {
         tab->setup(source);
         if(tab->widget() != nullptr)
             window_ui->tabWidget_Tabs->addTab(tab->widget(), tab->icon(), tab->name());
     }
-    DEBUG_EXIT(TabManager::setup);
     return *this;
 }
 
 BashrcSource Window::TabManager::exec(const BashrcSource source)
 {
-    DEBUG_ENTER(TabManager::exec);
+    SCOPE_TRACKER;
     BashrcSource rtn = source;
     for(Tab* tab : m_tabs)
     {
         rtn = tab->exec(rtn);
     }
-    DEBUG_EXIT(TabManager::exec);
     return rtn;
 }
 
 void Window::writePositionSettings()
 {
-    DEBUG_ENTER(Window::writePositionSettings);
+    SCOPE_TRACKER;
     QSettings qsettings( "MX-Linux", "bash-config" );
 
     qsettings.beginGroup( "mainwindow" );
@@ -237,12 +226,11 @@ void Window::writePositionSettings()
     }
 
     qsettings.endGroup();
-    DEBUG_EXIT(Window::writePositionSettings);
 }
 
 void Window::readPositionSettings()
 {
-    DEBUG_ENTER(Window::readPositionSettings);
+    SCOPE_TRACKER;
     QSettings qsettings( "MX-Linux", "bash-config" );
 
     qsettings.beginGroup( "mainwindow" );
@@ -253,11 +241,11 @@ void Window::readPositionSettings()
         showMaximized();
 
     qsettings.endGroup();
-    DEBUG_EXIT(Window::readPositionSettings);
 }
 
 void Window::on_pushButton_Help_clicked()
 {
+    SCOPE_TRACKER;
     QLocale locale;
     QString lang = locale.bcp47Name();
 

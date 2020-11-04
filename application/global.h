@@ -29,23 +29,6 @@ struct ExecuteResult
     QString output;
 };
 
-struct ScopeTracker
-{
-    QString output;
-    bool trace;
-    ScopeTracker(QString output, bool trace = false) : output(output), trace(trace)
-    {
-        __debug_start__.push_back(output);
-        if(trace)
-            qDebug().noquote() << "+++ " << output << " +++";
-    }
-    ~ScopeTracker()
-    {
-        __debug_start__.pop_back();
-        if(trace)
-            qDebug().noquote() << "---" << output << " ---"; } };
-
-#define SCOPE_TRACKER ScopeTracker _scope_tracker{__PRETTY_FUNCTION__}
 #define DEBUG_ENTER(x)
 #define DEBUG_EXIT(x)
 
@@ -70,5 +53,25 @@ ExecuteResult runCmd(QString cmd, bool interactive = false, bool onlyStdout = fa
 //#define DEBUG_ENTER(x) __debug_start__.append(QObject::tr(__FILE__) + ":" + QString::number(__LINE__) + ":" + QObject::tr(#x)) //qDebug() << "+++ " << #x << " +++"
 //#define DEBUG_EXIT(x) __debug_start__.pop_back() //qDebug() << "--- " << #x << " ---"
 //#define CHECK(x) if(x == -1) continue
+
+struct ScopeTracker
+{
+    QString output;
+    bool trace;
+    ScopeTracker(QString output, bool trace = false) : output(output), trace(trace)
+    {
+        //__debug_start__.push_back(output);
+        if(trace)
+            qDebug().noquote() << "+++ " << output << " +++";
+    }
+    ~ScopeTracker()
+    {
+        //__debug_start__.pop_back();
+        if(trace)
+            qDebug().noquote() << "---" << output << " ---";
+    }
+};
+
+#define SCOPE_TRACKER ScopeTracker _scope_tracker{__PRETTY_FUNCTION__, false}
 
 #endif // GLOBAL_H

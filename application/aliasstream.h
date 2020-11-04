@@ -10,9 +10,7 @@ class Alias
 {
 public:
     Alias();
-    Alias(const QString& alias, const QString& command);
-    Alias(const Alias& other);
-    Alias& operator=(const Alias& other);
+    Alias(QString alias, QString command);
     bool operator == (const Alias& other);
     bool operator != (const Alias& other);
 
@@ -31,7 +29,7 @@ public:
     void setInBashrc(bool inBashrc);
 protected:
     QString m_command, m_alias;
-    int m_start, m_end, m_length;
+    int m_start = 0, m_end = 0, m_length = 0;
     bool m_inBashrc = false;
 };
 
