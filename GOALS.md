@@ -3,7 +3,7 @@
 This file is dedicated to feature ideas and other things
 
 * Add a prompt preview
-* Add a more customizable way of configuring font.
+* Add a more customizable way of configuring prompt.
   * Drag and Drop interface? 
     * pros: Really easy for user
     * cons: Hard to code
