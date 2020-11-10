@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>427</width>
+    <height>493</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>366</width>
-        <height>289</height>
+        <width>407</width>
+        <height>473</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -36,35 +36,31 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="2">
+           <widget class="QCheckBox" name="checkBox_HistoryLength">
+            <property name="text">
+             <string>Custom</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="leftMargin">
+             <number>20</number>
+            </property>
+            <item>
              <widget class="QSpinBox" name="spinBox_HistoryLength">
               <property name="maximum">
                <number>100000000</number>
               </property>
               <property name="singleStep">
-               <number>10</number>
+               <number>100</number>
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QCheckBox" name="checkBox_HistoryLength">
+            <item>
+             <widget class="QCheckBox" name="checkBox_InfiniteHistoryLength">
               <property name="text">
-               <string>History Length</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QToolButton" name="toolButton_HistoryInfinite">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="resource.qrc">
-                <normaloff>:/infinity.svg</normaloff>:/infinity.svg</iconset>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
+               <string>Infinite</string>
               </property>
              </widget>
             </item>
@@ -128,8 +124,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

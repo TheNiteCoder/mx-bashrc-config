@@ -60,7 +60,7 @@ OtherTab::OtherTab()
         updateHistoryLengthWidgets();
     });
 
-    connect(ui->toolButton_HistoryInfinite, &QToolButton::clicked, [=](bool){
+    connect(ui->checkBox_InfiniteHistoryLength, &QCheckBox::clicked, [=](bool){
         updateHistoryLengthWidgets();
     });
 }
@@ -96,7 +96,7 @@ void OtherTab::setup(const BashrcSource source)
         int val = match.captured(2).toInt();
         if(val < 0)
         {
-            ui->toolButton_HistoryInfinite->setChecked(true);
+            ui->checkBox_InfiniteHistoryLength->setChecked(true);
         }
         else
         {
@@ -111,7 +111,7 @@ void OtherTab::setup(const BashrcSource source)
         int val = match.captured(2).toInt();
         if(val < 0)
         {
-            ui->toolButton_HistoryInfinite->setChecked(true);
+            ui->checkBox_InfiniteHistoryLength->setChecked(true);
         }
         else
         {
@@ -227,8 +227,8 @@ void OtherTab::updateHistoryLengthWidgets()
     if(ui->checkBox_HistoryLength->isChecked())
     {
         ui->spinBox_HistoryLength->setEnabled(true);
-        ui->toolButton_HistoryInfinite->setEnabled(true);
-        if(ui->toolButton_HistoryInfinite->isChecked())
+        ui->checkBox_InfiniteHistoryLength->setEnabled(true);
+        if(ui->checkBox_InfiniteHistoryLength->isChecked())
         {
             ui->spinBox_HistoryLength->setEnabled(false);
         }
@@ -236,7 +236,7 @@ void OtherTab::updateHistoryLengthWidgets()
     else
     {
         ui->spinBox_HistoryLength->setEnabled(false);
-        ui->toolButton_HistoryInfinite->setEnabled(false);
+        ui->checkBox_InfiniteHistoryLength->setEnabled(false);
     }
 }
 
@@ -261,7 +261,7 @@ int OtherTab::findHistoryLength(QString source, bool* exists)
 int OtherTab::uiHistoryLengthValue()
 {
     SCOPE_TRACKER;
-    if(ui->toolButton_HistoryInfinite->isChecked()) return -1;
+    if(ui->checkBox_InfiniteHistoryLength->isChecked()) return -1;
     return ui->spinBox_HistoryLength->value();
 }
 

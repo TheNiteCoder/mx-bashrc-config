@@ -12,6 +12,10 @@
 #include <QDialogButtonBox>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QCompleter>
+
+#include "datetimeformatting.h"
+#include "fuzzybashstream.h"
 
 PromptTab::PromptTab()
     : Tab("Prompt")
@@ -22,6 +26,9 @@ PromptTab::PromptTab()
     ui->setupUi(widget());
 
     ui->listWidget_PromptCustom->setToolTip("Double click for more options");
+
+    ui->lineEdit_DateFormatText->setCompleter(new QCompleter(DateTimeFormatWords));
+    ui->lineEdit_TimeFormatText->setCompleter(new QCompleter(DateTimeFormatWords));
 
     connect(ui->comboBox_SelectPromptProvider, &QComboBox::currentTextChanged, [=](QString text){
         Q_UNUSED(text)
