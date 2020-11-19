@@ -9,7 +9,7 @@ A GUI tool written in Qt C++ to modify the bashrc
  - cd application
  - qmake
  - make
- - ./mx-bashrc-config
+ - ./bash-config
 ## Dependencies
 
 Qt5 Core
