@@ -11,8 +11,8 @@ ExecuteResult runCmd(QString cmd, bool interactive, bool onlyStdout)
     if(!onlyStdout)
         proc.setReadChannelMode(QProcess::MergedChannels);
     QObject::connect(&proc, QOverload<int>::of(&QProcess::finished), &loop, &QEventLoop::quit);
-    DEBUG << "Execute Statment: command: " << "/bin/bash";
-    DEBUG << "Execute Statment: args: " << (QStringList() << ((interactive) ? "-ic" : "-c") << cmd);
+    DEBUG << "Execute Statement: command: " << "/bin/bash";
+    DEBUG << "Execute Statement: args: " << (QStringList() << ((interactive) ? "-ic" : "-c") << cmd);
     proc.start("/bin/bash", (QStringList() << ((interactive) ? QString("-ic") : QString("-c")) << cmd));
     loop.exec();
     QObject::disconnect(&proc, nullptr, nullptr, nullptr);
