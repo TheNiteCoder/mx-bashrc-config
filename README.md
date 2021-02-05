@@ -2,7 +2,7 @@
 A GUI tool written in Qt C++ to modify the bashrc
 
 ## Builing and running
- - Install the Qt5 development enviroment via MX Package Installer->Popular Applications->Development 
+ - Install the Qt5 development environment via MX Package Installer->Popular Applications->Development 
  - Get the zip file or git clone it
  - unzip the repository(if you downloaded the zip)
  - cd mx-bashrc-config

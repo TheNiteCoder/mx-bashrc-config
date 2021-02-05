@@ -42,7 +42,7 @@ private:
     {
     public:
         //PRIORITY LOW
-        //TODO implement copy and move contructors
+        //TODO implement copy and move constructors
         TabManager(Ui::Window* ui);
         TabManager& addTabs(QList<Tab*> tabs);
         TabManager& addTab(Tab* tab);
