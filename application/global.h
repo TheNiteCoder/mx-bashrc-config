@@ -1,16 +1,16 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include "searcher.h"
 #include <QDebug>
 #include <QDir>
 #include <QEventLoop>
+#include <QObject>
 #include <QProcess>
 #include <QString>
 #include <QStringList>
-#include <QObject>
-#include "searcher.h"
 
-static QStringList __debug_start__ = { QString("noscope") };
+static QStringList __debug_start__ = {QString("noscope")};
 
 QString randomString(int length, QString possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 QString bashInteractiveVariable(QString name);
@@ -18,15 +18,15 @@ QString escapeRegexCharacters(QString input);
 
 struct BashrcSource
 {
-    QString bashrc;
-    QString program;
-    QString bashrcAliases;
+	QString bashrc;
+	QString program;
+	QString bashrcAliases;
 };
 struct ExecuteResult
 {
-    int rv;
-    char __padding__[4]; // just for this compiler warning: https://stackoverflow.com/questions/20184259/what-does-the-padding-class-tester-with-4-bytes-warning-mean
-    QString output;
+	int rv;
+	char __padding__[4]; // just for this compiler warning: https://stackoverflow.com/questions/20184259/what-does-the-padding-class-tester-with-4-bytes-warning-mean
+	QString output;
 };
 
 #define DEBUG_ENTER(x)
@@ -56,22 +56,23 @@ ExecuteResult runCmd(QString cmd, bool interactive = false, bool onlyStdout = fa
 
 struct ScopeTracker
 {
-    QString output;
-    bool trace;
-    ScopeTracker(QString output, bool trace = false) : output(output), trace(trace)
-    {
-        //__debug_start__.push_back(output);
-        if(trace)
-            qDebug().noquote() << "+++ " << output << " +++";
-    }
-    ~ScopeTracker()
-    {
-        //__debug_start__.pop_back();
-        if(trace)
-            qDebug().noquote() << "---" << output << " ---";
-    }
+	QString output;
+	bool trace;
+	ScopeTracker(QString output, bool trace = false) : output(output), trace(trace)
+	{
+		//__debug_start__.push_back(output);
+		if (trace)
+			qDebug().noquote() << "+++ " << output << " +++";
+	}
+	~ScopeTracker()
+	{
+		//__debug_start__.pop_back();
+		if (trace)
+			qDebug().noquote() << "---" << output << " ---";
+	}
 };
 
-#define SCOPE_TRACKER ScopeTracker _scope_tracker{__PRETTY_FUNCTION__, false}
+#define SCOPE_TRACKER \
+	ScopeTracker _scope_tracker { __PRETTY_FUNCTION__, false }
 
 #endif // GLOBAL_H

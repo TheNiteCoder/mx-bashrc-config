@@ -1,13 +1,14 @@
 #ifndef FUZZYBASHSTREAM_H
 #define FUZZYBASHSTREAM_H
 
-#include <QString>
-#include <QList>
 #include <QDebug>
+#include <QList>
+#include <QString>
+#include <memory>
 
 class FuzzyBashStream
 {
-public:
+  public:
 	enum TokenType
 	{
 		TokenUnknown = -1,
@@ -34,44 +35,114 @@ public:
 
 		TokenCommand,
 		TokenBooleanExpression,
-    };
-private:
-    struct Token
-    {
-        int tokenType = TokenUnknown;
-        int start = -1, end = -1;
-        QString content;
-        bool isValid() const { return start >= 0 && end >= 0; }
-    };
-    using TokenList = QList<Token>;
-public:
 
-    class TokenRef
+        TokenUserType, // So users can declare Token Types
+
+        TokenAliasReserved = TokenUserType + 100, // Reserve TokenType slots for Alias grouping
+	};
+
+	enum ParsingOptions
+	{
+		ParseNormal = 0,
+        ParseDisableCommandGrouping = (1 << 1),
+        ParseDisableAliasGrouping = (1 << 2),
+	};
+
+  private:
+	struct PrivateToken
+	{
+		int tokenType = TokenUnknown;
+		int start = -1, end = -1;
+		QString content;
+		bool isValid() const { return start >= 0 && end >= 0; }
+	};
+	using TokenList = QList<PrivateToken>;
+
+  public:
+	class TokenRef;
+
+	class Token
+	{
+	  public:
+        QString content() const { return m_token.content; }
+        QString quoted() const
+        {
+            QString t = m_token.content;
+            t.remove(0, 1);
+            t.remove(t.length() - 1, 1);
+            return t;
+        }
+        int type() const { return m_token.tokenType; }
+		static Token join(const QList<Token>& tokens, int type);
+        Token& add(const Token& t, int type);
+        Token& offset(int offset);
+        int start() const { return m_token.start; }
+        int end() const { return m_token.end; }
+        void setData(QVariant data) { m_data = data; }
+        QVariant data() const { return m_data; }
+        TokenRef upgrade(FuzzyBashStream* stream) const;
+
+        Token();
+
+      protected:
+        QVariant m_data;
+		Token(const PrivateToken& t);
+		PrivateToken m_token;
+
+	  private:
+		friend class FuzzyBashStream;
+    };
+
+    class TokenRef : public Token
+	{
+	  public:
+		void setContent(const QString& content)
+        {
+            Q_ASSERT(m_stream != nullptr);
+            m_token.content = content;
+            commit();
+        }
+        void setQuoted(const QString& content)
+        {
+            Q_ASSERT(m_stream != nullptr);
+            QChar quoted = m_token.content.at(0);
+            m_token.content = quoted + content + quoted;
+            commit();
+        }
+
+        TokenRef();
+        TokenRef(const Token& token, FuzzyBashStream* stream);
+        Token downgrade() const;
+      private:
+        TokenRef(const PrivateToken& t, FuzzyBashStream* stream);
+		void commit();
+        FuzzyBashStream* m_stream;
+		friend class FuzzyBashStream;
+    };
+
+    class TokenGrouper
     {
     public:
-        void setContent(const QString& content) { m_token.content = content; commit(); }
-        QString content() const { return m_token.content; }
-        TokenType type() const { return static_cast<TokenType>(m_token.tokenType); }
-    private:
-        TokenRef(const Token& t, FuzzyBashStream* stream);
-        void commit();
-        Token m_token;
-        FuzzyBashStream* m_stream;
-        friend class FuzzyBashStream;
+        virtual ~TokenGrouper();
+        virtual QList<Token> group(FuzzyBashStream* stream, QList<Token> tokens) = 0;
     };
 
-    FuzzyBashStream(QString source);
-    QString source() const { return m_source; }
-    void reparse();
-    QList<TokenRef> tokens() const { return m_tokenRefs; }
+    FuzzyBashStream(QString source, ParsingOptions options = ParseNormal, QList<TokenGrouper *> groupers = {}, int offset = 0);
+	QString source() const { return m_source; }
+    FuzzyBashStream& reparse(ParsingOptions options = ParseNormal, QList<TokenGrouper*> groupers = {}, int offset = 0);
+	QList<TokenRef> tokenRefs();
+    QList<Token> tokens() const { return m_tokens; }
+    FuzzyBashStream* ref() { return this; }
 
+	static QString unquote(const Token& t);
 
-private:
-    QList<TokenRef> m_tokenRefs;
-    QString m_source;
-    int m_offset;
+  private:
+	QList<Token> m_tokens;
+	QString m_source;
+	int m_offset;
+	int m_parsingFlags;
 
-    void commitTokenRef(const TokenRef& tr);
+	void commitTokenRef(const TokenRef& tr);
 
 	enum ParsingMode
 	{
@@ -81,24 +152,36 @@ private:
 	};
 	class InputStream
 	{
-		public:
-			InputStream(QString input) : m_input(input), m_pos(0) {}
-			bool eof() const { return !(m_pos < m_input.size()); }
-			int pos() const { return m_pos; }
-			QChar next() { return m_input[m_pos++]; }
-			QChar peek(int offset = 0) const { return m_input[m_pos + offset]; }
-			QChar prev(int offset = 0) const { return m_input[m_pos - (offset + 1)]; }
-		private:
-			const QString m_input;
-			int m_pos;
+	  public:
+		InputStream(QString input) : m_input(input), m_pos(0) {}
+		bool eof() const { return !(m_pos < m_input.size()); }
+		int pos() const { return m_pos; }
+		QChar next() { return m_input[m_pos++]; }
+		QChar peek(int offset = 0) const { return m_input[m_pos + offset]; }
+		QChar prev(int offset = 0) const { return m_input[m_pos - (offset + 1)]; }
+
+	  private:
+		const QString m_input;
+		int m_pos;
 	};
-	Token joinTokens(TokenList tokens, int type);
-	Token parseToken(InputStream& stream, int& mode);
+	static PrivateToken joinTokens(TokenList tokenRefs, int type);
+	PrivateToken parseToken(InputStream& stream, int& mode);
 	TokenList tokenize(InputStream& stream);
-	TokenList tokenize2(TokenList tokens);
+	TokenList tokenize2(TokenList tokenRefs);
 };
 
-QDebug operator<< (QDebug debug, const FuzzyBashStream::TokenRef& tr);
+template<typename T>
+struct TokenGrouperInstance
+{
+    static std::shared_ptr<FuzzyBashStream::TokenGrouper> grouper;
+};
+template<typename T>
+std::shared_ptr<FuzzyBashStream::TokenGrouper> TokenGrouperInstance<T>::grouper = std::shared_ptr<FuzzyBashStream::TokenGrouper>(dynamic_cast<FuzzyBashStream::TokenGrouper*>(new T()));
 
+#define TOKEN_GROUPER(type) (TokenGrouperInstance<type>::grouper.get())
+
+
+QDebug operator<<(QDebug debug, const FuzzyBashStream::TokenRef& tr);
+QDebug operator<<(QDebug debug, const FuzzyBashStream::Token& tr);
 
 #endif // FUZZYBASHSTREAM_H
