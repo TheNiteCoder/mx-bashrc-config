@@ -229,6 +229,19 @@
                  <item>
                   <widget class="QLineEdit" name="lineEdit_TimeFormatText"/>
                  </item>
+                 <item>
+                  <widget class="DateFormatPreview" name="label_TimeFormatText">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </item>
                <item>
@@ -257,6 +270,19 @@
                  </item>
                  <item>
                   <widget class="QLineEdit" name="lineEdit_DateFormatText"/>
+                 </item>
+                 <item>
+                  <widget class="DateFormatPreview" name="label_DateFormatText">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -526,6 +552,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DateFormatPreview</class>
+   <extends>QLabel</extends>
+   <header location="global">dateformatpreview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -30,6 +30,14 @@ PromptTab::PromptTab()
     ui->lineEdit_DateFormatText->setCompleter(new QCompleter(DateTimeFormatWords));
     ui->lineEdit_TimeFormatText->setCompleter(new QCompleter(DateTimeFormatWords));
 
+    connect(ui->lineEdit_TimeFormatText, &QLineEdit::textChanged, [this](const QString& format){
+        ui->label_TimeFormatText->setDateFormat(format);
+    });
+
+    connect(ui->lineEdit_DateFormatText, &QLineEdit::textChanged, [this](const QString& format){
+        ui->label_DateFormatText->setDateFormat(format);
+    });
+
     connect(ui->comboBox_SelectPromptProvider, &QComboBox::currentTextChanged, [=](QString text){
         Q_UNUSED(text)
         if (ui->comboBox_SelectPromptProvider->currentIndex() == 1)
