@@ -242,6 +242,7 @@ void PromptTab::setup(const BashrcSource data)
         QMap<QString, QSpinBox*> numOpts;
         numOpts["--right"] = ui->spinBox_RightMargin;
         numOpts["--lines"] = ui->spinBox_ExtraNewlinesBeforePrompt;
+    }
 
 	DEBUG_EXIT(PromptTab::setup);
 }
