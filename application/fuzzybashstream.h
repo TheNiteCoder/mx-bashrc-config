@@ -39,6 +39,7 @@ class FuzzyBashStream
         TokenUserType, // So users can declare Token Types
 
         TokenAliasReserved = TokenUserType + 100, // Reserve TokenType slots for Alias grouping
+        TokenVariableReserved = TokenUserType + 200,
 	};
 
 	enum ParsingOptions
@@ -120,16 +121,18 @@ class FuzzyBashStream
 		friend class FuzzyBashStream;
     };
 
-    class TokenGrouper
-    {
-    public:
-        virtual ~TokenGrouper();
-        virtual QList<Token> group(FuzzyBashStream* stream, QList<Token> tokens) = 0;
-    };
+//    class TokenGrouper
+//    {
+//    public:
+//        virtual ~TokenGrouper();
+//        virtual QList<Token> group(FuzzyBashStream* stream, QList<Token> tokens) = 0;
+//    };
 
-    FuzzyBashStream(QString source, ParsingOptions options = ParseNormal, QList<TokenGrouper *> groupers = {}, int offset = 0);
+    using TokenGrouper = std::function<void(FuzzyBashStream*, QList<Token>&)>;
+
+    FuzzyBashStream(QString source, ParsingOptions options = ParseNormal, QList<TokenGrouper> groupers = {}, int offset = 0);
 	QString source() const { return m_source; }
-    FuzzyBashStream& reparse(ParsingOptions options = ParseNormal, QList<TokenGrouper*> groupers = {}, int offset = 0);
+    FuzzyBashStream& reparse(ParsingOptions options = ParseNormal, QList<TokenGrouper> groupers = {}, int offset = 0);
 	QList<TokenRef> tokenRefs();
     QList<Token> tokens() const { return m_tokens; }
     FuzzyBashStream* ref() { return this; }
@@ -170,18 +173,9 @@ class FuzzyBashStream
 	TokenList tokenize2(TokenList tokenRefs);
 };
 
-template<typename T>
-struct TokenGrouperInstance
-{
-    static std::shared_ptr<FuzzyBashStream::TokenGrouper> grouper;
-};
-template<typename T>
-std::shared_ptr<FuzzyBashStream::TokenGrouper> TokenGrouperInstance<T>::grouper = std::shared_ptr<FuzzyBashStream::TokenGrouper>(dynamic_cast<FuzzyBashStream::TokenGrouper*>(new T()));
-
-#define TOKEN_GROUPER(type) (TokenGrouperInstance<type>::grouper.get())
-
-
 QDebug operator<<(QDebug debug, const FuzzyBashStream::TokenRef& tr);
 QDebug operator<<(QDebug debug, const FuzzyBashStream::Token& tr);
+
+void variableAssignmentGrouper(FuzzyBashStream* stream, QList<FuzzyBashStream::Token>& tokens);
 
 #endif // FUZZYBASHSTREAM_H

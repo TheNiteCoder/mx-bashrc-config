@@ -352,13 +352,13 @@ FuzzyBashStream::Token FuzzyBashStream::TokenRef::downgrade() const
 	return static_cast<Token>(*this);
 }
 
-FuzzyBashStream::FuzzyBashStream(QString source, ParsingOptions options, QList<TokenGrouper*> groupers, int offset)
+FuzzyBashStream::FuzzyBashStream(QString source, ParsingOptions options, QList<TokenGrouper> groupers, int offset)
     : m_source(source), m_offset(0), m_parsingFlags(options)
 {
     reparse(options, groupers, offset);
 }
 
-FuzzyBashStream& FuzzyBashStream::reparse(ParsingOptions options, QList<FuzzyBashStream::TokenGrouper*> groupers, int offset)
+FuzzyBashStream& FuzzyBashStream::reparse(ParsingOptions options, QList<FuzzyBashStream::TokenGrouper> groupers, int offset)
 {
 	InputStream stream{m_source};
 	TokenList tokens = tokenize(stream);
@@ -371,7 +371,7 @@ FuzzyBashStream& FuzzyBashStream::reparse(ParsingOptions options, QList<FuzzyBas
     }
     for(auto& g : groupers)
     {
-        m_tokens = g->group(this, m_tokens);
+        g(this, m_tokens);
     }
     for(auto& t : m_tokens)
     {
@@ -420,9 +420,9 @@ QDebug operator<<(QDebug debug, const FuzzyBashStream::Token& tr)
 {
 	QDebugStateSaver _{debug};
 	debug.nospace() << "Token(" << tr.content() << ")";
-	return debug;
+    return debug;
 }
 
-FuzzyBashStream::TokenGrouper::~TokenGrouper()
+void variableAssignmentGrouper(FuzzyBashStream *stream, QList<FuzzyBashStream::Token> &tokens)
 {
 }

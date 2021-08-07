@@ -16,17 +16,13 @@ struct AliasTokenData
 
 Q_DECLARE_METATYPE(AliasTokenData);
 
-class AliasTokenGrouper : public FuzzyBashStream::TokenGrouper
+enum AliasTokenType
 {
-public:
-    enum AliasTokenType
-    {
-        TokenAliasDefinition = FuzzyBashStream::TokenAliasReserved,
-        TokenAliasCommand
-    };
-
-    QList<FuzzyBashStream::Token> group(FuzzyBashStream* stream, QList<FuzzyBashStream::Token> tokens);
+    TokenAliasDefinition = FuzzyBashStream::TokenAliasReserved,
+    TokenAliasCommand
 };
+
+void aliasGrouper(FuzzyBashStream* stream, QList<FuzzyBashStream::Token>& tokens);
 
 struct ParsedAlias
 {

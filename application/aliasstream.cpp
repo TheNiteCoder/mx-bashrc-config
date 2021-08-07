@@ -92,14 +92,14 @@ QList<Alias> AliasStream::get()
 	if (m_source == nullptr)
         return QList<Alias>{};
     QList<Alias> rtn;
-    FuzzyBashStream stream{*m_source, FuzzyBashStream::ParseNormal, {TOKEN_GROUPER(AliasTokenGrouper)}};
+    FuzzyBashStream stream{*m_source, FuzzyBashStream::ParseNormal, {aliasGrouper}};
     return aliasList(stream.tokenRefs(), false);
 }
 
 void AliasStream::set(const Alias& alias)
 {
 	SCOPE_TRACKER;
-    FuzzyBashStream parser{*m_source, FuzzyBashStream::ParseNormal, {TOKEN_GROUPER(AliasTokenGrouper)}};
+    FuzzyBashStream parser{*m_source, FuzzyBashStream::ParseNormal, {aliasGrouper}};
     auto tokens = parser.tokenRefs();
     auto aliases = aliasList(tokens);
     if(contains(alias))
@@ -146,7 +146,7 @@ void AliasStream::remove(const Alias& alias)
 //	}
 //#undef E
     if(!contains(alias)) return;
-    FuzzyBashStream parser{*m_source, FuzzyBashStream::ParseNormal, {TOKEN_GROUPER(AliasTokenGrouper)}};
+    FuzzyBashStream parser{*m_source, FuzzyBashStream::ParseNormal, {aliasGrouper}};
     auto tokens = parser.tokenRefs();
     auto aliases = aliasList(tokens);
     auto iter = std::find(aliases.begin(), aliases.end(), alias);
@@ -169,7 +169,7 @@ void AliasStream::remove(const QList<Alias>& alias)
 bool AliasStream::contains(const Alias &alias)
 {
     Q_ASSERT(m_source);
-    FuzzyBashStream stream{*m_source, FuzzyBashStream::ParseNormal, {TOKEN_GROUPER(AliasTokenGrouper)}};
+    FuzzyBashStream stream{*m_source, FuzzyBashStream::ParseNormal, {aliasGrouper}};
     auto aliases = aliasList(stream.tokenRefs());
     return std::any_of(aliases.begin(), aliases.end(), [alias](const Alias& a){
         return a.name() == alias.name() && a.command() == alias.command();
@@ -179,7 +179,7 @@ bool AliasStream::contains(const Alias &alias)
 bool AliasStream::containsNamed(const QString &name)
 {
     Q_ASSERT(m_source != nullptr);
-    FuzzyBashStream stream{*m_source, FuzzyBashStream::ParseNormal, {TOKEN_GROUPER(AliasTokenGrouper)}};
+    FuzzyBashStream stream{*m_source, FuzzyBashStream::ParseNormal, {aliasGrouper}};
     auto aliases = aliasList(stream.tokenRefs());
     return std::any_of(aliases.begin(), aliases.end(), [name](const Alias& a){
         return a.name() == name;
@@ -215,7 +215,7 @@ QList<Alias> AliasStream::aliasList(const QList<FuzzyBashStream::TokenRef> &refs
     QList<Alias> rtn;
     for(auto tr : refs)
     {
-        if(tr.type() == AliasTokenGrouper::TokenAliasDefinition)
+        if(tr.type() == AliasTokenType::TokenAliasDefinition)
         {
             auto pa = parseAlias(tr.content());
             if(!pa.good) continue;
@@ -228,7 +228,7 @@ QList<Alias> AliasStream::aliasList(const QList<FuzzyBashStream::TokenRef> &refs
     return rtn;
 }
 
-QList<FuzzyBashStream::Token> AliasTokenGrouper::group(FuzzyBashStream* stream, QList<FuzzyBashStream::Token> tokens)
+void aliasGrouper(FuzzyBashStream* stream, QList<FuzzyBashStream::Token> &tokens)
 {
     QList<FuzzyBashStream::Token> result;
     while(tokens.size() > 0)
@@ -301,7 +301,7 @@ QList<FuzzyBashStream::Token> AliasTokenGrouper::group(FuzzyBashStream* stream, 
             result.append(token);
         }
     }
-    return result;
+    tokens = result;
 }
 
 ParsedAlias parseAlias(QString input)

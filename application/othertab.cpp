@@ -198,6 +198,11 @@ QStringList OtherTab::cleanPathAdditions(QStringList additions)
 		DEBUG_VAR(parts);
 		parts.removeAll("$PATH");
 		parts.removeAll("${PATH}");
+        // remove relative paths as it is impossible to edit with current ui
+        /*parts.erase(std::remove_if(parts.begin(), parts.end(), [](QString part){
+            if(part.startsWith("/") || part.startsWith("~/") || part.startsWith("$HOME/") || part.startsWith("${HOME}/")) return false;
+            return true;
+        }));*/
 		DEBUG_VAR(parts);
 		result.append(parts);
 	}
@@ -312,4 +317,13 @@ bool PathListItem::inBashrc() const
 {
 	SCOPE_TRACKER;
 	return m_inBashrc;
+}
+
+void variableGroup(FuzzyBashStream *stream, QList<FuzzyBashStream::Token> &tokens)
+{
+    QList<FuzzyBashStream::Token> result;
+    for(auto token : tokens)
+    {
+    }
+    tokens = result;
 }

@@ -8,6 +8,9 @@ namespace Ui
 
 #include "tab.h"
 #include <QListWidgetItem>
+#include "fuzzybashstream.h"
+
+void variableGroup(FuzzyBashStream* stream, QList<FuzzyBashStream::Token>& tokens);
 
 class PathListItem : public QListWidgetItem
 {
