@@ -323,7 +323,7 @@ class PromptTab : public Tab
 
   protected:
 	Ui::PromptTab* ui;
-	const QString customPromptCommentString = "#BASH_CONFIG_USING_CUSTOM_PROMPT";
+    const QString customPromptCommentString = "BASH_CONFIG_USING_CUSTOM_PROMPT";
 };
 
 QString itemToXml(CustomPromptItem* item);

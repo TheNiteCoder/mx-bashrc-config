@@ -120,20 +120,14 @@ void PromptTab::setup(const BashrcSource data)
 	DEBUG_ENTER(PromptTab::setup);
 	QString program = data.program;
 	/* Maybe check in bashrc in case they don't want to reconfigure their fancy prompt */
+    FuzzyBashStream stream{program};
+    auto tokens = stream.tokens();
 	Searcher searcher(&program, Searcher::StateCheckDoubleQuotations | Searcher::StateCheckSingleQuotations | Searcher::StateCheckSpecialQuotations);
-	int promptKeywordStart = searcher.search("prompt-");
-	if (CHECK_SEARCH(searcher.search(customPromptCommentString)))
+    if (std::any_of(tokens.begin(), tokens.end(), [this](const FuzzyBashStream::Token& token){
+       return token.type() == FuzzyBashStream::TokenComment && token.content().contains(customPromptCommentString);
+    }))
 	{
-		//        QString promptString;
-		//        QRegularExpressionMatchIterator iter = QRegularExpression("^\\s{0,}export\\s+PS1=\"(.+)\"\\s{0,}$").globalMatch(&program);
-		//        while(iter.hasNext())
-		//        {
-		//            QRegularExpressionMatch match = iter.next();
-		//            promptString = match.captured(1);
-		//        }
-		//        DEBUG << "promptString: " << promptString;
-		// R"()" is for a raw string C++ 11 feature note: () are neccarry
-		//        iter = QRegularExpression(R"(\\\[\\e\[([0-9;]+)m\\\])").globalMatch(promptString);
+        // TODO start storing xml in seperate file
 		ui->comboBox_SelectPromptProvider->setCurrentText("Custom");
 		QStringList lines = program.split("\n");
 		QRegularExpression regex{"^\\s{0,}#\\s{0,}<.+>"};
@@ -152,7 +146,9 @@ void PromptTab::setup(const BashrcSource data)
 			}
 		}
 	}
-	else if (!CHECK_SEARCH(promptKeywordStart))
+    else if (!(std::any_of(tokens.begin(), tokens.end(), [](const FuzzyBashStream::Token& token){
+        return token.type() == FuzzyBashStream::TokenCommand && token.content().startsWith("prompt-");
+    })))
 	{
 		ui->comboBox_SelectPromptProvider->setCurrentText("Default");
 		ui->stackedWidget->setCurrentIndex(1);
@@ -190,63 +186,63 @@ void PromptTab::setup(const BashrcSource data)
 		ui->comboBox_SelectPromptProvider->setCurrentText("Fancy Prompt");
 		program.append("source /usr/local/bin/fancy-prompt.bash\n");
 		ui->stackedWidget->setCurrentIndex(0);
-		QString promptsize = "prompt-";
-		int promptTypeStart = promptKeywordStart + promptsize.size();
 
-		int promptTypeEnd = searcher.search(' ', promptTypeStart);
-		if (!CHECK_SEARCH(promptTypeEnd))
-		{
-			DEBUG_EXIT(PromptTab::setup);
-			return;
-		}
+        // Can assume that this will work because of previous check
+        auto commandToken = *std::find_if(tokens.begin(), tokens.end(), [](const FuzzyBashStream::Token& token){
+            return token.type() == FuzzyBashStream::TokenCommand && token.content().startsWith("prompt-");
+        });
 
-		QString promptType = searcher.source().mid(promptTypeStart, promptTypeEnd - promptTypeStart);
-		promptType[0] = promptType.at(0).toUpper();
-		ui->comboBox_SelectFancyPrompt->setCurrentText(promptType);
+        FuzzyBashStream commandStream{commandToken.content(), FuzzyBashStream::ParseDisableCommandGrouping};
+        auto tokens = commandStream.tokens();
 
-		QMap<QString, QCheckBox*> flags;
-		flags["--ascii"] = ui->checkBox_DisableUnicode;
-		flags["--mute"] = ui->checkBox_MutedColors;
-		flags["--bold"] = ui->checkBox_BoldLines;
-		flags["--compact"] = ui->checkBox_CompactLargePrompts;
-		flags["--compact2"] = ui->checkBox_CompactLargePrompts2;
-		flags["--double"] = ui->checkBox_DoubleLines;
-		flags["--nocolor"] = ui->checkBox_NoColor;
-		flags["--parens"] = ui->checkBox_ParensInstead;
+        auto command = tokens.first();
+        auto promptType = command.content().mid(QStringLiteral("prompt-").size()).at(0).toUpper();
+        ui->comboBox_SelectFancyPrompt->setCurrentText(promptType);
 
-		for (QString flag : flags.keys())
-		{
-			int search = searcher.search(flag);
-			flags[flag]->setChecked(CHECK_SEARCH(search));
-		}
+        QMap<QString, QCheckBox*> flags;
+        flags["--ascii"] = ui->checkBox_DisableUnicode;
+        flags["--mute"] = ui->checkBox_MutedColors;
+        flags["--bold"] = ui->checkBox_BoldLines;
+        flags["--compact"] = ui->checkBox_CompactLargePrompts;
+        flags["--compact2"] = ui->checkBox_CompactLargePrompts2;
+        flags["--double"] = ui->checkBox_DoubleLines;
+        flags["--nocolor"] = ui->checkBox_NoColor;
+        flags["--parens"] = ui->checkBox_ParensInstead;
 
-		QMap<QString, QLineEdit*> textOpts;
-		textOpts["--date=\""] = ui->lineEdit_DateFormatText;
-		textOpts["--time=\""] = ui->lineEdit_TimeFormatText;
-		textOpts["--prompt=\""] = ui->lineEdit_PromptText;
-		textOpts["--title=\""] = ui->lineEdit_TitleText;
+        for(auto flag : flags.keys())
+        {
+            auto exists = std::any_of(tokens.begin(), tokens.end(), [flag](const FuzzyBashStream::Token& token){
+                return token.content() == flag;
+            });
+            flags[flag]->setChecked(exists);
+        }
 
-		for (QString flag : textOpts.keys())
-		{
-			int search = searcher.search(flag);
-			search += flag.length();
-			int search2 = searcher.search('\"', search);
-			textOpts[flag]->setText(searcher.source().mid(search, search2 - search));
-		}
+        QMap<QString, QLineEdit*> textOpts;
+        textOpts["--date"] = ui->lineEdit_DateFormatText;
+        textOpts["--time"] = ui->lineEdit_TimeFormatText;
+        textOpts["--prompt"] = ui->lineEdit_PromptText;
+        textOpts["--title"] = ui->lineEdit_TitleText;
 
-		QMap<QString, QSpinBox*> numOpts;
-		numOpts["--right=\""] = ui->spinBox_RightMargin;
-		numOpts["--lines=\""] = ui->spinBox_ExtraNewlinesBeforePrompt;
+        for(auto opt : textOpts.keys())
+        {
+            auto token = std::find_if(tokens.begin(), tokens.end(), [opt](const FuzzyBashStream::Token& token){
+                return token.content() == opt;
+            });
+            token++; // skip --opt
+            token++; // skip '='
+            auto stringToken = *token;
+            auto string = stringToken.content();
+            if(stringToken.type() == FuzzyBashStream::TokenQuoted)
+            {
+                string = stringToken.quoted();
+            }
+            textOpts[opt]->setText(stringToken.quoted());
+        }
 
-		for (QString flag : numOpts.keys())
-		{
-			int search = searcher.search(flag);
-			search += flag.length();
-			int search2 = searcher.search('\"', search);
-			numOpts[flag]->setMinimum(0);
-			numOpts[flag]->setValue(searcher.source().mid(search, search2 - search).toInt());
-		}
-	}
+        QMap<QString, QSpinBox*> numOpts;
+        numOpts["--right"] = ui->spinBox_RightMargin;
+        numOpts["--lines"] = ui->spinBox_ExtraNewlinesBeforePrompt;
+
 	DEBUG_EXIT(PromptTab::setup);
 }
 
